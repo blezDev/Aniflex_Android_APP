@@ -1,6 +1,7 @@
 package com.blez.aniplex_clone.model
 
 
+ import android.content.Intent
  import android.os.Bundle
  import androidx.appcompat.app.AppCompatActivity
  import androidx.lifecycle.LiveData
@@ -17,7 +18,7 @@ package com.blez.aniplex_clone.model
 
 
 class MainActivity : AppCompatActivity() {
-    lateinit var adapter: RecentAnimeAdapter
+    private lateinit var adapter: RecentAnimeAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -27,6 +28,7 @@ class MainActivity : AppCompatActivity() {
             val response = retService.getRecentRelease()
             emit(response)
         }
+
         responseLiveData.observe(this, Observer {
             val releaseAnimesList = it.body()//iterates the list in an proper sequence
             if(releaseAnimesList!= null){
@@ -34,6 +36,13 @@ class MainActivity : AppCompatActivity() {
                 val animeView = findViewById<RecyclerView>(R.id.animeView)
                 animeView.adapter = adapter
                 animeView.layoutManager = GridLayoutManager(this,1)
+                adapter.onItemClick ={
+                    val intent = Intent(this,VideoActivity::class.java)
+                    intent.putExtra("episodeId",it?.episodeId)
+                    startActivity(intent)
+
+                }
+
             }
 
         })
