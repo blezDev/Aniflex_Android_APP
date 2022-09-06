@@ -4,13 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-
-
-
-
     <ImageView
-        android:id="@+id/recent_view"
+        android:id="@+id/movie_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:clickable="true"
@@ -19,7 +14,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:contentDescription="@string/Anime_image"
         app:layout_constraintBottom_toTopOf="@id/movie_name"
-         />
+        />
     <TextView
         android:id="@+id/movie_name"
         android:layout_width="match_parent"
@@ -30,31 +25,20 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recent_view"
-        tools:text="Anime name" />
+        app:layout_constraintTop_toBottomOf="@+id/movie_view"
+        tools:text="Movie name" />
 
 
 
     <TextView
-        android:id="@+id/lang_text"
+        android:id="@+id/release_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:layout_marginEnd="5dp"
         tools:text="TextView"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/movie_name"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <TextView
-        android:id="@+id/episode_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="TextView"
-
-        android:background="#99ffffff"
-        android:textColor="@color/black"
-        android:padding="15dp"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

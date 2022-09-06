@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'androidx.navigation.safeargs.kotlin'
 }
 apply plugin: 'kotlin-kapt'
 
@@ -26,6 +27,7 @@ android {
     buildFeatures
             {
                 viewBinding true
+                dataBinding true
             }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -39,10 +41,16 @@ android {
 dependencies {
     def lifecycle_version = "2.6.0-alpha01"
     def arch_version = "2.1.0"
+    def nav_version = "2.5.1"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     implementation 'com.sealwu.jsontokotlin:library:3.7.4'
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
     kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+    def fragment_version = "1.5.2"
+    implementation "androidx.fragment:fragment-ktx:$fragment_version"
+    implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'com.github.bumptech.glide:glide:4.13.2'
     implementation 'com.android.volley:volley:1.2.1'

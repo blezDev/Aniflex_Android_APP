@@ -1,4 +1,4 @@
-package com.blez.aniplex_clone.model
+package com.blez.aniplex_clone.model.common
 
 import android.os.Bundle
 import android.widget.MediaController
@@ -12,7 +12,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.liveData
 import com.blez.aniplex_clone.R
 import com.blez.aniplex_clone.`interface`.AnimeInterface
-import com.blez.aniplex_clone.data.Source
 import com.blez.aniplex_clone.data.VideoData
 import com.blez.aniplex_clone.network.RetrofitInstance
 import retrofit2.Response

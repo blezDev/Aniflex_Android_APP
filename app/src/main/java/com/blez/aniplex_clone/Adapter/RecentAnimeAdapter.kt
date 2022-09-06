@@ -1,7 +1,6 @@
 package com.blez.aniplex_clone.Adapter
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,16 +9,14 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.blez.aniplex_clone.R
 import com.blez.aniplex_clone.data.RecentData
-import com.blez.aniplex_clone.model.VideoActivity
 import com.bumptech.glide.Glide
 
-class RecentAnimeAdapter(val context: Context,val recentData: List<RecentData?>) : RecyclerView.Adapter<RecentAnimeAdapter.ItemHolder>(){
+class RecentAnimeAdapter(val context: Context, val recentData: List<RecentData?>) : RecyclerView.Adapter<RecentAnimeAdapter.ItemHolder>(){
     var onItemClick : ((RecentData?) -> Unit)? = null
     inner class ItemHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         var episode_text: TextView = itemView.findViewById(R.id.episode_text)
-        var anime_name = itemView.findViewById<TextView>(R.id.anime_name)
+        var anime_name = itemView.findViewById<TextView>(R.id.movie_name)
         var recent_view = itemView.findViewById<ImageView>(R.id.recent_view)
-
         var lang_text = itemView.findViewById<TextView>(R.id.lang_text)
     }
 

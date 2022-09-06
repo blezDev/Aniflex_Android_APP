@@ -16,7 +16,7 @@
         android:theme="@style/Theme.Aniplex_Clone"
         tools:targetApi="31" >
         <activity
-            android:name=".model.VideoActivity"
+            android:name=".model.common.VideoActivity"
             android:exported="false" />
         <activity
             android:name=".model.MainActivity"
