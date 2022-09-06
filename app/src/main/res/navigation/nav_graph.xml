@@ -18,6 +18,9 @@
         <action
             android:id="@+id/action_recentReleaseFragment_to_topAiringFragment"
             app:destination="@id/topAiringFragment" />
+        <action
+            android:id="@+id/action_recentReleaseFragment_to_videoFragment"
+            app:destination="@id/videoFragment" />
     </fragment>
     <fragment
         android:id="@+id/movieFragment"
@@ -33,5 +36,14 @@
         android:id="@+id/topAiringFragment"
         android:name="com.blez.aniplex_clone.model.topAiring.TopAiringFragment"
         android:label="fragment_top_airing"
-        tools:layout="@layout/fragment_top_airing" />
+        tools:layout="@layout/fragment_top_airing" >
+        <action
+            android:id="@+id/action_topAiringFragment_to_videoFragment"
+            app:destination="@id/videoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/videoFragment"
+        android:name="com.blez.aniplex_clone.VideoFragment"
+        android:label="fragment_video"
+        tools:layout="@layout/fragment_video" />
 </navigation>
