@@ -16,10 +16,10 @@
         android:theme="@style/Theme.Aniplex_Clone"
         tools:targetApi="31" >
         <activity
-            android:name=".model.common.VideoActivity"
+            android:name=".Presentation.common.VideoActivity"
             android:exported="false" />
         <activity
-            android:name=".model.MainActivity"
+            android:name=".Presentation.MainActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

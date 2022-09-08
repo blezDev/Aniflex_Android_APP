@@ -3,12 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android_apps_practice/Aniplex_Clone/app/src/main/res/drawable/card_edge.xml" value="0.187" />
+        <entry key="..\:/Android_apps_practice/Aniplex_Clone/app/src/main/res/drawable/circularcurve.xml" value="0.187" />
+        <entry key="..\:/Android_apps_practice/Aniplex_Clone/app/src/main/res/drawable/layout_bg.xml" value="0.187" />
         <entry key="..\:/Android_apps_practice/Aniplex_Clone/app/src/main/res/layout/activity_main.xml" value="0.3333333333333333" />
         <entry key="..\:/Android_apps_practice/Aniplex_Clone/app/src/main/res/layout/activity_video.xml" value="0.1661600810536981" />
         <entry key="..\:/Android_apps_practice/Aniplex_Clone/app/src/main/res/layout/anime_img_list.xml" value="0.286231884057971" />
         <entry key="..\:/Android_apps_practice/Aniplex_Clone/app/src/main/res/layout/fragment_movie.xml" value="0.24932249322493225" />
         <entry key="..\:/Android_apps_practice/Aniplex_Clone/app/src/main/res/layout/fragment_popular_anime.xml" value="0.24932249322493225" />
-        <entry key="..\:/Android_apps_practice/Aniplex_Clone/app/src/main/res/layout/fragment_recent_anime.xml" value="0.16641337386018237" />
+        <entry key="..\:/Android_apps_practice/Aniplex_Clone/app/src/main/res/layout/fragment_recent_anime.xml" value="0.3333333333333333" />
         <entry key="..\:/Android_apps_practice/Aniplex_Clone/app/src/main/res/layout/fragment_recent_release.xml" value="0.31068840579710144" />
         <entry key="..\:/Android_apps_practice/Aniplex_Clone/app/src/main/res/layout/fragment_reecent_anime.xml" value="0.3421875" />
         <entry key="..\:/Android_apps_practice/Aniplex_Clone/app/src/main/res/layout/fragment_top_airing.xml" value="0.3421875" />

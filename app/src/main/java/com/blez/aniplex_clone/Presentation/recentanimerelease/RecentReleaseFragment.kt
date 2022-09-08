@@ -1,21 +1,25 @@
-package com.blez.aniplex_clone.model.recentanimerelease
+package com.blez.aniplex_clone.Presentation.recentanimerelease
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.liveData
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.blez.aniplex_clone.Adapter.RecentAnimeAdapter
 import com.blez.aniplex_clone.R
 import com.blez.aniplex_clone.`interface`.AnimeInterface
 import com.blez.aniplex_clone.data.ReleaseAnimes
-import com.blez.aniplex_clone.model.common.VideoActivity
+import com.blez.aniplex_clone.Presentation.common.VideoActivity
+import com.blez.aniplex_clone.databinding.FragmentRecentAnimeBinding
 import com.blez.aniplex_clone.network.RetrofitInstance
 import retrofit2.Response
 
@@ -30,6 +34,7 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class RecentReleaseFragment : Fragment() {
+    private lateinit var binding: FragmentRecentAnimeBinding
     private lateinit var adapter: RecentAnimeAdapter
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -47,35 +52,59 @@ class RecentReleaseFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_recent_anime, container, false)
 
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_recent_anime, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val retService = RetrofitInstance.getRetrofitInstance()
-            .create(AnimeInterface::class.java)
-        val responseLiveData : LiveData<Response<ReleaseAnimes>> = liveData {
-            val response = retService.getRecentRelease()
-            emit(response)
-        }
-        responseLiveData.observe(viewLifecycleOwner, Observer {
-            val releaseAnimesList = it.body()//iterates the list in an proper sequence
-            if(releaseAnimesList!= null){
-                adapter = RecentAnimeAdapter(requireContext(), releaseAnimesList)
-                val animeView = view.findViewById<RecyclerView>(R.id.RecentAnimeReleaseRecyclerView)
-                animeView.layoutManager = LinearLayoutManager(requireContext())
-                animeView.adapter = adapter
-                adapter.onItemClick ={
-                    val intent = Intent(context, VideoActivity::class.java)
-                    intent.putExtra("episodeId",it?.episodeId)
-                    startActivity(intent)
-                }
 
+        val recentAnimeViewModel = ViewModelProvider(this)[RecentAnimeViewModel::class.java]
+
+        binding.pageNoText.text = recentAnimeViewModel.page.toString()
+        binding.apply {
+            pageNext.setOnClickListener {
+                recentAnimeViewModel.increment()
+                binding.pageNoText.text = recentAnimeViewModel.page.toString()
+                pageChange(recentAnimeViewModel, view)
             }
+            pagePrev.setOnClickListener {
+                recentAnimeViewModel.decrement()
+                binding.pageNoText.text = recentAnimeViewModel.page.toString()
 
-        })
+                pageChange(recentAnimeViewModel, view)
+            }
+        }
+        pageChange(recentAnimeViewModel, view)
+
+
+
+    }
+    private fun pageChange(recentAnimeViewModel : RecentAnimeViewModel,view: View)
+{
+    recentAnimeViewModel.responseLiveData.observe(viewLifecycleOwner, Observer {
+
+        val releaseAnimesList = it.body()//iterates the list in an proper sequence
+        if(releaseAnimesList!= null){
+
+            adapterData(requireContext(),releaseAnimesList,view)
+
+        }
+    })
+}
+    private fun adapterData(context: Context, releaseAnimesList: ReleaseAnimes,view: View) {
+        adapter = RecentAnimeAdapter(requireContext(), releaseAnimesList)
+        val animeView = view.findViewById<RecyclerView>(R.id.RecentAnimeReleaseRecyclerView)
+        animeView.layoutManager = GridLayoutManager(requireContext(),2)
+        animeView.adapter = adapter
+        adapter.onItemClick ={
+            val intent = Intent(context, VideoActivity::class.java)
+            intent.putExtra("episodeId",it?.episodeId)
+            startActivity(intent)
+        }
+
     }
 
     companion object {

@@ -10,15 +10,58 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".model.recentanimerelease.RecentAnimeFragment">
+        tools:context=".Presentation.recentanimerelease.RecentAnimeFragment">
+
+        <Button
+            android:id="@+id/pageNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Next"
+            app:layout_constraintBottom_toBottomOf="parent"
+
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/pagePrev" />
+
+        <com.dd.CircularProgressButton
+            android:id="@+id/pagePrev"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            app:cpb_textIdle="Prev"
+            app:cpb_cornerRadius="48dp"
+            android:background="@color/cpb_green"
+            app:cpb_textComplete="Prev"
+            app:layout_constraintBaseline_toBaselineOf="@+id/pageNext"
+            app:layout_constraintEnd_toStartOf="@+id/pageNext"
+
+            app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/RecentAnimeReleaseRecyclerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/pageNext"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <TextView
+            android:id="@+id/pageNoText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+           android:background="@drawable/layout_bg"
+            tools:text="1"
+            android:padding="10dp"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/pageNext"
+            app:layout_constraintStart_toEndOf="@+id/pagePrev"
+            app:layout_constraintTop_toBottomOf="@+id/RecentAnimeReleaseRecyclerView" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

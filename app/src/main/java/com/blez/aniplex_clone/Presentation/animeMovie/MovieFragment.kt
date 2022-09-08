@@ -1,4 +1,4 @@
-package com.blez.aniplex_clone.model.animeMovie
+package com.blez.aniplex_clone.Presentation.animeMovie
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,13 +8,12 @@ import android.view.ViewGroup
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.liveData
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.blez.aniplex_clone.Adapter.AnimeMoviesAdapter
 import com.blez.aniplex_clone.R
 import com.blez.aniplex_clone.`interface`.AnimeInterface
 import com.blez.aniplex_clone.data.MovieData
-import com.blez.aniplex_clone.data.ReleaseAnimes
 import com.blez.aniplex_clone.network.RetrofitInstance
 import retrofit2.Response
 
@@ -65,7 +64,7 @@ class MovieFragment : Fragment() {
                 adapter = AnimeMoviesAdapter(requireContext(),animeMovieList)
                 val movieView = view.findViewById<RecyclerView>(R.id.MovieRecyclerView)
                 movieView.adapter = adapter
-                movieView.layoutManager = LinearLayoutManager(requireContext())
+                movieView.layoutManager = GridLayoutManager(requireContext(),2)
 
             }
         })

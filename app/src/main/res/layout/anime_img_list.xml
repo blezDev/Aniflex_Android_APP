@@ -3,43 +3,49 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-
-
+    android:layout_margin="5dp"
+    android:background="@drawable/circularcurve"
+    android:layout_height="wrap_content">
 
 
     <ImageView
         android:id="@+id/recent_view"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="250dp"
+        android:background="@drawable/circularcurve"
         android:clickable="true"
-        android:scaleType="fitXY"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:contentDescription="@string/Anime_image"
-        app:layout_constraintBottom_toTopOf="@id/movie_name"
-         />
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
     <TextView
         android:id="@+id/movie_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-black"
+        android:maxLines="2"
+
         android:padding="20dp"
+        android:textAlignment="center"
         android:textSize="20sp"
-        android:ems="12"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recent_view"
         tools:text="Anime name" />
-
-
 
     <TextView
         android:id="@+id/lang_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"
+        android:background="@drawable/layout_bg"
+        android:textStyle="bold"
+
         android:layout_marginEnd="5dp"
         tools:text="TextView"
         app:layout_constraintBottom_toTopOf="@+id/movie_name"
@@ -51,7 +57,7 @@
         android:layout_height="wrap_content"
         tools:text="TextView"
 
-        android:background="#99ffffff"
+        android:background="@drawable/layout_bg"
         android:textColor="@color/black"
         android:padding="15dp"
         android:textSize="20sp"

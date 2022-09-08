@@ -4,10 +4,11 @@ import com.blez.aniplex_clone.data.*
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface AnimeInterface {
     @GET("/recent-release")
-    suspend fun getRecentRelease() : Response<ReleaseAnimes>
+    suspend fun getRecentRelease(@Query("page") page : Int) : Response<ReleaseAnimes>
     @GET("/vidcdn/watch/{episodeId}")
     suspend fun getVideoLink(@Path(value = "episodeId")episodeId : String) : Response<VideoData>
     @GET("/anime-movies")

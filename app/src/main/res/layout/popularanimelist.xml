@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <ImageView
         android:id="@+id/animeImgView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:scaleType="fitCenter"
         android:contentDescription="@string/Anime_image"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -18,7 +18,7 @@
     <TextView
         android:id="@+id/AnimeTitleText"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:text="TextView"
         android:textSize="32sp"
 

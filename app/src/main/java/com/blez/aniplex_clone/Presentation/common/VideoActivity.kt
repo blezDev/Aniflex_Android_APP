@@ -1,4 +1,4 @@
-package com.blez.aniplex_clone.model.common
+package com.blez.aniplex_clone.Presentation.common
 
 import android.os.Bundle
 import android.widget.MediaController

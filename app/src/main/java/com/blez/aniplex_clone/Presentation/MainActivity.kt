@@ -1,23 +1,16 @@
-package com.blez.aniplex_clone.model
+package com.blez.aniplex_clone.Presentation
 
 
- import android.content.Context
- import android.content.Intent
  import android.os.Bundle
- import android.util.Log
  import android.view.MenuItem
  import androidx.appcompat.app.ActionBarDrawerToggle
  import androidx.appcompat.app.AppCompatActivity
  import androidx.databinding.DataBindingUtil
- import androidx.navigation.NavAction
- import androidx.navigation.NavController
- import androidx.navigation.findNavController
  import androidx.navigation.fragment.findNavController
  import androidx.navigation.ui.setupWithNavController
  import com.blez.aniplex_clone.Adapter.RecentAnimeAdapter
  import com.blez.aniplex_clone.R
  import com.blez.aniplex_clone.databinding.ActivityMainBinding
- import java.lang.Exception
 
 
 class MainActivity : AppCompatActivity() {
@@ -31,6 +24,8 @@ class MainActivity : AppCompatActivity() {
         binding.drawerLayout.addDrawerListener(actionBarDrawerToggle)
         actionBarDrawerToggle.syncState()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+
 
         val navController = supportFragmentManager.findFragmentById(R.id.fragmentContainerView)
             ?.findNavController()

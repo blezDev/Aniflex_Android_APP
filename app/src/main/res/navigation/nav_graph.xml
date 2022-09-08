@@ -6,7 +6,7 @@
     app:startDestination="@id/recentReleaseFragment">
     <fragment
         android:id="@+id/recentReleaseFragment"
-        android:name="com.blez.aniplex_clone.model.recentanimerelease.RecentReleaseFragment"
+        android:name="com.blez.aniplex_clone.Presentation.recentanimerelease.RecentReleaseFragment"
         android:label="fragment_recent_anime"
         tools:layout="@layout/fragment_recent_anime" >
         <action
@@ -24,17 +24,17 @@
     </fragment>
     <fragment
         android:id="@+id/movieFragment"
-        android:name="com.blez.aniplex_clone.model.animeMovie.MovieFragment"
+        android:name="com.blez.aniplex_clone.Presentation.animeMovie.MovieFragment"
         android:label="fragment_movie"
         tools:layout="@layout/fragment_movie" />
     <fragment
         android:id="@+id/popularAnimeFragment"
-        android:name="com.blez.aniplex_clone.model.popularAnime.PopularAnimeFragment"
+        android:name="com.blez.aniplex_clone.Presentation.popularAnime.PopularAnimeFragment"
         android:label="fragment_popular_anime"
         tools:layout="@layout/fragment_popular_anime" />
     <fragment
         android:id="@+id/topAiringFragment"
-        android:name="com.blez.aniplex_clone.model.topAiring.TopAiringFragment"
+        android:name="com.blez.aniplex_clone.Presentation.topAiring.TopAiringFragment"
         android:label="fragment_top_airing"
         tools:layout="@layout/fragment_top_airing" >
         <action
