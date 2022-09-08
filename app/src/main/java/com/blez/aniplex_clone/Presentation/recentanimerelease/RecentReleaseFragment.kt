@@ -61,26 +61,22 @@ class RecentReleaseFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val recentAnimeViewModel = ViewModelProvider(this)[RecentAnimeViewModel::class.java]
+        val recentAnimeViewModel = ViewModelProvider(this)[RecentAnimeViewModel::class.java]//Contains the page number and retrofit instance
 
         binding.pageNoText.text = recentAnimeViewModel.page.toString()
         binding.apply {
             pageNext.setOnClickListener {
-                recentAnimeViewModel.increment()
+                recentAnimeViewModel.increment()//number increment
                 binding.pageNoText.text = recentAnimeViewModel.page.toString()
-                pageChange(recentAnimeViewModel, view)
             }
             pagePrev.setOnClickListener {
-                recentAnimeViewModel.decrement()
+                recentAnimeViewModel.decrement()//number decrement
                 binding.pageNoText.text = recentAnimeViewModel.page.toString()
 
                 pageChange(recentAnimeViewModel, view)
             }
         }
         pageChange(recentAnimeViewModel, view)
-
-
-
     }
     private fun pageChange(recentAnimeViewModel : RecentAnimeViewModel,view: View)
 {

@@ -12,13 +12,18 @@
         android:layout_height="match_parent"
         tools:context=".Presentation.recentanimerelease.RecentAnimeFragment">
 
-        <Button
+        <com.dd.CircularProgressButton
             android:id="@+id/pageNext"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Next"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="32dp"
+            android:background="@color/cpb_green"
 
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:cpb_cornerRadius="30dp"
+            app:cpb_textComplete="NEXT"
+            app:cpb_textIdle="Next"
+            app:layout_constraintBottom_toBottomOf="parent"
 
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -27,13 +32,13 @@
         <com.dd.CircularProgressButton
             android:id="@+id/pagePrev"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textColor="@color/white"
-            app:cpb_textIdle="Prev"
-            app:cpb_cornerRadius="48dp"
+            android:layout_height="32dp"
             android:background="@color/cpb_green"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:cpb_cornerRadius="30dp"
             app:cpb_textComplete="Prev"
+            app:cpb_textIdle="Prev"
             app:layout_constraintBaseline_toBaselineOf="@+id/pageNext"
             app:layout_constraintEnd_toStartOf="@+id/pageNext"
 
