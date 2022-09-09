@@ -16,17 +16,9 @@ import com.blez.aniplex_clone.R
 import com.blez.aniplex_clone.databinding.FragmentRecentAnimeBinding
 
 
-
-
 class RecentReleaseFragment : Fragment() {
     private lateinit var binding: FragmentRecentAnimeBinding
     private lateinit var adapter: RecentAnimeAdapter
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -72,7 +64,6 @@ class RecentReleaseFragment : Fragment() {
                 intent.putExtra("episodeId",it?.episodeId)
                 startActivity(intent)
             }
-
         }
     }
 }

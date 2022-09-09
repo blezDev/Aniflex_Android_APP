@@ -21,6 +21,9 @@
         <action
             android:id="@+id/action_recentReleaseFragment_to_videoFragment"
             app:destination="@id/videoFragment" />
+        <action
+            android:id="@+id/action_recentReleaseFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/movieFragment"
@@ -46,4 +49,9 @@
         android:name="com.blez.aniplex_clone.VideoFragment"
         android:label="fragment_video"
         tools:layout="@layout/fragment_video" />
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.blez.aniplex_clone.DetailsFragment"
+        android:label="fragment_details"
+        tools:layout="@layout/fragment_details" />
 </navigation>
