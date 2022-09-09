@@ -1,6 +1,7 @@
 package com.blez.aniplex_clone.Adapter
 
 import android.content.Context
+import android.media.Image
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +13,8 @@ import com.blez.aniplex_clone.data.RecentData
 import com.bumptech.glide.Glide
 
 class RecentAnimeAdapter(val context: Context, val recentData: List<RecentData?>) : RecyclerView.Adapter<RecentAnimeAdapter.ItemHolder>(){
-    var onItemClick : ((RecentData?) -> Unit)? = null
+    var onItemClickImg : ((RecentData?) -> Unit)? = null
+    var onItemClickText : ((RecentData?) -> Unit)? = null
     inner class ItemHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         var episode_text: TextView = itemView.findViewById(R.id.episode_text)
         var anime_name = itemView.findViewById<TextView>(R.id.movie_name)
@@ -30,9 +32,11 @@ class RecentAnimeAdapter(val context: Context, val recentData: List<RecentData?>
         holder.anime_name.text = recentData[position]?.animeTitle
         holder.episode_text.text = "Episode No: ${recentData[position]?.episodeNum}"
         holder.lang_text.text = recentData[position]?.subOrDub
+        holder.anime_name.setOnClickListener {
+            onItemClickText?.invoke(recentData[position])
+        }
         holder.recent_view.setOnClickListener {
-            onItemClick?.invoke(recentData[position])
-
+            onItemClickImg?.invoke(recentData[position])
         }
 
 

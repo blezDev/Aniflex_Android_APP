@@ -1,33 +1,19 @@
-package com.blez.aniplex_clone.Presentation.recentanimerelease
+package com.blez.aniplex_clone.Presentation.detailsAnime
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.blez.aniplex_clone.`interface`.AnimeInterface
+import com.blez.aniplex_clone.data.AnimeDetails
 import com.blez.aniplex_clone.data.ReleaseAnimes
 import com.blez.aniplex_clone.network.RetrofitInstance
 import retrofit2.Response
 
-class RecentAnimeViewModel : ViewModel() {
-    var page = 1
+class DetailsViewModel(val animeId : String) : ViewModel() {
     val retService = RetrofitInstance.getRetrofitInstance()
         .create(AnimeInterface::class.java)
-    var responseLiveData : LiveData<Response<ReleaseAnimes>> = liveData {
-        val response = retService.getRecentRelease(page)
+    var responseLiveData : LiveData<Response<AnimeDetails>> = liveData {
+        val response = retService.getAnimeDetails(animeId)
         emit(response)
-    }
-    fun increment(){
-        page++
-    }
-    fun decrement(){
-        if(page<2){
-            page = 1
-
-        }
-        else {
-            page--
-
-        }
-
     }
 }

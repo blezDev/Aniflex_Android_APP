@@ -34,7 +34,11 @@
         android:id="@+id/popularAnimeFragment"
         android:name="com.blez.aniplex_clone.Presentation.popularAnime.PopularAnimeFragment"
         android:label="fragment_popular_anime"
-        tools:layout="@layout/fragment_popular_anime" />
+        tools:layout="@layout/fragment_popular_anime" >
+        <action
+            android:id="@+id/action_popularAnimeFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/topAiringFragment"
         android:name="com.blez.aniplex_clone.Presentation.topAiring.TopAiringFragment"
@@ -51,7 +55,11 @@
         tools:layout="@layout/fragment_video" />
     <fragment
         android:id="@+id/detailsFragment"
-        android:name="com.blez.aniplex_clone.DetailsFragment"
+        android:name="com.blez.aniplex_clone.Presentation.detailsAnime.DetailsFragment"
         android:label="fragment_details"
-        tools:layout="@layout/fragment_details" />
+        tools:layout="@layout/fragment_details" >
+        <argument
+            android:name="animeId"
+            app:argType="string" />
+    </fragment>
 </navigation>

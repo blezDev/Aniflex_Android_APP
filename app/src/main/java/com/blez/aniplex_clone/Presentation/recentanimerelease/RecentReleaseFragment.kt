@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.blez.aniplex_clone.Adapter.RecentAnimeAdapter
@@ -46,23 +47,31 @@ class RecentReleaseFragment : Fragment() {
         if (releaseAnimesList != null) {
             adapter = RecentAnimeAdapter(requireContext(), releaseAnimesList)
             val animeView = view.findViewById<RecyclerView>(R.id.RecentAnimeReleaseRecyclerView)
+            animeView.adapter = adapter
 
             binding.apply {
                 pageNext.setOnClickListener {
                     recentAnimeViewModel.increment()//number increment
+                    animeView.adapter = adapter
+
                     binding.pageNoText.text = recentAnimeViewModel.page.toString()
                 }
                 pagePrev.setOnClickListener {
                     recentAnimeViewModel.decrement()//number decrement
+
                     binding.pageNoText.text = recentAnimeViewModel.page.toString()
                 }
             }
-            animeView.adapter = adapter
+
             animeView.layoutManager = GridLayoutManager(requireContext(),2)
-            adapter.onItemClick ={
+            adapter.onItemClickImg ={
                 val intent = Intent(context, VideoActivity::class.java)
                 intent.putExtra("episodeId",it?.episodeId)
                 startActivity(intent)
+            }
+            adapter.onItemClickText = {
+                val extras = RecentReleaseFragmentDirections.actionRecentReleaseFragmentToDetailsFragment(it?.animeId!!)
+                findNavController().navigate(extras)
             }
         }
     }

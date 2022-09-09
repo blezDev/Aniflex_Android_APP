@@ -7,10 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.liveData
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.blez.aniplex_clone.Adapter.PopularAnimeAdapter
+import com.blez.aniplex_clone.Presentation.recentanimerelease.RecentAnimeViewModel
+import com.blez.aniplex_clone.Presentation.recentanimerelease.RecentReleaseFragmentDirections
 import com.blez.aniplex_clone.R
 import com.blez.aniplex_clone.`interface`.AnimeInterface
 import com.blez.aniplex_clone.data.PopularData
@@ -51,10 +55,9 @@ class PopularAnimeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val retService = RetrofitInstance.getRetrofitInstance()
-            .create(AnimeInterface::class.java)
+       val recentAnimeViewModel = ViewModelProvider(this)[RecentAnimeViewModel::class.java]
         val responseLiveData : LiveData<Response<PopularData>> = liveData {
-            val response = retService.getPopularAnime()
+            val response = recentAnimeViewModel.retService.getPopularAnime()
             emit(response)
         }
 
@@ -65,6 +68,10 @@ class PopularAnimeFragment : Fragment() {
                 val movieView = view.findViewById<RecyclerView>(R.id.PopularRecyclerView)
                 movieView.adapter = adapter
                 movieView.layoutManager = GridLayoutManager(requireContext(),2)
+                adapter.onItemClickText = {
+                    val extras = PopularAnimeFragmentDirections.actionPopularAnimeFragmentToDetailsFragment(it?.animeId!!)
+                    findNavController().navigate(extras)
+                }
 
             }
         })

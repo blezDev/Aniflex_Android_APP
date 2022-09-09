@@ -17,6 +17,8 @@ interface AnimeInterface {
     suspend fun getPopularAnime() : Response<PopularData>
     @GET("/top-airing")
     suspend fun getTopAiring() : Response<TopAiringData>
+    @GET("/anime-details/{animeId}")
+    suspend fun getAnimeDetails(@Path(value = "animeId")animeId : String ) : Response<AnimeDetails>
 
 
 

@@ -4,24 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
     <ImageView
         android:id="@+id/movie_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="250dp"
         android:clickable="true"
-        android:scaleType="fitXY"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:contentDescription="@string/Anime_image"
+        android:scaleType="fitXY"
+        android:padding="6dp"
+        android:background="@drawable/circularcurve"
         app:layout_constraintBottom_toTopOf="@id/movie_name"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <TextView
         android:id="@+id/movie_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="20dp"
-        android:textSize="20sp"
-        android:ems="12"
+        android:textSize="18sp"
+        android:lines="1"
+        android:textStyle="bold"
+        android:background="@drawable/layout_bg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,6 +42,9 @@
         android:textSize="20sp"
         android:layout_marginEnd="5dp"
         tools:text="TextView"
+        android:textColor="@color/black"
+        android:background="@drawable/layout_bg"
+        android:padding="6dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/movie_name"
         app:layout_constraintEnd_toEndOf="parent" />

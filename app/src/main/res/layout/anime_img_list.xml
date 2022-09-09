@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_margin="5dp"
+    android:layout_marginBottom="10dp"
+    android:padding="4dp"
     android:background="@drawable/circularcurve"
     android:layout_height="wrap_content">
 
@@ -14,6 +16,7 @@
         android:layout_height="250dp"
         android:background="@drawable/circularcurve"
         android:clickable="true"
+
         android:padding="6dp"
         android:contentDescription="@string/Anime_image"
         android:scaleType="fitXY"
@@ -60,7 +63,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="TextView"
-
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
         android:background="@drawable/layout_bg"
         android:textColor="@color/black"
         android:padding="15dp"
