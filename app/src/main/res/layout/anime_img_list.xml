@@ -14,8 +14,9 @@
         android:layout_height="250dp"
         android:background="@drawable/circularcurve"
         android:clickable="true"
+        android:padding="6dp"
         android:contentDescription="@string/Anime_image"
-        android:scaleType="fitCenter"
+        android:scaleType="fitXY"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -43,6 +44,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"
+        android:padding="5dp"
+        android:layout_marginBottom="6dp"
+        android:layout_marginRight="11dp"
         android:background="@drawable/layout_bg"
         android:textStyle="bold"
 
@@ -60,7 +64,9 @@
         android:background="@drawable/layout_bg"
         android:textColor="@color/black"
         android:padding="15dp"
-        android:textSize="20sp"
+        android:textStyle="bold"
+
+        android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
