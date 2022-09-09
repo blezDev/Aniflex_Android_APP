@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -67,48 +66,30 @@ class RecentReleaseFragment : Fragment() {
 
         val releaseAnimesList = it.body()//iterates the list in an proper sequence
         if (releaseAnimesList != null) {
-            adapterData(requireContext(), releaseAnimesList, view,recentAnimeViewModel)
+            adapter = RecentAnimeAdapter(requireContext(), releaseAnimesList)
+            val animeView = view.findViewById<RecyclerView>(R.id.RecentAnimeReleaseRecyclerView)
+
+            binding.apply {
+                pageNext.setOnClickListener {
+                    recentAnimeViewModel.increment()//number increment
+                    binding.pageNoText.text = recentAnimeViewModel.page.toString()
+                }
+                pagePrev.setOnClickListener {
+                    recentAnimeViewModel.decrement()//number decrement
+                    binding.pageNoText.text = recentAnimeViewModel.page.toString()
+                }
+            }
+            animeView.adapter = adapter
+            animeView.layoutManager = GridLayoutManager(requireContext(),2)
+            adapter.onItemClick ={
+                val intent = Intent(context, VideoActivity::class.java)
+                intent.putExtra("episodeId",it?.episodeId)
+                startActivity(intent)
+            }
+
         }
     }
 }
-    private fun adapterData(context: Context, releaseAnimesList: ReleaseAnimes,view: View,recentAnimeViewModel: RecentAnimeViewModel) {
-        adapter = RecentAnimeAdapter(requireContext(), releaseAnimesList)
-        val animeView = view.findViewById<RecyclerView>(R.id.RecentAnimeReleaseRecyclerView)
-
-        binding.apply {
-            pageNext.setOnClickListener {
-                recentAnimeViewModel.increment()//number increment
-                recentAnimeViewModel.responseLiveData.observe(requireActivity(),{
-                    animeView.adapter?.notifyDataSetChanged()
-                })
-                binding.pageNoText.text = recentAnimeViewModel.page.toString()
-            }
-            pagePrev.setOnClickListener {
-                recentAnimeViewModel.decrement()//number decrement
-                recentAnimeViewModel.responseLiveData.observe(requireActivity(),{
-                    animeView.adapter?.notifyDataSetChanged()
-                })
-                adapterData(requireContext(),releaseAnimesList,view,recentAnimeViewModel)
-                binding.pageNoText.text = recentAnimeViewModel.page.toString()
-
-                adapterData(requireContext(),releaseAnimesList,view,recentAnimeViewModel)
-            }
-        }
-
-        animeView.adapter = adapter
-
-
-        animeView.layoutManager = GridLayoutManager(requireContext(),2)
-
-
-
-        adapter.onItemClick ={
-            val intent = Intent(context, VideoActivity::class.java)
-            intent.putExtra("episodeId",it?.episodeId)
-            startActivity(intent)
-        }
-
-    }
 
     companion object {
         /**
