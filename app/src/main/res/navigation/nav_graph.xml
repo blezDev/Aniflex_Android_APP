@@ -47,6 +47,9 @@
         <action
             android:id="@+id/action_topAiringFragment_to_videoFragment"
             app:destination="@id/videoFragment" />
+        <action
+            android:id="@+id/action_topAiringFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/videoFragment"

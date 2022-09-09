@@ -1,5 +1,6 @@
 package com.blez.aniplex_clone.Presentation.detailsAnime
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.blez.aniplex_clone.Adapter.EpisodeListAdapter
+import com.blez.aniplex_clone.Presentation.common.VideoActivity
 import com.blez.aniplex_clone.R
 import com.blez.aniplex_clone.databinding.FragmentDetailsBinding
 import com.bumptech.glide.Glide
@@ -47,6 +49,11 @@ class DetailsFragment : Fragment() {
                adapter = EpisodeListAdapter(details?.episodesList!!)
                episodeListRecylcerView.adapter = adapter
                episodeListRecylcerView.layoutManager = GridLayoutManager(requireContext(),4)
+               adapter.onItemClickEpisode = {
+                   val intent = Intent(context, VideoActivity::class.java)
+                   intent.putExtra("episodeId",it?.episodeId)
+                   startActivity(intent)
+               }
 
 
            }

@@ -66,6 +66,7 @@ class TopAiringFragment : Fragment() {
                 movieView.adapter = adapter
                 movieView.layoutManager = GridLayoutManager(requireContext(),2)
 
+
             }
         })
     }

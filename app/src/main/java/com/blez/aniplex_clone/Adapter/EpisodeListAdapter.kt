@@ -5,10 +5,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.blez.aniplex_clone.data.Episodes
+import com.blez.aniplex_clone.data.RecentData
 import com.blez.aniplex_clone.databinding.DetailListBinding
 
 class EpisodeListAdapter(private val episodesList :List<Episodes>) : RecyclerView.Adapter<EpisodeListAdapter.ItemView>() {
     private lateinit var binding : DetailListBinding
+    var onItemClickEpisode : ((Episodes?) -> Unit)? = null
     inner class ItemView(val binding : DetailListBinding ) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemView {
@@ -17,8 +19,13 @@ class EpisodeListAdapter(private val episodesList :List<Episodes>) : RecyclerVie
     }
 
     override fun onBindViewHolder(holder: ItemView, position: Int) {
+
        with(holder){
            binding.DetailsEpisodeText.text = "Episode No: ${episodesList[position].episodeNum}"
+           binding.DetailsEpisodeText.setOnClickListener {
+               onItemClickEpisode?.invoke(episodesList[position])
+
+           }
        }
     }
 
