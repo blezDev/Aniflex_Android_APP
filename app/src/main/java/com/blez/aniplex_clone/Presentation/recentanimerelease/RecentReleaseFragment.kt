@@ -3,25 +3,20 @@ package com.blez.aniplex_clone.Presentation.recentanimerelease
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.LiveData
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.liveData
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.blez.aniplex_clone.Adapter.RecentAnimeAdapter
-import com.blez.aniplex_clone.R
-import com.blez.aniplex_clone.`interface`.AnimeInterface
-import com.blez.aniplex_clone.data.ReleaseAnimes
 import com.blez.aniplex_clone.Presentation.common.VideoActivity
+import com.blez.aniplex_clone.R
+import com.blez.aniplex_clone.data.ReleaseAnimes
 import com.blez.aniplex_clone.databinding.FragmentRecentAnimeBinding
-import com.blez.aniplex_clone.network.RetrofitInstance
-import retrofit2.Response
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -51,7 +46,7 @@ class RecentReleaseFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_recent_anime, container, false)
 
         // Inflate the layout for this fragment
@@ -64,37 +59,49 @@ class RecentReleaseFragment : Fragment() {
         val recentAnimeViewModel = ViewModelProvider(this)[RecentAnimeViewModel::class.java]//Contains the page number and retrofit instance
 
         binding.pageNoText.text = recentAnimeViewModel.page.toString()
-        binding.apply {
-            pageNext.setOnClickListener {
-                recentAnimeViewModel.increment()//number increment
-                binding.pageNoText.text = recentAnimeViewModel.page.toString()
-            }
-            pagePrev.setOnClickListener {
-                recentAnimeViewModel.decrement()//number decrement
-                binding.pageNoText.text = recentAnimeViewModel.page.toString()
-
-                pageChange(recentAnimeViewModel, view)
-            }
-        }
         pageChange(recentAnimeViewModel, view)
     }
     private fun pageChange(recentAnimeViewModel : RecentAnimeViewModel,view: View)
 {
-    recentAnimeViewModel.responseLiveData.observe(viewLifecycleOwner, Observer {
+    recentAnimeViewModel.responseLiveData.observe(viewLifecycleOwner) {
 
         val releaseAnimesList = it.body()//iterates the list in an proper sequence
-        if(releaseAnimesList!= null){
-
-            adapterData(requireContext(),releaseAnimesList,view)
-
+        if (releaseAnimesList != null) {
+            adapterData(requireContext(), releaseAnimesList, view,recentAnimeViewModel)
         }
-    })
+    }
 }
-    private fun adapterData(context: Context, releaseAnimesList: ReleaseAnimes,view: View) {
+    private fun adapterData(context: Context, releaseAnimesList: ReleaseAnimes,view: View,recentAnimeViewModel: RecentAnimeViewModel) {
         adapter = RecentAnimeAdapter(requireContext(), releaseAnimesList)
         val animeView = view.findViewById<RecyclerView>(R.id.RecentAnimeReleaseRecyclerView)
-        animeView.layoutManager = GridLayoutManager(requireContext(),2)
+
+        binding.apply {
+            pageNext.setOnClickListener {
+                recentAnimeViewModel.increment()//number increment
+                recentAnimeViewModel.responseLiveData.observe(requireActivity(),{
+                    animeView.adapter?.notifyDataSetChanged()
+                })
+                binding.pageNoText.text = recentAnimeViewModel.page.toString()
+            }
+            pagePrev.setOnClickListener {
+                recentAnimeViewModel.decrement()//number decrement
+                recentAnimeViewModel.responseLiveData.observe(requireActivity(),{
+                    animeView.adapter?.notifyDataSetChanged()
+                })
+                adapterData(requireContext(),releaseAnimesList,view,recentAnimeViewModel)
+                binding.pageNoText.text = recentAnimeViewModel.page.toString()
+
+                adapterData(requireContext(),releaseAnimesList,view,recentAnimeViewModel)
+            }
+        }
+
         animeView.adapter = adapter
+
+
+        animeView.layoutManager = GridLayoutManager(requireContext(),2)
+
+
+
         adapter.onItemClick ={
             val intent = Intent(context, VideoActivity::class.java)
             intent.putExtra("episodeId",it?.episodeId)
