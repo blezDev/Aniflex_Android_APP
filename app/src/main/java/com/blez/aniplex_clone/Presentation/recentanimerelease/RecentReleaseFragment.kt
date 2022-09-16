@@ -36,7 +36,6 @@ class RecentReleaseFragment : Fragment() {
 
         val recentAnimeViewModel = ViewModelProvider(this)[RecentAnimeViewModel::class.java]//Contains the page number and retrofit instance
 
-        binding.pageNoText.text = recentAnimeViewModel.page.toString()
         pageChange(recentAnimeViewModel, view)
     }
     private fun pageChange(recentAnimeViewModel : RecentAnimeViewModel,view: View)
@@ -48,21 +47,6 @@ class RecentReleaseFragment : Fragment() {
             adapter = RecentAnimeAdapter(requireContext(), releaseAnimesList)
             val animeView = view.findViewById<RecyclerView>(R.id.RecentAnimeReleaseRecyclerView)
             animeView.adapter = adapter
-
-            binding.apply {
-                pageNext.setOnClickListener {
-                    recentAnimeViewModel.increment()//number increment
-                    animeView.adapter = adapter
-
-                    binding.pageNoText.text = recentAnimeViewModel.page.toString()
-                }
-                pagePrev.setOnClickListener {
-                    recentAnimeViewModel.decrement()//number decrement
-
-                    binding.pageNoText.text = recentAnimeViewModel.page.toString()
-                }
-            }
-
             animeView.layoutManager = GridLayoutManager(requireContext(),2)
             adapter.onItemClickImg ={
                 val intent = Intent(context, VideoActivity::class.java)

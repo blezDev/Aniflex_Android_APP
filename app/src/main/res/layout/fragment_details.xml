@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:layout_scrollEffect="compress"
     xmlns:tools="http://schemas.android.com/tools">
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintDetails"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".Presentation.detailsAnime.DetailsFragment">
@@ -17,24 +22,25 @@
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
+
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardImage"
             tools:text="Naruto" />
 
         <TextView
             android:id="@+id/tupeText"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_margin="2dp"
-            android:layout_marginStart="4dp"
+            android:layout_marginTop="12dp"
             android:background="@drawable/border_layout"
             android:padding="10dp"
             android:textSize="14sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/StatusText"
-            app:layout_constraintEnd_toStartOf="@+id/StatusText"
 
+            app:layout_constraintEnd_toStartOf="@+id/StatusText"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/animeTitle"
             tools:text="Type : Tv Series" />
 
         <TextView
@@ -47,18 +53,17 @@
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/StatusText"
+            app:layout_constraintTop_toBottomOf="@+id/otherNames"
             tools:text="Released Date : 2002" />
 
         <TextView
             android:id="@+id/StatusText"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_margin="2dp"
             android:background="@drawable/border_layout"
             android:padding="10dp"
             android:textSize="14sp"
-
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/tupeText"
@@ -73,9 +78,8 @@
             android:padding="10dp"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/releasedDateText"
+            app:layout_constraintTop_toBottomOf="@+id/StatusText"
             tools:text="Other Name : ナルト" />
 
         <TextView
@@ -87,56 +91,52 @@
             android:gravity="center"
             android:padding="10dp"
             android:textSize="14sp"
-
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/otherNames"
+            app:layout_constraintTop_toBottomOf="@+id/releasedDateText"
             tools:text="genres" />
 
-        <ImageView
-            android:id="@+id/animeImg"
-            android:layout_width="match_parent"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardImage"
+            android:layout_width="190dp"
             android:layout_height="250dp"
-            android:layout_marginTop="6dp"
-            android:scaleType="fitCenter"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="0dp"
+            app:contentPadding="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/genresText"
-            tools:src="@tools:sample/avatars" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <ScrollView
+            <ImageView
+                android:id="@+id/animeImg"
+                android:layout_width="190dp"
+                android:layout_height="250dp"
+                android:layout_marginTop="6dp"
+                android:contentDescription="@string/Anime_image"
+                android:scaleType="fitXY"
+                tools:src="@tools:sample/avatars" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <TextView
+            android:id="@+id/synopsisText"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/animeImg">
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/genresText"
+            tools:text="TextView" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="6dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/synopsisText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:layout_marginBottom="20dp"
-                    android:textSize="16sp"
-                    tools:text="TextView" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/episodeListRecylcerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp" />
-
-            </LinearLayout>
-        </ScrollView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/episodeListRecylcerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toBottomOf="@+id/synopsisText"
+            tools:layout_editor_absoluteX="-34dp" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
 </layout>

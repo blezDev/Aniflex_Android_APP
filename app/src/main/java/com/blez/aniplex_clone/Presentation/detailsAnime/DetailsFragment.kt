@@ -38,6 +38,7 @@ class DetailsFragment : Fragment() {
        detailsViewModel.responseLiveData.observe(viewLifecycleOwner) {
            val details = it.body()
            binding.apply {
+
                animeTitle.text = details?.animeTitle
                tupeText.text = "Type : ${details?.type}"
                StatusText.text = "Status : ${details?.status}"
