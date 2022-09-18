@@ -33,10 +33,12 @@ class DetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.detailProgressBar.visibility = View.VISIBLE
         val viewModelFactory = DetailViewModelFactory(args.animeId)
         val detailsViewModel = ViewModelProvider(this,viewModelFactory)[DetailsViewModel::class.java]
        detailsViewModel.responseLiveData.observe(viewLifecycleOwner) {
            val details = it.body()
+           binding.detailProgressBar.visibility = View.INVISIBLE
            binding.apply {
 
                animeTitle.text = details?.animeTitle

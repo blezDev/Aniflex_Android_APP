@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.liveData
@@ -51,6 +52,8 @@ class MovieFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val movieProgressBar = view.findViewById<ProgressBar>(R.id.movieProgressBar)
+        movieProgressBar.visibility = View.VISIBLE
         val retService = RetrofitInstance.getRetrofitInstance()
             .create(AnimeInterface::class.java)
         val responseLiveData : LiveData<Response<MovieData>> = liveData {
@@ -59,6 +62,7 @@ class MovieFragment : Fragment() {
         }
 
         responseLiveData.observe(viewLifecycleOwner, Observer {
+            movieProgressBar.visibility = View.INVISIBLE
             val animeMovieList = it.body()
             if(animeMovieList!=null){
                 adapter = AnimeMoviesAdapter(requireContext(),animeMovieList)

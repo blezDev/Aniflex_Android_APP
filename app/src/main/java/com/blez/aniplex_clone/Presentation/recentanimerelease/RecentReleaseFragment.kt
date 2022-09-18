@@ -33,7 +33,7 @@ class RecentReleaseFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        binding.RecentProgressBar.visibility = View.VISIBLE
         val recentAnimeViewModel = ViewModelProvider(this)[RecentAnimeViewModel::class.java]//Contains the page number and retrofit instance
 
         pageChange(recentAnimeViewModel, view)
@@ -41,6 +41,7 @@ class RecentReleaseFragment : Fragment() {
     private fun pageChange(recentAnimeViewModel : RecentAnimeViewModel,view: View)
 {
             recentAnimeViewModel.responseLiveData.observe(viewLifecycleOwner) {
+                binding.RecentProgressBar.visibility = View.INVISIBLE
         val releaseAnimesList = it.body()//iterates the list in an proper sequence
         if (releaseAnimesList != null) {
             adapter = RecentAnimeAdapter(requireContext(), releaseAnimesList)
