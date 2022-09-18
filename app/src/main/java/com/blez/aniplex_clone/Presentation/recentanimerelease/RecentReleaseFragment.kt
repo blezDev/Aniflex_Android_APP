@@ -40,8 +40,7 @@ class RecentReleaseFragment : Fragment() {
     }
     private fun pageChange(recentAnimeViewModel : RecentAnimeViewModel,view: View)
 {
-    recentAnimeViewModel.responseLiveData.observe(viewLifecycleOwner) {
-
+            recentAnimeViewModel.responseLiveData.observe(viewLifecycleOwner) {
         val releaseAnimesList = it.body()//iterates the list in an proper sequence
         if (releaseAnimesList != null) {
             adapter = RecentAnimeAdapter(requireContext(), releaseAnimesList)

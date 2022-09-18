@@ -10,14 +10,13 @@ import retrofit2.Response
 
 class RecentAnimeViewModel : ViewModel() {
     var page = 1
-    val retService = RetrofitInstance.getRetrofitInstance()
-        .create(AnimeInterface::class.java)
+    val retService = RetrofitInstance.getRetrofitInstance().create(AnimeInterface::class.java)
     var responseLiveData : LiveData<Response<ReleaseAnimes>> = liveData {
-        val response = retService.getRecentRelease(page)
-        emit(response)
+        emit(retService.getRecentRelease(page))
     }
     fun increment(){
         page++
+
     }
     fun decrement(){
         if(page<2){
@@ -30,4 +29,5 @@ class RecentAnimeViewModel : ViewModel() {
         }
 
     }
+
 }

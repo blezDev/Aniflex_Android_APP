@@ -25,6 +25,7 @@ class VideoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_video)
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
+
         val videoView = findViewById<VideoView>(R.id.videoView)
         val controller = MediaController(this)
         videoView.setMediaController(controller)
