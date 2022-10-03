@@ -1,12 +1,15 @@
 package com.blez.aniplex_clone.Presentation.common
 
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.view.WindowManager
 import android.widget.MediaController
 import android.widget.Toast
 import android.widget.VideoView
-import android.net.Uri
-import android.util.Log
-import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
@@ -15,21 +18,20 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.liveData
 import com.blez.aniplex_clone.Presentation.recentanimerelease.RecentAnimeViewModel
 import com.blez.aniplex_clone.R
-import com.blez.aniplex_clone.`interface`.AnimeInterface
 import com.blez.aniplex_clone.data.VideoData
 import com.blez.aniplex_clone.databinding.ActivityVideoBinding
-import com.blez.aniplex_clone.network.RetrofitInstance
 import retrofit2.Response
 
 
 class VideoActivity : AppCompatActivity() {
     val TAG = "VideoActivity"
     lateinit var binding : ActivityVideoBinding
+    @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this,R.layout.activity_video)
         Toast.makeText(this, "Rotate Your Phone👌", Toast.LENGTH_LONG).show()
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
+
         binding.videoProgess.visibility = View.VISIBLE
         val videoView = findViewById<VideoView>(R.id.videoView)
         val controller = MediaController(this)
@@ -55,8 +57,21 @@ class VideoActivity : AppCompatActivity() {
            videoView.setOnPreparedListener {
                Log.e(TAG, "Changed");
                binding.videoProgess.visibility = View.INVISIBLE
+               it.setScreenOnWhilePlaying(true)
+               window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+
+               val videoRatio = it.videoWidth / it.videoHeight.toFloat()
+               val screenRatio = videoView.width / videoView.height.toFloat()
+               val scaleX = videoRatio / screenRatio
+               if (scaleX >= 1f) {
+                   videoView.scaleX = scaleX
+               } else {
+                   videoView.scaleY = 1f / scaleX
+               }
+
            }
            videoView.start()
+
 
 
 
@@ -65,4 +80,7 @@ class VideoActivity : AppCompatActivity() {
 
     }
 
-}
+    }
+
+
+

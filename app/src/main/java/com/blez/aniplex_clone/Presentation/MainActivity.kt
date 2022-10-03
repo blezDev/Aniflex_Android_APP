@@ -1,11 +1,16 @@
 package com.blez.aniplex_clone.Presentation
 
 
+ import android.annotation.SuppressLint
  import android.os.Bundle
+ import android.util.Log
+ import android.view.Menu
  import android.view.MenuItem
  import androidx.appcompat.app.ActionBarDrawerToggle
  import androidx.appcompat.app.AppCompatActivity
+ import androidx.appcompat.widget.SearchView
  import androidx.databinding.DataBindingUtil
+ import androidx.navigation.NavController
  import androidx.navigation.fragment.findNavController
  import androidx.navigation.ui.setupWithNavController
  import com.blez.aniplex_clone.Adapter.RecentAnimeAdapter
@@ -17,6 +22,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
     private lateinit var adapter: RecentAnimeAdapter
     private lateinit var binding: ActivityMainBinding
+    private lateinit var navController : NavController
+    @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this,R.layout.activity_main)
@@ -27,23 +34,9 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        val navController = supportFragmentManager.findFragmentById(R.id.fragmentContainerView)
-            ?.findNavController()
-        if (navController != null) {
+        navController = supportFragmentManager.findFragmentById(R.id.fragmentContainerView)?.findNavController()!!
+
             binding.navMenu.setupWithNavController(navController)
-        }
-
-
-
-
-
-
-
-
-
-
-
-
 
         /*val retService = RetrofitInstance.getRetrofitInstance()
             .create(AnimeInterface::class.java)
@@ -69,6 +62,40 @@ class MainActivity : AppCompatActivity() {
         })*/
 
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.search_option,menu)
+
+        val menuItem = menu?.findItem(R.id.app_bar_search)
+        val searchView = menuItem?.actionView as SearchView
+        searchView.queryHint = "Search Your Query"
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                val bundle = Bundle()
+                bundle.putString("animeQuery",query)
+
+                navController.navigate(R.id.searchFragment,bundle)
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                val bundle = Bundle()
+                bundle.putString("animeQuery",newText)
+
+                navController.navigate(R.id.searchFragment,bundle)
+               return false
+            }
+        })
+
+        searchView.setOnSearchClickListener {
+
+            Log.e("TAG",it.toString())
+        navController.navigate(R.id.searchFragment)
+        }
+
+        return super.onCreateOptionsMenu(menu)
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(actionBarDrawerToggle.onOptionsItemSelected(item)){
             return true

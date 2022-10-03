@@ -1,13 +1,12 @@
 package com.blez.aniplex_clone.Presentation.popularAnime
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.liveData
 import androidx.navigation.fragment.findNavController
@@ -15,11 +14,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.blez.aniplex_clone.Adapter.PopularAnimeAdapter
 import com.blez.aniplex_clone.Presentation.recentanimerelease.RecentAnimeViewModel
-import com.blez.aniplex_clone.Presentation.recentanimerelease.RecentReleaseFragmentDirections
 import com.blez.aniplex_clone.R
-import com.blez.aniplex_clone.`interface`.AnimeInterface
 import com.blez.aniplex_clone.data.PopularData
-import com.blez.aniplex_clone.network.RetrofitInstance
 import retrofit2.Response
 
 // TODO: Rename parameter arguments, choose names that match
@@ -64,7 +60,7 @@ class PopularAnimeFragment : Fragment() {
             emit(response)
         }
 
-        responseLiveData.observe(viewLifecycleOwner, Observer {
+        responseLiveData.observe(viewLifecycleOwner, {
             PopularProgressBar.visibility = View.INVISIBLE
             val animeMovieList = it.body()
             if(animeMovieList!=null){
