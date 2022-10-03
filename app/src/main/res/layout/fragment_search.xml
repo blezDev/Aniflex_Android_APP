@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         tools:context=".Presentation.common.search.SearchFragment">
 
-     
+
 
 
         <androidx.recyclerview.widget.RecyclerView
