@@ -1,5 +1,6 @@
 package com.blez.aniplex_clone.Presentation.common
 
+import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -11,6 +12,9 @@ import android.widget.Toast
 import android.widget.VideoView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
@@ -31,7 +35,7 @@ class VideoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this,R.layout.activity_video)
         Toast.makeText(this, "Rotate Your Phone👌", Toast.LENGTH_LONG).show()
-
+        hideSystemUi()
         binding.videoProgess.visibility = View.VISIBLE
         val videoView = findViewById<VideoView>(R.id.videoView)
         val controller = MediaController(this)
@@ -78,6 +82,16 @@ class VideoActivity : AppCompatActivity() {
        })
 
 
+    }
+    @SuppressLint("InlinedApi")
+    private fun hideSystemUi() {
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        WindowInsetsControllerCompat(window, binding.videoView).let { controller ->
+            controller.hide(WindowInsetsCompat.Type.systemBars())
+            controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+
+
+        }
     }
 
     }

@@ -8,17 +8,17 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:background="@drawable/layout_bg"
+        android:background="@drawable/layout_bgnew"
        >
 
         <TextView
             android:id="@+id/Details_episode_text"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
+            android:layout_height="wrap_content"
+
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:gravity="center"
@@ -27,7 +27,7 @@
             tools:text="Episode 41"
 
             android:textColor="@color/black"
-            android:textSize="10sp"
+            android:textSize="7sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

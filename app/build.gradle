@@ -6,12 +6,12 @@ plugins {
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.blez.aniplex_clone"
         minSdk 26
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -52,18 +52,22 @@ dependencies {
     def fragment_version = "1.5.2"
     implementation "androidx.fragment:fragment-ktx:$fragment_version"
     implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
-    implementation 'androidx.core:core-ktx:1.8.0'
+    implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'com.github.bumptech.glide:glide:4.13.2'
     implementation 'com.github.dmytrodanylyk:circular-progress-button:1.2'
     implementation 'com.android.volley:volley:1.2.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.13.2'
-    implementation 'androidx.appcompat:appcompat:1.5.0'
+    implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
     implementation 'com.akexorcist:round-corner-progress-bar:2.1.2'
     //VideoPLayer
     implementation 'com.google.android.exoplayer:exoplayer:2.18.1'
+    def paging_version = "3.1.1"
+
+    implementation "androidx.paging:paging-runtime:$paging_version"
+
 
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
