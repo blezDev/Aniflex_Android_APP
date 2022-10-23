@@ -63,15 +63,16 @@ class VideoActivity : AppCompatActivity() {
                binding.videoProgess.visibility = View.INVISIBLE
                it.setScreenOnWhilePlaying(true)
                window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+               hideSystemUi()
 
-               val videoRatio = it.videoWidth / it.videoHeight.toFloat()
+              /* val videoRatio = it.videoWidth / it.videoHeight.toFloat()
                val screenRatio = videoView.width / videoView.height.toFloat()
                val scaleX = videoRatio / screenRatio
                if (scaleX >= 1f) {
                    videoView.scaleX = scaleX
                } else {
                    videoView.scaleY = 1f / scaleX
-               }
+               }*/
 
            }
            videoView.start()
