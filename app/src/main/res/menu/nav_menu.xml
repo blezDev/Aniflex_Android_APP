@@ -12,6 +12,9 @@
     <item
         android:id="@+id/topAiringFragment"
         android:title="Top Airing"/>
+    <item android:id="@+id/settingsFragment"
+        android:icon="@drawable/ic_settings_icon"
+        android:title="Settings"/>
 
 
 </menu>

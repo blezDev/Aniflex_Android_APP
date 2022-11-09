@@ -1,5 +1,7 @@
 package com.blez.aniplex_clone.utils
 
 object Constants {
-    const val BASE_URL = "https://gogoanime.herokuapp.com"
+    const val BASE_URL = "https://gogoanime.consumet.org/"
+    const val PREFS_TOKEN_FILE = "PREFS_TOKEN_FILE"
+    const val USER_VIDEO_PREFERENCE = "USER_VIDEO_PREFERENCE"
 }

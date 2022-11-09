@@ -9,6 +9,7 @@ package com.blez.aniplex_clone.Presentation
  import androidx.appcompat.app.ActionBarDrawerToggle
  import androidx.appcompat.app.AppCompatActivity
  import androidx.appcompat.widget.SearchView
+ import androidx.core.view.GravityCompat
  import androidx.databinding.DataBindingUtil
  import androidx.navigation.NavController
  import androidx.navigation.fragment.findNavController
@@ -37,6 +38,32 @@ class MainActivity : AppCompatActivity() {
         navController = supportFragmentManager.findFragmentById(R.id.fragmentContainerView)?.findNavController()!!
 
             binding.navMenu.setupWithNavController(navController)
+        binding.navMenu.setNavigationItemSelectedListener {
+            when(it.itemId){
+                R.id.recentReleaseFragment->{
+                    navController?.navigate(R.id.recentReleaseFragment)
+                    binding.drawerLayout.closeDrawer(GravityCompat.START)
+                }
+                R.id.popularAnimeFragment->{
+                    navController?.navigate(R.id.popularAnimeFragment)
+                    binding.drawerLayout.closeDrawer(GravityCompat.START)
+                }
+                R.id.movieFragment->{
+                    navController?.navigate(R.id.movieFragment)
+                    binding.drawerLayout.closeDrawer(GravityCompat.START)
+                }
+                R.id.topAiringFragment->{
+                    navController?.navigate(R.id.topAiringFragment)
+                    binding.drawerLayout.closeDrawer(GravityCompat.START)
+                }
+                R.id.settingsFragment->{
+                    navController?.navigate(R.id.settingsFragment)
+                    binding.drawerLayout.closeDrawer(GravityCompat.START)
+                }
+
+            }
+            true
+        }
 
         /*val retService = RetrofitInstance.getRetrofitInstance()
             .create(AnimeInterface::class.java)
@@ -65,7 +92,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.search_option,menu)
-
+        binding.drawerLayout.closeDrawer(GravityCompat.START)
         val menuItem = menu?.findItem(R.id.app_bar_search)
         val searchView = menuItem?.actionView as SearchView
         searchView.queryHint = "Search Your Query"

@@ -77,4 +77,9 @@
             android:id="@+id/action_searchFragment_to_detailsFragment"
             app:destination="@id/detailsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.blez.aniplex_clone.Presentation.setting.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
 </navigation>

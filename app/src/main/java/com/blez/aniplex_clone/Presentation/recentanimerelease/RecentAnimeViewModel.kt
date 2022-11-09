@@ -14,6 +14,9 @@ class RecentAnimeViewModel : ViewModel() {
     var responseLiveData : LiveData<Response<ReleaseAnimes>> = liveData {
         emit(retService.getRecentRelease(page))
     }
+
+
+
     fun increment(){
         page++
 
