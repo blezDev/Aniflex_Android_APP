@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.blez.aniplex_clone.R
 import com.blez.aniplex_clone.databinding.FragmentSettingsBinding
+import com.blez.aniplex_clone.utils.Constants.IN_APP
+import com.blez.aniplex_clone.utils.Constants.VLC
 import com.blez.aniplex_clone.utils.SettingManager
 
 class SettingsFragment : Fragment() {
@@ -30,20 +32,22 @@ class SettingsFragment : Fragment() {
         var videoType = settingManager.getVideoPrefs()
         binding.videoFormatText.text = "Video Preference"
         if (videoType.isNullOrEmpty()){
-            settingManager.saveVideoPreference("InApp")
+            settingManager.saveVideoPreference(IN_APP)
             videoType = settingManager.getVideoPrefs()
             binding.VideoChangeBTN.text = videoType
         }
         binding.VideoChangeBTN.text = videoType
         binding.VideoChangeBTN.setOnClickListener {
             when(videoType){
-                "InApp"->{binding.VideoChangeBTN.text = "VLC"
-                settingManager.saveVideoPreference("VLC")
+                IN_APP->{binding.VideoChangeBTN.text = VLC
+                settingManager.saveVideoPreference(VLC)
                 videoType = "VLC"}
-                "VLC"->{
-                    binding.VideoChangeBTN.text = "InApp"
-                    settingManager.saveVideoPreference("InApp")
-                    videoType = "InApp"
+                VLC->{
+                    binding.VideoChangeBTN.text = IN_APP
+                    settingManager.saveVideoPreference(IN_APP)
+                    videoType = IN_APP
+
+
                 }
             }
 

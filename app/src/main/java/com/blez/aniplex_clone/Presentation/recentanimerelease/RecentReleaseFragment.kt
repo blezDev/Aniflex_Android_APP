@@ -17,11 +17,14 @@ import androidx.lifecycle.liveData
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import cn.pedant.SweetAlert.SweetAlertDialog
 import com.blez.aniplex_clone.Adapter.RecentAnimeAdapter
 import com.blez.aniplex_clone.Presentation.common.VideoActivity
 import com.blez.aniplex_clone.R
 import com.blez.aniplex_clone.data.VideoData
 import com.blez.aniplex_clone.databinding.FragmentRecentAnimeBinding
+import com.blez.aniplex_clone.utils.Constants.IN_APP
+import com.blez.aniplex_clone.utils.Constants.VLC
 import com.blez.aniplex_clone.utils.SettingManager
 import retrofit2.Response
 
@@ -58,16 +61,16 @@ class RecentReleaseFragment : Fragment() {
                 adapter.onItemClickImg ={
                     var videoPref = settingManager.getVideoPrefs()
                     if (videoPref.isNullOrEmpty()){
-                        settingManager.saveVideoPreference("InApp")
+                        settingManager.saveVideoPreference(IN_APP)
                         videoPref = settingManager.getVideoPrefs()
                     }
                     when(videoPref){
-                        "InApp" ->{
+                        IN_APP ->{
                             val intent = Intent(context, VideoActivity::class.java)
                             intent.putExtra("episodeId",it?.episodeId)
                             startActivity(intent)
                         }
-                        "VLC"->{
+                        VLC->{
                             val pathResponse : LiveData<Response<VideoData>> = liveData {
                                 val response = it?.episodeId?.let { recentAnimeViewModel.retService.getVideoLink(episodeId = it) }
                                 if (response != null) {
@@ -85,6 +88,11 @@ class RecentReleaseFragment : Fragment() {
                                 val intent = Intent(Intent.ACTION_VIEW,uri)
                                 intent.setPackage("org.videolan.vlc")
                                 requireContext().startActivity(intent)
+                                SweetAlertDialog(requireContext(),SweetAlertDialog.NORMAL_TYPE)
+                                    .setTitleText("Notice")
+                                    .setContentText("Wait for VLC player to load")
+                                    .show()
+
                             })
 
                         }
