@@ -4,7 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
+import android.widget.ImageView
 import android.widget.ProgressBar
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
@@ -23,6 +26,7 @@ class PopularAnimeFragment : Fragment() {
     private lateinit var adapter : PopularAnimeAdapter
 
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,8 +37,9 @@ class PopularAnimeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val PopularProgressBar = view.findViewById<ProgressBar>(R.id.PopularProgressBar)
-        PopularProgressBar.visibility = View.VISIBLE
+        val PopularProgressBar = view?.findViewById<ImageView>(R.id.PopularProgressBar)
+        val progressView = view.findViewById<ConstraintLayout>(R.id.progressView)
+        rotate_animation(PopularProgressBar)
        val recentAnimeViewModel = ViewModelProvider(this)[RecentAnimeViewModel::class.java]
         val responseLiveData : LiveData<Response<PopularData>> = liveData {
             val response = recentAnimeViewModel.retService.getPopularAnime()
@@ -42,7 +47,7 @@ class PopularAnimeFragment : Fragment() {
         }
 
         responseLiveData.observe(viewLifecycleOwner, {
-            PopularProgressBar.visibility = View.INVISIBLE
+            progressView?.visibility = View.GONE
             val animeMovieList = it.body()
             if(animeMovieList!=null){
                 adapter = PopularAnimeAdapter(requireContext(),animeMovieList)
@@ -56,6 +61,10 @@ class PopularAnimeFragment : Fragment() {
 
             }
         })
+    }
+    fun rotate_animation( ImageView : ImageView?){
+        val rotate = AnimationUtils.loadAnimation(requireContext(),R.anim.rotate_clockwise)
+        ImageView?.startAnimation(rotate)
     }
 
 

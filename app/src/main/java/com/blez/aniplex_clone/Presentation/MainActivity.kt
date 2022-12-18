@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
         binding.drawerLayout.addDrawerListener(actionBarDrawerToggle)
         actionBarDrawerToggle.syncState()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setTitle(R.string.recent_release)
 
 
 
@@ -43,22 +44,27 @@ class MainActivity : AppCompatActivity() {
                 R.id.recentReleaseFragment->{
                     navController?.navigate(R.id.recentReleaseFragment)
                     binding.drawerLayout.closeDrawer(GravityCompat.START)
+                    supportActionBar?.setTitle(R.string.recent_release)
                 }
                 R.id.popularAnimeFragment->{
                     navController?.navigate(R.id.popularAnimeFragment)
                     binding.drawerLayout.closeDrawer(GravityCompat.START)
+                    supportActionBar?.setTitle(R.string.popular_anime)
                 }
                 R.id.movieFragment->{
                     navController?.navigate(R.id.movieFragment)
                     binding.drawerLayout.closeDrawer(GravityCompat.START)
+                    supportActionBar?.setTitle(R.string.upcoming_movies)
                 }
                 R.id.topAiringFragment->{
                     navController?.navigate(R.id.topAiringFragment)
                     binding.drawerLayout.closeDrawer(GravityCompat.START)
+                    supportActionBar?.setTitle(R.string.top_airing)
                 }
                 R.id.settingsFragment->{
                     navController?.navigate(R.id.settingsFragment)
                     binding.drawerLayout.closeDrawer(GravityCompat.START)
+                    supportActionBar?.setTitle(R.string.settings)
                 }
 
             }

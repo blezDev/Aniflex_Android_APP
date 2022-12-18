@@ -28,10 +28,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-
-            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="19sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/VideoChangeBTN"
             app:layout_constraintStart_toStartOf="parent"
             tools:text="VideoFormat:" />
+
+        <Button
+            android:id="@+id/clearBTN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="84dp"
+            android:text="Clear"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/videoFormatText" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

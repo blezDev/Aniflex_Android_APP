@@ -1,0 +1,8 @@
+<vector android:height="20dp" android:viewportHeight="512"
+    android:viewportWidth="512" android:width="20dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="#00000000"
+        android:pathData="M480,208H308L256,48l-52,160H32l140,96 -54,160 138,-100 138,100 -54,-160z"
+        android:strokeColor="@color/cardview_dark_background"
+        android:strokeLineJoin="round" android:strokeWidth="32"/>
+    <path android:fillColor="#FF000000" android:pathData="M256,48v316L118,464l54,-160 -140,-96h172l52,-160z"/>
+</vector>

@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
+import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
@@ -34,7 +36,7 @@ class SearchFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.SearchProgressBar.visibility = View.VISIBLE
+        rotate_animation(binding.RecentProgressBar)
         val recentAnimeViewModel = ViewModelProvider(this)[RecentAnimeViewModel::class.java]
 
         val text = arguments?.getString("animeQuery")
@@ -44,7 +46,7 @@ class SearchFragment : Fragment() {
         response.observe(viewLifecycleOwner, Observer {
             val animeList = it.body()
             if(animeList!=null){
-                binding.SearchProgressBar.visibility = View.INVISIBLE
+                binding.progressView.visibility = View.INVISIBLE
                 adapter = SearchAdapter(animeList,requireContext())
                 binding.searchRecyclerView.adapter = adapter
 
@@ -61,6 +63,10 @@ class SearchFragment : Fragment() {
 
 
         super.onViewCreated(view, savedInstanceState)
+    }
+    fun rotate_animation( ImageView : ImageView?){
+        val rotate = AnimationUtils.loadAnimation(requireContext(),R.anim.rotate_clockwise)
+        ImageView?.startAnimation(rotate)
     }
 
 

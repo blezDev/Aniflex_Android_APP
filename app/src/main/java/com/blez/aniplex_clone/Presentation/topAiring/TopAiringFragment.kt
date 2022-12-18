@@ -5,7 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
+import android.widget.ImageView
 import android.widget.ProgressBar
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.liveData
@@ -44,8 +47,10 @@ class TopAiringFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val topProgressBar = view.findViewById<ProgressBar>(R.id.topProgressBar)
+        val topProgressView = view.findViewById<ConstraintLayout>(R.id.progressView)
+        val topProgressBar = view.findViewById<ImageView>(R.id.detailProgressBar)
         topProgressBar.visibility = View.VISIBLE
+        rotate_animation(topProgressBar)
         val retService = RetrofitInstance.getRetrofitInstance()
             .create(AnimeInterface::class.java)
         val responseLiveData : LiveData<Response<TopAiringData>> = liveData {
@@ -54,7 +59,7 @@ class TopAiringFragment : Fragment() {
         }
 
         responseLiveData.observe(viewLifecycleOwner, Observer {
-            topProgressBar.visibility = View.INVISIBLE
+            topProgressView.visibility = View.INVISIBLE
             val animeMovieList = it.body()
             if(animeMovieList!=null){
                 adapter = TopAiringAdapter(requireContext(),animeMovieList)
@@ -66,6 +71,9 @@ class TopAiringFragment : Fragment() {
             }
         })
     }
-
+    fun rotate_animation( ImageView : ImageView?){
+        val rotate = AnimationUtils.loadAnimation(requireContext(),R.anim.rotate_clockwise)
+        ImageView?.startAnimation(rotate)
+    }
 
 }

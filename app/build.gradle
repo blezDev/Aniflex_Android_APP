@@ -36,6 +36,7 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    namespace 'com.blez.aniplex_clone'
 }
 
 dependencies {
@@ -65,15 +66,9 @@ dependencies {
     //VideoPLayer
     implementation 'com.google.android.exoplayer:exoplayer:2.18.1'
     def paging_version = "3.1.1"
-
     implementation "androidx.paging:paging-runtime:$paging_version"
     //neutomorphism
     implementation 'com.github.fornewid:neumorphism:0.3.2'
-
-    //sweetalert
-    implementation 'com.github.f0ris.sweetalert:library:1.5.1'
-
-
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     testImplementation 'junit:junit:4.13.2'

@@ -30,7 +30,7 @@ class SettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         settingManager = SettingManager(requireContext())
         var videoType = settingManager.getVideoPrefs()
-        binding.videoFormatText.text = "Video Preference"
+        binding.videoFormatText.text = "Video Player Preference"
         if (videoType.isNullOrEmpty()){
             settingManager.saveVideoPreference(IN_APP)
             videoType = settingManager.getVideoPrefs()
@@ -41,16 +41,17 @@ class SettingsFragment : Fragment() {
             when(videoType){
                 IN_APP->{binding.VideoChangeBTN.text = VLC
                 settingManager.saveVideoPreference(VLC)
-                videoType = "VLC"}
+                videoType = VLC}
                 VLC->{
                     binding.VideoChangeBTN.text = IN_APP
                     settingManager.saveVideoPreference(IN_APP)
                     videoType = IN_APP
-
-
                 }
             }
 
+        }
+        binding.clearBTN.setOnClickListener {
+            settingManager.deteleCredit()
         }
 
     }

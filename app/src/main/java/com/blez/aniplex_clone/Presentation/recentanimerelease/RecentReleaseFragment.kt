@@ -7,6 +7,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -17,7 +19,6 @@ import androidx.lifecycle.liveData
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import cn.pedant.SweetAlert.SweetAlertDialog
 import com.blez.aniplex_clone.Adapter.RecentAnimeAdapter
 import com.blez.aniplex_clone.Presentation.common.VideoActivity
 import com.blez.aniplex_clone.R
@@ -46,12 +47,12 @@ class RecentReleaseFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.RecentProgressBar.visibility = View.VISIBLE
+        rotate_animation(binding.RecentProgressBar)
         val recentAnimeViewModel = ViewModelProvider(this)[RecentAnimeViewModel::class.java]//Contains the page number and retrofit instance
         settingManager = SettingManager(requireContext())
 
         recentAnimeViewModel.responseLiveData.observe(viewLifecycleOwner) {
-            binding.RecentProgressBar.visibility = View.INVISIBLE
+            binding.progressView.visibility = View.INVISIBLE
             val releaseAnimesList = it.body()//iterates the list in an proper sequence
             if (releaseAnimesList != null) {
                 adapter = RecentAnimeAdapter(requireContext(), releaseAnimesList)
@@ -59,6 +60,7 @@ class RecentReleaseFragment : Fragment() {
                 animeView.adapter = adapter
                 animeView.layoutManager = GridLayoutManager(requireContext(),2)
                 adapter.onItemClickImg ={
+                    binding.RecentProgressBar.visibility = View.VISIBLE
                     var videoPref = settingManager.getVideoPrefs()
                     if (videoPref.isNullOrEmpty()){
                         settingManager.saveVideoPreference(IN_APP)
@@ -72,6 +74,7 @@ class RecentReleaseFragment : Fragment() {
                         }
                         VLC->{
                             val pathResponse : LiveData<Response<VideoData>> = liveData {
+
                                 val response = it?.episodeId?.let { recentAnimeViewModel.retService.getVideoLink(episodeId = it) }
                                 if (response != null) {
                                     Log.d("TAG", response.toString())
@@ -79,19 +82,16 @@ class RecentReleaseFragment : Fragment() {
                                 }
                                 else
                                 {
+                                    binding.RecentProgressBar.visibility = View.GONE
                                     Toast.makeText(requireContext(),"not able to fetch", Toast.LENGTH_LONG).show()
 
                                 }
                             }
                             pathResponse.observe(viewLifecycleOwner, Observer {
+                                binding.RecentProgressBar.visibility = View.GONE
                                 val uri = Uri.parse(it.body()?.sources?.get(0)?.file.toString())
                                 val intent = Intent(Intent.ACTION_VIEW,uri)
-                                intent.setPackage("org.videolan.vlc")
                                 requireContext().startActivity(intent)
-                                SweetAlertDialog(requireContext(),SweetAlertDialog.NORMAL_TYPE)
-                                    .setTitleText("Notice")
-                                    .setContentText("Wait for VLC player to load")
-                                    .show()
 
                             })
 
@@ -108,5 +108,9 @@ class RecentReleaseFragment : Fragment() {
 
 
 
+    }
+    fun rotate_animation( ImageView : ImageView?){
+        val rotate = AnimationUtils.loadAnimation(requireContext(),R.anim.rotate_clockwise)
+        ImageView?.startAnimation(rotate)
     }
 }

@@ -2,19 +2,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/recentReleaseFragment"
-        android:title="Recent Release"/>
+        android:icon="@drawable/timer_outline"
+        android:title="@string/recent_release"/>
     <item
         android:id="@+id/popularAnimeFragment"
-        android:title="Popular Anime"/>
+        android:icon="@drawable/ic_popular"
+        android:title="@string/popular_anime"/>
     <item
         android:id="@+id/movieFragment"
-        android:title="Anime Movies"/>
+        android:icon="@drawable/ic_upcoming"
+        android:title="@string/upcoming_movies"/>
     <item
         android:id="@+id/topAiringFragment"
-        android:title="Top Airing"/>
+        android:icon="@drawable/ic_top"
+        android:title="@string/top_airing"/>
     <item android:id="@+id/settingsFragment"
-        android:icon="@drawable/ic_settings_icon"
-        android:title="Settings"/>
+        android:icon="@drawable/ic_settings"
+        android:title="@string/settings"/>
 
 
 </menu>
