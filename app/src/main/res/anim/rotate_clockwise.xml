@@ -6,6 +6,12 @@
         android:pivotY = "50%"
         android:fromDegrees = "0"
         android:toDegrees = "360"
-        android:duration = "2500"/>
+        android:fillAfter="false"
+        android:repeatCount="infinite"
+        android:interpolator="@android:anim/linear_interpolator"
+        android:duration = "2500"
+        android:startOffset="0"
+        />
+
 
 </set>

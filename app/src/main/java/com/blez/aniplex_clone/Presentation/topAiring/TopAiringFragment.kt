@@ -8,10 +8,12 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.ProgressBar
+import androidx.activity.addCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.liveData
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.blez.aniplex_clone.Adapter.TopAiringAdapter
@@ -34,6 +36,11 @@ class TopAiringFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+            findNavController().navigate(R.id.recentReleaseFragment)
+
+        }
+        callback
 
     }
 
@@ -60,6 +67,7 @@ class TopAiringFragment : Fragment() {
 
         responseLiveData.observe(viewLifecycleOwner, Observer {
             topProgressView.visibility = View.INVISIBLE
+            stop_animation(topProgressBar)
             val animeMovieList = it.body()
             if(animeMovieList!=null){
                 adapter = TopAiringAdapter(requireContext(),animeMovieList)
@@ -72,8 +80,14 @@ class TopAiringFragment : Fragment() {
         })
     }
     fun rotate_animation( ImageView : ImageView?){
-        val rotate = AnimationUtils.loadAnimation(requireContext(),R.anim.rotate_clockwise)
-        ImageView?.startAnimation(rotate)
+        while (true){
+            val rotate = AnimationUtils.loadAnimation(requireContext(),R.anim.rotate_clockwise)
+            ImageView?.startAnimation(rotate)
+        }
+
+    }
+    fun stop_animation(ImageView : ImageView?){
+        ImageView?.animation?.cancel()
     }
 
 }

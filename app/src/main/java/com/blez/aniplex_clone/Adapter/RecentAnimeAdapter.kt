@@ -28,6 +28,7 @@ class RecentAnimeAdapter(val context: Context, val recentData: List<RecentData?>
     }
 
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
+        holder.lang_text.visibility= View.GONE
        Glide.with(context).load(recentData[position]?.animeImg).into(holder.recent_view)
         holder.anime_name.text = recentData[position]?.animeTitle
         holder.episode_text.text = "Episode No: ${recentData[position]?.episodeNum}"

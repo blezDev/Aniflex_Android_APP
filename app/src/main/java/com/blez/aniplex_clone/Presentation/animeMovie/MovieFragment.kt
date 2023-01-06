@@ -53,6 +53,7 @@ class MovieFragment : Fragment() {
 
         responseLiveData.observe(viewLifecycleOwner, Observer {
             movieProgressView.visibility = View.INVISIBLE
+            stop_animation(movieProgressBar)
             val animeMovieList = it.body()
             if(animeMovieList!=null){
                 adapter = AnimeMoviesAdapter(requireContext(),animeMovieList)
@@ -64,8 +65,14 @@ class MovieFragment : Fragment() {
         })
     }
     fun rotate_animation( ImageView : ImageView?){
-        val rotate = AnimationUtils.loadAnimation(requireContext(),R.anim.rotate_clockwise)
-        ImageView?.startAnimation(rotate)
+
+            val rotate = AnimationUtils.loadAnimation(requireContext(),R.anim.rotate_clockwise)
+            ImageView?.startAnimation(rotate)
+
+
+    }
+    fun stop_animation(ImageView : ImageView?){
+        ImageView?.animation?.cancel()
     }
 
 }

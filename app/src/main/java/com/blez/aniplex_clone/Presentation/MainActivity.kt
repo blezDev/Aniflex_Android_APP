@@ -2,6 +2,8 @@ package com.blez.aniplex_clone.Presentation
 
 
  import android.annotation.SuppressLint
+ import android.content.Context
+ import android.content.res.Configuration
  import android.os.Bundle
  import android.util.Log
  import android.view.Menu
@@ -97,7 +99,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+
         menuInflater.inflate(R.menu.search_option,menu)
+
+
+
+
+
         binding.drawerLayout.closeDrawer(GravityCompat.START)
         val menuItem = menu?.findItem(R.id.app_bar_search)
         val searchView = menuItem?.actionView as SearchView
@@ -135,6 +143,10 @@ class MainActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+   /* fun isDarkMode(context: Context): Boolean {
+        val darkModeFlag = context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        return darkModeFlag == Configuration.UI_MODE_NIGHT_YES
+    }*/
 
 
 }

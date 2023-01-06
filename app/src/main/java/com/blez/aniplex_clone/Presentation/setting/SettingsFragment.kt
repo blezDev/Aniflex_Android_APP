@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.fragment.findNavController
 import com.blez.aniplex_clone.R
 import com.blez.aniplex_clone.databinding.FragmentSettingsBinding
 import com.blez.aniplex_clone.utils.Constants.IN_APP
@@ -15,6 +17,14 @@ import com.blez.aniplex_clone.utils.SettingManager
 class SettingsFragment : Fragment() {
     private lateinit var binding : FragmentSettingsBinding
     private lateinit var settingManager: SettingManager
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+            findNavController().navigate(R.id.recentReleaseFragment)
+        }
+        callback
+    }
 
 
     override fun onCreateView(

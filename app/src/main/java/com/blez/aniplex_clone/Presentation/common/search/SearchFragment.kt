@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
+import androidx.activity.addCallback
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
@@ -25,6 +26,16 @@ import retrofit2.Response
 class SearchFragment : Fragment() {
     private lateinit var binding : FragmentSearchBinding
     private lateinit var adapter : SearchAdapter
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+            findNavController().navigate(R.id.recentReleaseFragment)
+        }
+        callback
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,6 +58,7 @@ class SearchFragment : Fragment() {
             val animeList = it.body()
             if(animeList!=null){
                 binding.progressView.visibility = View.INVISIBLE
+                stop_animation(binding.RecentProgressBar)
                 adapter = SearchAdapter(animeList,requireContext())
                 binding.searchRecyclerView.adapter = adapter
 
@@ -65,8 +77,14 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
     }
     fun rotate_animation( ImageView : ImageView?){
-        val rotate = AnimationUtils.loadAnimation(requireContext(),R.anim.rotate_clockwise)
-        ImageView?.startAnimation(rotate)
+
+            val rotate = AnimationUtils.loadAnimation(requireContext(),R.anim.rotate_clockwise)
+            ImageView?.startAnimation(rotate)
+
+
+    }
+    fun stop_animation(ImageView : ImageView?){
+        ImageView?.animation?.cancel()
     }
 
 

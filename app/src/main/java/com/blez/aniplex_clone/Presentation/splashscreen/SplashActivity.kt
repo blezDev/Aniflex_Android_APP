@@ -24,7 +24,8 @@ class SplashActivity : AppCompatActivity() {
     fun runActivity() {
         if (!isDestroyed) {
             val intent = Intent(this, MainActivity::class.java)
-            val mtask = timerTask { startActivity(intent)}
+            val mtask = timerTask { startActivity(intent)
+            finish()}
             val timer = Timer()
 
             timer.schedule(mtask,2000)

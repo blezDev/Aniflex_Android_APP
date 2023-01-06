@@ -10,12 +10,14 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.liveData
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.blez.aniplex_clone.Adapter.EpisodeListAdapter
@@ -35,6 +37,16 @@ class DetailsFragment : Fragment() {
     private val args: DetailsFragmentArgs by navArgs()
     private lateinit var binding: FragmentDetailsBinding
     private lateinit var settingManager: SettingManager
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+            findNavController().navigate(R.id.recentReleaseFragment)
+        }
+        callback
+    }
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -73,6 +85,7 @@ class DetailsFragment : Fragment() {
                 var videoPref = settingManager.getVideoPrefs()
                 adapter.onItemClickEpisode = {
                     binding.progressView.visibility = View.VISIBLE
+                    rotate_animation(binding.detailProgressBar)
 
                     when (videoPref) {
                         Constants.IN_APP -> {
@@ -99,6 +112,7 @@ class DetailsFragment : Fragment() {
                             }
                             pathResponse.observe(viewLifecycleOwner, Observer {
                                 binding.progressView.visibility = View.INVISIBLE
+                                stop_animation(binding.detailProgressBar)
 
                                 val uri = Uri.parse(it.body()?.sources?.get(0)?.file.toString())
                                 val intent = Intent(Intent.ACTION_VIEW, uri)
@@ -116,7 +130,13 @@ class DetailsFragment : Fragment() {
         }
     }
     fun rotate_animation( ImageView : ImageView?){
-        val rotate = AnimationUtils.loadAnimation(requireContext(),R.anim.rotate_clockwise)
-        ImageView?.startAnimation(rotate)
+
+            val rotate = AnimationUtils.loadAnimation(requireContext(),R.anim.rotate_clockwise)
+            ImageView?.startAnimation(rotate)
+
+
+    }
+    fun stop_animation(ImageView : ImageView?){
+        ImageView?.animation?.cancel()
     }
 }
