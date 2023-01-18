@@ -7,20 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
-import android.widget.ProgressBar
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.liveData
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.lifecycle.ViewModelProvider
 import com.blez.aniplex_clone.Adapter.AnimeMoviesAdapter
+import com.blez.aniplex_clone.Presentation.recentanimerelease.RecentAnimeViewModel
 import com.blez.aniplex_clone.R
-import com.blez.aniplex_clone.`interface`.AnimeInterface
-import com.blez.aniplex_clone.data.MovieData
-import com.blez.aniplex_clone.network.RetrofitInstance
-import retrofit2.Response
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MovieFragment : Fragment() {
     private lateinit var adapter: AnimeMoviesAdapter
 
@@ -44,14 +38,9 @@ class MovieFragment : Fragment() {
         val movieProgressBar = view.findViewById<ImageView>(R.id.detailProgressBar)
 
         rotate_animation(movieProgressBar)
-        val retService = RetrofitInstance.getRetrofitInstance()
-            .create(AnimeInterface::class.java)
-        val responseLiveData : LiveData<Response<MovieData>> = liveData {
-            val response = retService.getMoviesList()
-            emit(response)
-        }
+        val recentAnimeViewModel = ViewModelProvider(this).get(RecentAnimeViewModel::class.java)
 
-        responseLiveData.observe(viewLifecycleOwner, Observer {
+         /*   val it = recentAnimeViewModel
             movieProgressView.visibility = View.INVISIBLE
             stop_animation(movieProgressBar)
             val animeMovieList = it.body()
@@ -61,8 +50,8 @@ class MovieFragment : Fragment() {
                 movieView.adapter = adapter
                 movieView.layoutManager = GridLayoutManager(requireContext(),2)
 
-            }
-        })
+            }*/
+
     }
     fun rotate_animation( ImageView : ImageView?){
 

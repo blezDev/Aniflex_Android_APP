@@ -19,8 +19,10 @@ package com.blez.aniplex_clone.Presentation
  import com.blez.aniplex_clone.Adapter.RecentAnimeAdapter
  import com.blez.aniplex_clone.R
  import com.blez.aniplex_clone.databinding.ActivityMainBinding
+ import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
     private lateinit var adapter: RecentAnimeAdapter

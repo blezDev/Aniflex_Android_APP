@@ -16,15 +16,13 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.liveData
 import com.blez.aniplex_clone.Presentation.recentanimerelease.RecentAnimeViewModel
 import com.blez.aniplex_clone.R
-import com.blez.aniplex_clone.data.VideoData
 import com.blez.aniplex_clone.databinding.ActivityVideoBinding
-import retrofit2.Response
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 
 
 class VideoActivity : AppCompatActivity() {
@@ -42,28 +40,21 @@ class VideoActivity : AppCompatActivity() {
         videoView.setMediaController(controller)
         val episodeId = intent.getStringExtra("episodeId")
        val recentAnimeViewModel = ViewModelProvider(this).get(RecentAnimeViewModel::class.java)
-        val pathResponse : LiveData<Response<VideoData>> = liveData {
-            val response = episodeId?.let { recentAnimeViewModel.retService.getVideoLink(episodeId = it) }
-            if (response != null) {
-                Log.d("TAG", response.toString())
-                emit(response)
-            }
-            else
-            {
-                Toast.makeText(this@VideoActivity,"not able to fetch",Toast.LENGTH_LONG).show()
+        CoroutineScope(Dispatchers.Main).async { val it = recentAnimeViewModel.getVideoLink(episodeId!!).await()
+
+            val file = it
+            val uri = Uri.parse(file?.sources?.get(0)?.file.toString())
+            videoView.setVideoURI(uri)
+            videoView.setOnPreparedListener {
+                Log.e(TAG, "Changed");
+                binding.videoProgess.visibility = View.INVISIBLE
+                it.setScreenOnWhilePlaying(true)
+                window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+                hideSystemUi()
 
             }
-        }
-       pathResponse.observe(this,Observer{
-           val file = it.body()
-           val uri = Uri.parse(file?.sources?.get(0)?.file.toString())
-           videoView.setVideoURI(uri)
-           videoView.setOnPreparedListener {
-               Log.e(TAG, "Changed");
-               binding.videoProgess.visibility = View.INVISIBLE
-               it.setScreenOnWhilePlaying(true)
-               window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-               hideSystemUi()
+            return@async
+
 
               /* val videoRatio = it.videoWidth / it.videoHeight.toFloat()
                val screenRatio = videoView.width / videoView.height.toFloat()
@@ -80,7 +71,7 @@ class VideoActivity : AppCompatActivity() {
 
 
 
-       })
+
 
 
     }

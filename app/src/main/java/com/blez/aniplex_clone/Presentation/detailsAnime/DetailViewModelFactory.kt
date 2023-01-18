@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import java.lang.IllegalArgumentException
 
+/*
 
 @Suppress("UNCHECKED_CAST")
 class DetailViewModelFactory(private var animeId : String) : ViewModelProvider.Factory {
@@ -13,4 +14,4 @@ class DetailViewModelFactory(private var animeId : String) : ViewModelProvider.F
         }
         throw  IllegalArgumentException("ViewModel Not Found")
     }
-}
+}*/

@@ -7,27 +7,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
-import android.widget.ProgressBar
 import androidx.activity.addCallback
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.liveData
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.blez.aniplex_clone.Adapter.TopAiringAdapter
 import com.blez.aniplex_clone.R
-import com.blez.aniplex_clone.`interface`.AnimeInterface
-import com.blez.aniplex_clone.data.TopAiringData
-import com.blez.aniplex_clone.network.RetrofitInstance
-import retrofit2.Response
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * A simple [Fragment] subclass.
  * Use the [TopAiringFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+@AndroidEntryPoint
 class TopAiringFragment : Fragment() {
     private lateinit var adapter : TopAiringAdapter
     // TODO: Rename and change types of parameters
@@ -58,15 +50,10 @@ class TopAiringFragment : Fragment() {
         val topProgressBar = view.findViewById<ImageView>(R.id.detailProgressBar)
         topProgressBar.visibility = View.VISIBLE
         rotate_animation(topProgressBar)
-        val retService = RetrofitInstance.getRetrofitInstance()
-            .create(AnimeInterface::class.java)
-        val responseLiveData : LiveData<Response<TopAiringData>> = liveData {
-            val response = retService.getTopAiring()
-            emit(response)
-        }
 
-        responseLiveData.observe(viewLifecycleOwner, Observer {
-            topProgressView.visibility = View.INVISIBLE
+
+
+        /*    topProgressView.visibility = View.INVISIBLE
             stop_animation(topProgressBar)
             val animeMovieList = it.body()
             if(animeMovieList!=null){
@@ -76,8 +63,8 @@ class TopAiringFragment : Fragment() {
                 movieView.layoutManager = GridLayoutManager(requireContext(),2)
 
 
-            }
-        })
+            }*/
+
     }
     fun rotate_animation( ImageView : ImageView?){
         while (true){

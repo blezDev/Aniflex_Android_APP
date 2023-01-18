@@ -6,24 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
-import android.widget.ProgressBar
 import androidx.activity.addCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.liveData
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.blez.aniplex_clone.Adapter.PopularAnimeAdapter
-import com.blez.aniplex_clone.Presentation.MainActivity
 import com.blez.aniplex_clone.Presentation.recentanimerelease.RecentAnimeViewModel
 import com.blez.aniplex_clone.R
-import com.blez.aniplex_clone.data.PopularData
-import retrofit2.Response
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class PopularAnimeFragment : Fragment() {
     private lateinit var adapter : PopularAnimeAdapter
 
@@ -49,13 +43,11 @@ class PopularAnimeFragment : Fragment() {
         val progressView = view.findViewById<ConstraintLayout>(R.id.progressView)
         rotate_animation(PopularProgressBar)
        val recentAnimeViewModel = ViewModelProvider(this)[RecentAnimeViewModel::class.java]
-        val responseLiveData : LiveData<Response<PopularData>> = liveData {
-            val response = recentAnimeViewModel.retService.getPopularAnime()
-            emit(response)
-        }
 
-        responseLiveData.observe(viewLifecycleOwner) {
-            progressView?.visibility = View.GONE
+
+
+
+          /*  progressView?.visibility = View.GONE
             stop_animation(PopularProgressBar)
             val animeMovieList = it.body()
             if (animeMovieList != null) {
@@ -72,7 +64,7 @@ class PopularAnimeFragment : Fragment() {
                 }
 
             }
-        }
+        */
     }
     fun rotate_animation( ImageView : ImageView?){
 

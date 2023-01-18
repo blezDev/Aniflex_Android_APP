@@ -13,7 +13,9 @@ import com.blez.aniplex_clone.databinding.FragmentSettingsBinding
 import com.blez.aniplex_clone.utils.Constants.IN_APP
 import com.blez.aniplex_clone.utils.Constants.VLC
 import com.blez.aniplex_clone.utils.SettingManager
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SettingsFragment : Fragment() {
     private lateinit var binding : FragmentSettingsBinding
     private lateinit var settingManager: SettingManager

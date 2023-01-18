@@ -6,23 +6,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
-import androidx.activity.addCallback
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.liveData
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.blez.aniplex_clone.Adapter.SearchAdapter
 import com.blez.aniplex_clone.Presentation.recentanimerelease.RecentAnimeViewModel
 import com.blez.aniplex_clone.R
-import com.blez.aniplex_clone.data.SearchAnime
 import com.blez.aniplex_clone.databinding.FragmentSearchBinding
-import retrofit2.Response
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
+@AndroidEntryPoint
 class SearchFragment : Fragment() {
     private lateinit var binding : FragmentSearchBinding
     private lateinit var adapter : SearchAdapter
@@ -30,17 +29,13 @@ class SearchFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
-            findNavController().navigate(R.id.recentReleaseFragment)
-        }
-        callback
     }
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_search, container, false)
         return binding.root
@@ -51,11 +46,10 @@ class SearchFragment : Fragment() {
         val recentAnimeViewModel = ViewModelProvider(this)[RecentAnimeViewModel::class.java]
 
         val text = arguments?.getString("animeQuery")
-       val response : LiveData<Response<SearchAnime>> = liveData {
-         emit(recentAnimeViewModel.retService.getAnimeSearch(text.toString()))
-       }
-        response.observe(viewLifecycleOwner, Observer {
-            val animeList = it.body()
+
+        CoroutineScope(Dispatchers.Main).launch {
+            val it = recentAnimeViewModel.getSearchData(text.toString()).await()
+            val animeList = it
             if(animeList!=null){
                 binding.progressView.visibility = View.INVISIBLE
                 stop_animation(binding.RecentProgressBar)
@@ -69,8 +63,11 @@ class SearchFragment : Fragment() {
                 }
 
             }
+        }
 
-        })
+
+
+
 
 
 

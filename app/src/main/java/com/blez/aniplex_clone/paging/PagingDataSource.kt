@@ -2,10 +2,10 @@ package com.blez.aniplex_clone.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.blez.aniplex_clone.`interface`.AnimeInterface
+import com.blez.aniplex_clone.Network.AnimeInterface
 import com.blez.aniplex_clone.data.RecentData
 
-class PagingDataSource(private val animeInterface: AnimeInterface) : PagingSource<Int, RecentData>() {
+class PagingDataSource(private val animeAPI: AnimeInterface) : PagingSource<Int, RecentData>() {
     override fun getRefreshKey(state: PagingState<Int, RecentData>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             val anchorPage = state.closestPageToPosition(anchorPosition)
@@ -16,9 +16,9 @@ class PagingDataSource(private val animeInterface: AnimeInterface) : PagingSourc
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, RecentData> {
        return try {
             val position =params.key ?: 1
-           val response = animeInterface.getRecentRelease(position).body()
+           val response = animeAPI.getRecentRelease(position)
         return LoadResult.Page(
-            data = response!!,
+            data = response.body()!!,
             prevKey = if (position == 1) null else position - 1,
             nextKey = position + 1
         )
