@@ -25,7 +25,9 @@ import com.blez.aniplex_clone.utils.Constants.VLC
 import com.blez.aniplex_clone.utils.SettingManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
 import retrofit2.Response
 
 @AndroidEntryPoint
@@ -96,7 +98,8 @@ class RecentReleaseFragment : Fragment() {
         val animeView = binding.RecentAnimeReleaseRecyclerView
         animeView.layoutManager = GridLayoutManager(requireContext(), 2)
         lifecycleScope.launch {
-            recentAnimeViewModel.list.collectLatest {
+            recentAnimeViewModel.list.distinctUntilChanged()
+                .collect {
                 binding.progressView.visibility = View.INVISIBLE
                 if (it != null) {
                     adapter.submitData(lifecycle, it)

@@ -1,5 +1,6 @@
 package com.blez.aniplex_clone.Adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.media.Image
 import android.util.Log
@@ -48,6 +49,7 @@ class RecentAnimeAdapter(val context: Context) : PagingDataAdapter<RecentData,Re
     }
 
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
+        holder.setIsRecyclable(false)
         val item = getItem(position)
         if (item != null) {
 
@@ -69,6 +71,7 @@ class RecentAnimeAdapter(val context: Context) : PagingDataAdapter<RecentData,Re
 
     }
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
       binding = DataBindingUtil.inflate(LayoutInflater.from(parent.context),R.layout.anime_img_list,parent,false)
         return ItemHolder(binding)

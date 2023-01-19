@@ -23,7 +23,6 @@ class PagingDataSource(private val animeAPI: AnimeInterface) : PagingSource<Int,
             nextKey = position + 1
         )
 
-
        }catch (e:Exception){
           return LoadResult.Error(e)
        }

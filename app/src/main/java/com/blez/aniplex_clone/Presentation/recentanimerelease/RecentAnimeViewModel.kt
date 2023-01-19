@@ -13,7 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class RecentAnimeViewModel @Inject constructor(private val animeRepository: AnimeRepository) : ViewModel() {
 
-    val list = animeRepository.getReceentRelease().flow.distinctUntilChanged().cachedIn(viewModelScope)
+    val list = animeRepository.getReceentRelease().flow.cachedIn(viewModelScope)
 
     fun getVideoLink(episodeID : String) = animeRepository.getVideoData(episodeID)
 

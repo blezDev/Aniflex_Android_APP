@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.activity.addCallback
+import androidx.core.app.ShareCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -95,8 +96,9 @@ class DetailsFragment : Fragment() {
 
 
                                 val uri = Uri.parse(it?.sources?.get(0)?.file.toString())
-                                val intent = Intent(Intent.ACTION_VIEW, uri)
-                                requireContext().startActivity(intent)
+                                shareArticle(uri.toString())
+                              /*  val intent = Intent(Intent.ACTION_VIEW, uri)
+                                requireContext().startActivity(intent)*/
                             }
 
 
@@ -114,6 +116,13 @@ class DetailsFragment : Fragment() {
 
            /* binding.progressView.visibility = View.INVISIBLE*/
 
+    }
+    private fun shareArticle(articleUrl: String) {
+        val mimeType = "video/m3u8"
+        ShareCompat.IntentBuilder(requireContext())
+            .setType(mimeType)
+            .setText(articleUrl)
+            .startChooser()
     }
     fun rotate_animation( ImageView : ImageView?){
 
