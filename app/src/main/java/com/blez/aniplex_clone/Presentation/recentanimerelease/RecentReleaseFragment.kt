@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
@@ -47,11 +48,10 @@ class RecentReleaseFragment : Fragment() {
         adapter = RecentAnimeAdapter(requireContext())
         Log.e("TAG","onCreateView is called")
 
-
-        rotate_animation(binding.RecentProgressBar)
         val recentAnimeViewModel = ViewModelProvider(this).get(RecentAnimeViewModel::class.java)//Contains the page number and retrofit instance
         settingManager = SettingManager(requireContext())
         binding.progressView.visibility = View.VISIBLE
+        rotate_animation(binding.RecentProgressBar)
 
 
         adapter.onItemClickImg = {
@@ -70,7 +70,7 @@ class RecentReleaseFragment : Fragment() {
                 VLC -> {
                  CoroutineScope(Dispatchers.Main).launch {
                         val response = recentAnimeViewModel.getVideoLink(it?.episodeId.toString()).await()
-
+                        binding.progressView.isVisible = false
                         val it = response
                         binding.RecentProgressBar.visibility = View.GONE
                         val uri = Uri.parse(it?.sources_bk?.get(0)?.file.toString())
@@ -110,10 +110,6 @@ class RecentReleaseFragment : Fragment() {
                 }
             }
         }
-
-
-
-
 
 
 
