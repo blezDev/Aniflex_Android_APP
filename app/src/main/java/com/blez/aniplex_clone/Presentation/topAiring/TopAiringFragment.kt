@@ -9,22 +9,29 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.activity.addCallback
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isVisible
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import com.blez.aniplex_clone.Adapter.TopAiringAdapter
+import com.blez.aniplex_clone.Presentation.recentanimerelease.RecentAnimeViewModel
 import com.blez.aniplex_clone.R
+import com.blez.aniplex_clone.databinding.FragmentTopAiringBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
-/**
- * A simple [Fragment] subclass.
- * Use the [TopAiringFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+
 @AndroidEntryPoint
 class TopAiringFragment : Fragment() {
     private lateinit var adapter : TopAiringAdapter
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var binding : FragmentTopAiringBinding
+    private lateinit var recentAnimeViewModel: RecentAnimeViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,15 +48,28 @@ class TopAiringFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_top_airing, container, false)
+        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_top_airing, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val topProgressView = view.findViewById<ConstraintLayout>(R.id.progressView)
-        val topProgressBar = view.findViewById<ImageView>(R.id.detailProgressBar)
-        topProgressBar.visibility = View.VISIBLE
-        rotate_animation(topProgressBar)
+        recentAnimeViewModel = ViewModelProvider(this)[RecentAnimeViewModel::class.java]
+        binding.topAiringRecyclerView.layoutManager =GridLayoutManager(requireContext(),2)
+        adapter = TopAiringAdapter(requireContext())
+        CoroutineScope(Dispatchers.Main).launch {
+            binding.progressView.isVisible = false
+            recentAnimeViewModel.topAiringList.collectLatest {
+             adapter.submitData(lifecycle,it)
+                binding.topAiringRecyclerView.adapter = adapter
+            }
+
+
+
+        }
+
+
+
 
 
 

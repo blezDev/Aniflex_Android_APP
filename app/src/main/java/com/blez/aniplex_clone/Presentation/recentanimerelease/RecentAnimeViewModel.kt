@@ -14,6 +14,9 @@ import javax.inject.Inject
 class RecentAnimeViewModel @Inject constructor(private val animeRepository: AnimeRepository) : ViewModel() {
 
     val list = animeRepository.getReceentRelease().flow.cachedIn(viewModelScope)
+    val popularList = animeRepository.getPopularAnimePager().flow.cachedIn(viewModelScope)
+    val topAiringList = animeRepository.getTopAiringPager().flow.cachedIn(viewModelScope)
+    val movieDataList = animeRepository.getMoviePager().flow.cachedIn(viewModelScope)
 
     fun getVideoLink(episodeID : String) = animeRepository.getVideoData(episodeID)
 

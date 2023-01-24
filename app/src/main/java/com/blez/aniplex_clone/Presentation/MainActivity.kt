@@ -39,6 +39,11 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setTitle(R.string.recent_release)
 
 
+        binding.floatingActionButton.setOnClickListener {
+            navController.navigate(R.id.action_recentReleaseFragment_to_searchFragment)
+
+
+        }
 
         navController = supportFragmentManager.findFragmentById(R.id.fragmentContainerView)?.findNavController()!!
 

@@ -6,33 +6,56 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.databinding.DataBindingUtil
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.blez.aniplex_clone.R
 import com.blez.aniplex_clone.data.TopAiringData
+import com.blez.aniplex_clone.data.TopAiringDataItem
+import com.blez.aniplex_clone.databinding.PopularanimelistBinding
 import com.bumptech.glide.Glide
 
-class TopAiringAdapter(val context: Context,val topAiringData : TopAiringData) : RecyclerView.Adapter<TopAiringAdapter.ItemView>(){
-    inner class ItemView(itemView: View) : RecyclerView.ViewHolder(itemView){
-        val topAiringImg = itemView.findViewById<ImageView>(R.id.topAiringImg)
-        val gerneText = itemView.findViewById<TextView>(R.id.gerneText)
-        val TopAiringanimeTitle = itemView.findViewById<TextView>(R.id.TopAiringanimeTitle)
-        val latestEpiText = itemView.findViewById<TextView>(R.id.latestEpiText)
-    }
+class TopAiringAdapter(val context: Context) : PagingDataAdapter<TopAiringDataItem,TopAiringAdapter.ItemView>(COMPARATOR) {
+    private lateinit var binding: PopularanimelistBinding
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemView {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.topairinglist,parent,false)
-        return ItemView(view)
+    inner class ItemView(binding: PopularanimelistBinding) : RecyclerView.ViewHolder(binding.root)
+
+
+    companion object{
+        val COMPARATOR = object : DiffUtil.ItemCallback<TopAiringDataItem>(){
+            override fun areItemsTheSame(
+                oldItem: TopAiringDataItem,
+                newItem: TopAiringDataItem
+            ): Boolean {
+                return oldItem.animeId == newItem.animeId
+            }
+
+            override fun areContentsTheSame(
+                oldItem: TopAiringDataItem,
+                newItem: TopAiringDataItem
+            ): Boolean {
+              return oldItem == newItem
+            }
+
+        }
     }
 
     override fun onBindViewHolder(holder: ItemView, position: Int) {
-      Glide.with(context).load(topAiringData[position].animeImg).into(holder.topAiringImg)
-        holder.TopAiringanimeTitle.text = topAiringData[position].animeTitle
-        holder.gerneText.text = topAiringData[position].genres.toString()
-        holder.latestEpiText.text = topAiringData[position].latestEp
-
+        holder.setIsRecyclable(false)
+      val item = getItem(position)
+        binding.apply {
+            Glide.with(context).load(item?.animeImg).into(popularImg)
+            animeTitle.text = item?.animeTitle
+            releaseDateText.text = item?.latestEp
+        }
     }
 
-    override fun getItemCount(): Int {
-        return topAiringData.size
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemView {
+    binding = DataBindingUtil.inflate(LayoutInflater.from(parent.context),R.layout.popularanimelist,parent,false)
+        return ItemView(binding)
     }
+
+
 }
+

@@ -29,39 +29,8 @@ class VideoPlayerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this,R.layout.activity_video_player_exo)
 
-        CoroutineScope(Dispatchers.Main).launch {
-            val consuimer = producer1()
-            consuimer.collect(){
-                Log.e("TAG",it.toString())
-            }
-        }
-        CoroutineScope(Dispatchers.Main).launch {
-            val consuimer = producer2()
-            delay(1000)
-            consuimer.collect(){
-                Log.e("TAG",it.toString())
-            }
-        }
-
-
 
     }
-    fun producer1() = flow<Int> {
-        val list = listOf<Int>(1,2,3,4,5,6,4,82,6,4,8,4)
-        list.forEach {
-            delay(1000)
-            emit(it)
-        }
-    }
-    fun producer2() = flow<Int> {
-        val list = listOf<Int>(1,2,3,4,5,6,4,82,6,4,8,4)
-
-        list.forEach {
-            delay(1000)
-            emit(it)
-        }
-    }
-
 
 
 
@@ -85,7 +54,6 @@ class VideoPlayerActivity : AppCompatActivity() {
     val uri = Uri.parse(file?.sources?.get(0)?.file.toString())*/
         return MediaItem.Builder()
             .setUri(uri)
-            .setMimeType(getUriMimeType(uri))
             .setMimeType(MimeTypes.APPLICATION_M3U8)
             .build()
     }

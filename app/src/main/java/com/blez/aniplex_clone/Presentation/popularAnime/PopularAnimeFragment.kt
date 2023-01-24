@@ -8,41 +8,57 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.activity.addCallback
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isVisible
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import com.blez.aniplex_clone.Adapter.PopularAnimeAdapter
 import com.blez.aniplex_clone.Presentation.recentanimerelease.RecentAnimeViewModel
 import com.blez.aniplex_clone.R
+import com.blez.aniplex_clone.databinding.FragmentPopularAnimeBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
 class PopularAnimeFragment : Fragment() {
     private lateinit var adapter : PopularAnimeAdapter
+    private lateinit var binding : FragmentPopularAnimeBinding
+    private lateinit var recentAnimeViewModel: RecentAnimeViewModel
+    private lateinit var popularAnimeAdapter: PopularAnimeAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
-           findNavController().navigate(R.id.recentReleaseFragment)
-        }
-        callback
-    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_popular_anime, container, false)
+        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_popular_anime, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val PopularProgressBar = view?.findViewById<ImageView>(R.id.PopularProgressBar)
-        val progressView = view.findViewById<ConstraintLayout>(R.id.progressView)
-        rotate_animation(PopularProgressBar)
-       val recentAnimeViewModel = ViewModelProvider(this)[RecentAnimeViewModel::class.java]
+       recentAnimeViewModel = ViewModelProvider(this)[RecentAnimeViewModel::class.java]
+        adapter = PopularAnimeAdapter(requireContext())
+        CoroutineScope(Dispatchers.Main).launch {
+            recentAnimeViewModel.popularList.collectLatest {
+                adapter.submitData(lifecycle,it)
+                binding.PopularRecyclerView.adapter = adapter
+            binding.progressView.isVisible = false
+
+            }
+        }
+
+        binding.PopularRecyclerView.layoutManager = GridLayoutManager(requireContext(),2)
+
 
 
 

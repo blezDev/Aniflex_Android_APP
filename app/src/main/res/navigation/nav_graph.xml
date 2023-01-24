@@ -22,6 +22,9 @@
             android:id="@+id/action_recentReleaseFragment_to_detailsFragment"
             app:destination="@id/detailsFragment"
             app:popUpTo="@id/recentReleaseFragment" />
+        <action
+            android:id="@+id/action_recentReleaseFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/movieFragment"

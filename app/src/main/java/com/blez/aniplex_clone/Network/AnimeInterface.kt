@@ -13,11 +13,11 @@ interface AnimeInterface {
     @GET("/vidcdn/watch/{episodeId}")
     suspend fun getVideoLink(@Path(value = "episodeId")episodeId : String) : Response<VideoData>
     @GET("/anime-movies")
-    suspend fun getMoviesList() : Response<MovieData>
+    suspend fun getMoviesList(@Query("page") page : Int) : Response<MovieData>
     @GET("/popular")
-    suspend fun getPopularAnime() : Response<PopularData>
+    suspend fun getPopularAnime(@Query("page") page : Int) : Response<PopularData>
     @GET("/top-airing")
-    suspend fun getTopAiring() : Response<TopAiringData>
+    suspend fun getTopAiring(@Query("page") page: Int) : Response<TopAiringData>
     @GET("/anime-details/{animeId}")
     suspend fun getAnimeDetails(@Path(value = "animeId")animeId : String ) : Response<AnimeDetails>
     @GET("/search")

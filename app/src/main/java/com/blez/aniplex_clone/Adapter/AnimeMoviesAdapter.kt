@@ -6,30 +6,46 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.databinding.DataBindingUtil
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.blez.aniplex_clone.R
 import com.blez.aniplex_clone.data.MovieDataItem
+import com.blez.aniplex_clone.databinding.PopularanimelistBinding
 import com.bumptech.glide.Glide
 
-class AnimeMoviesAdapter(val context : Context,val movieData : List<MovieDataItem>) : RecyclerView.Adapter<AnimeMoviesAdapter.ItemHolder>() {
-    inner class ItemHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        var anime_name = itemView.findViewById<TextView>(R.id.movie_name)
-        var movie_view = itemView.findViewById<ImageView>(R.id.movie_view)
-        var release_text = itemView.findViewById<TextView>(R.id.release_text)
-    }
+class AnimeMoviesAdapter(val context : Context) : PagingDataAdapter<MovieDataItem, AnimeMoviesAdapter.ItemHolder>(COMPARATOR) {
+    private lateinit var binding : PopularanimelistBinding
+    inner class ItemHolder(binding : PopularanimelistBinding) : RecyclerView.ViewHolder(binding.root)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.movie_list,parent,false)
-        return ItemHolder(view)
+
+    companion object{
+    val COMPARATOR = object : DiffUtil.ItemCallback<MovieDataItem>(){
+        override fun areItemsTheSame(oldItem: MovieDataItem, newItem: MovieDataItem): Boolean {
+         return oldItem.animeId == newItem.animeId
+        }
+
+        override fun areContentsTheSame(oldItem: MovieDataItem, newItem: MovieDataItem): Boolean {
+           return oldItem == newItem
+        }
+
+    }
     }
 
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
-        Glide.with(context).load(movieData[position].animeImg).into(holder.movie_view)
-        holder.anime_name.text = movieData[position].animeTitle
-        holder.release_text.text = movieData[position].releasedDate
+        holder.setIsRecyclable(false)
+        val items = getItem(position)!!
+        binding.apply {
+            Glide.with(context).load(items.animeImg).into(popularImg)
+            animeTitle.text = items.animeTitle
+            releaseDateText.text = items.releasedDate
+        }
     }
 
-    override fun getItemCount(): Int {
-        return movieData.size
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
+        binding = DataBindingUtil.inflate(LayoutInflater.from(parent.context),R.layout.popularanimelist,parent,false)
+
+        return ItemHolder(binding)
     }
 }
