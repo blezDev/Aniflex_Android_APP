@@ -3,6 +3,7 @@ package com.blez.aniplex_clone.Presentation.exoplayer
 import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.Window
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
@@ -82,7 +83,13 @@ class VideoPlayerActivity : AppCompatActivity() {
 
     }
 
+    override fun onStop() {
+        Log.e("TAG","OnStop is called from exoplayer Fragment")
+        binding.exoPlayerPlayer.player?.stop()
+        binding.exoPlayerPlayer.player = null
 
+        super.onStop()
+    }
 
     @SuppressLint("InlinedApi")
     private fun hideSystemUi() {

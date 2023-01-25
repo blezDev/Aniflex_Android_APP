@@ -11,7 +11,7 @@ import com.blez.aniplex_clone.data.SearchAnimeItem
 import com.blez.aniplex_clone.databinding.AnimeListBinding
 import com.bumptech.glide.Glide
 
-class SearchAdapter(val searchAnimeList : SearchAnime,val context :Context) : RecyclerView.Adapter<SearchAdapter.ItemView>() {
+class SearchAdapter(val searchAnimeList : SearchAnime?,val context :Context) : RecyclerView.Adapter<SearchAdapter.ItemView>() {
     var onItemClick : ((SearchAnimeItem) -> Unit) ?= null
     private lateinit var binding: AnimeListBinding
     inner class ItemView(binding: AnimeListBinding) : RecyclerView.ViewHolder(binding.root)
@@ -23,20 +23,25 @@ class SearchAdapter(val searchAnimeList : SearchAnime,val context :Context) : Re
     }
 
     override fun onBindViewHolder(holder: ItemView, position: Int) {
-        Glide.with(context).load(searchAnimeList[position].animeImg).into(binding.image)
+        holder.setIsRecyclable(false)
+        val item = searchAnimeList?.get(position)
+        if (searchAnimeList != null) {
+            Glide.with(context).load(searchAnimeList[position].animeImg).into(binding.image)
 
-        binding.AnimeTitleText.text = searchAnimeList[position].animeTitle
-        binding.StatusText.text = searchAnimeList[position].status
-        binding.apply {
-            AnimeTitleText.setOnClickListener {
-                onItemClick?.invoke(searchAnimeList[position])
-            }
-            image.setOnClickListener { onItemClick?.invoke(searchAnimeList[position]) }
+            binding.AnimeTitleText.text = searchAnimeList[position].animeTitle
+            binding.StatusText.text = searchAnimeList[position].status
         }
+            binding.apply {
+                AnimeTitleText.setOnClickListener {
+                    onItemClick?.invoke(item!!)
+                }
+                image.setOnClickListener { onItemClick?.invoke(item!!) }
+            }
+
     }
 
     override fun getItemCount(): Int {
-        return searchAnimeList.size
+        return searchAnimeList?.size?:0
     }
 
 }
