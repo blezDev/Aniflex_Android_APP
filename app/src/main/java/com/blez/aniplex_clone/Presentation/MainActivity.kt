@@ -46,6 +46,8 @@ class MainActivity : AppCompatActivity() {
             navController.navigate(R.id.action_recentReleaseFragment_to_searchFragment)
 
 
+
+
         }
 
         navController = supportFragmentManager.findFragmentById(R.id.fragmentContainerView)
@@ -94,6 +96,32 @@ class MainActivity : AppCompatActivity() {
                     supportActionBar?.hide()
                     binding.floatingActionButton.visibility = View.GONE
                 }
+                R.id.settingsFragment->{
+                    binding.floatingActionButton.visibility = View.GONE
+                }
+
+                R.id.popularAnimeFragment->{
+                    binding.floatingActionButton.visibility = View.VISIBLE
+                    supportActionBar?.show()
+                    binding.floatingActionButton.setOnClickListener {
+                        navController.navigate(R.id.action_popularAnimeFragment_to_searchFragment)
+                    }
+                }
+                R.id.topAiringFragment->{
+                    binding.floatingActionButton.visibility = View.VISIBLE
+                    supportActionBar?.show()
+                    binding.floatingActionButton.setOnClickListener {
+                        navController.navigate(R.id.action_topAiringFragment_to_searchFragment)
+                    }
+                }
+                R.id.movieFragment->{
+                    binding.floatingActionButton.visibility = View.VISIBLE
+                    supportActionBar?.show()
+                    binding.floatingActionButton.setOnClickListener {
+                        navController.navigate(R.id.action_movieFragment_to_searchFragment)
+                    }
+                }
+
 
                 else -> {
                     binding.floatingActionButton.visibility = View.VISIBLE

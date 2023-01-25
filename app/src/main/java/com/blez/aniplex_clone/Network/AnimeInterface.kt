@@ -3,7 +3,7 @@ package com.blez.aniplex_clone.Network
 import com.blez.aniplex_clone.data.*
 import retrofit2.Response
 import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.Header
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -22,6 +22,9 @@ interface AnimeInterface {
     suspend fun getAnimeDetails(@Path(value = "animeId")animeId : String ) : Response<AnimeDetails>
     @GET("/search")
     suspend fun getAnimeSearch(@Query("keyw")animeSearch : String ) : Response<SearchAnime>
+
+    @GET("/download")
+    suspend fun getDownloadLink(@Header("downloadLink") downloadLink : String)
 
 
 

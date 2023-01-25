@@ -22,7 +22,6 @@ import com.blez.aniplex_clone.databinding.FragmentSearchBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 
@@ -49,13 +48,16 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         rotate_animation(binding.RecentProgressBar)
         val recentAnimeViewModel = ViewModelProvider(this)[RecentAnimeViewModel::class.java]
-        binding.progressView.isVisible = true
+        binding.progressView.isVisible = false
         val text = arguments?.getString("animeQuery")
         adapter = SearchAdapter(null,requireContext())
         binding.searchRecyclerView.layoutManager = GridLayoutManager(requireContext(),2)
 
-
+        if(adapter.searchAnimeList?.size == null){
+            binding.kumaraImg.isVisible = true
+        }
         binding.editSearchAnime.addTextChangedListener(object : TextWatcher{
+
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
                 Log.e("TAG","beforeTextChanged is called")
@@ -94,11 +96,12 @@ class SearchFragment : Fragment() {
     }
 
 private fun searchQuery(search: String, recentAnimeViewModel: RecentAnimeViewModel){
+    binding.kumaraImg.isVisible = false
     binding.progressView.isVisible = true
     CoroutineScope(Dispatchers.Main).launch {
         val it = recentAnimeViewModel.getSearchData(search).await()
         val animeList = it
-        if(animeList!=null){
+        if(animeList!=null && animeList.isNotEmpty()){
             binding.progressView.visibility = View.INVISIBLE
             stop_animation(binding.RecentProgressBar)
             adapter = SearchAdapter(animeList,requireContext())
@@ -111,6 +114,9 @@ private fun searchQuery(search: String, recentAnimeViewModel: RecentAnimeViewMod
                 findNavController().navigate(extra)
             }
 
+        }else{
+            binding.kumaraImg.isVisible = true
+            binding.progressView.visibility = View.INVISIBLE
         }
     }
 }

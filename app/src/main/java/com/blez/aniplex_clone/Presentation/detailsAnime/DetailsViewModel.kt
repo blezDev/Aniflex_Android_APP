@@ -13,6 +13,7 @@ class DetailsViewModel @Inject constructor(private val animeRepository: AnimeRep
     fun getAnimeDetails(animeId : String) = animeRepository.getAnimeDetails(animeId)
 
     fun getVideoLink(episodeID : String) = animeRepository.getVideoData(episodeID)
+    fun getDownloadLink(episodeID : String) = animeRepository.getDownloadVideoLink(episodeID)
 
 
 }

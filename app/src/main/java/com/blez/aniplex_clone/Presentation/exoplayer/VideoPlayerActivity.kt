@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Window
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -43,7 +44,14 @@ class VideoPlayerActivity : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.Main).launch {
             val data = exoViewModel.getVideoData(episodeId).await()
-            inititalizePlayer(data!!)
+
+            try {
+                inititalizePlayer(data!!)
+
+            }catch (e:Exception){
+                Toast.makeText(this@VideoPlayerActivity, "Some error occurred", Toast.LENGTH_SHORT).show()
+            }
+
             hideSystemUi()
         }
 

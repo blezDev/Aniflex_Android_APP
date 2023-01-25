@@ -37,6 +37,7 @@ class AnimeRepository @Inject constructor( val animeAPI: AnimeInterface) {
     fun getSearchData(animeQuery : String) = CoroutineScope(Dispatchers.Main).async { animeAPI.getAnimeSearch(animeSearch = animeQuery).body() }
 
     fun getVideoData(episodeID : String)  = CoroutineScope(Dispatchers.Main).async{ animeAPI.getVideoLink(episodeID).body()}
+    fun getDownloadVideoLink(episodeID : String)  = CoroutineScope(Dispatchers.IO).async{ animeAPI.getVideoLink(episodeID).body()}
 
 
     fun getAnimeDetails(animeId : String) =  CoroutineScope(Dispatchers.Main).async{ animeAPI.getAnimeDetails(animeId).body()}
@@ -45,5 +46,7 @@ class AnimeRepository @Inject constructor( val animeAPI: AnimeInterface) {
     fun getPopularAnime() = CoroutineScope(Dispatchers.Main).async { animeAPI.getPopularAnime(1).body()}
     fun getTopAiring() = CoroutineScope(Dispatchers.Main).async { animeAPI.getTopAiring(1).body() }
     fun getMovieItems() = CoroutineScope(Dispatchers.Main).async { animeAPI.getMoviesList(1).body()}
+
+    fun downloadLink(episodeUrl : String) = CoroutineScope(Dispatchers.IO).async { animeAPI.getDownloadLink(episodeUrl)}
 
 }

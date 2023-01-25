@@ -30,7 +30,11 @@
         android:id="@+id/movieFragment"
         android:name="com.blez.aniplex_clone.Presentation.animeMovie.MovieFragment"
         android:label="fragment_movie"
-        tools:layout="@layout/fragment_movie" />
+        tools:layout="@layout/fragment_movie" >
+        <action
+            android:id="@+id/action_movieFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+    </fragment>
     <fragment
         android:id="@+id/popularAnimeFragment"
         android:name="com.blez.aniplex_clone.Presentation.popularAnime.PopularAnimeFragment"
@@ -39,6 +43,9 @@
         <action
             android:id="@+id/action_popularAnimeFragment_to_detailsFragment"
             app:destination="@id/detailsFragment" />
+        <action
+            android:id="@+id/action_popularAnimeFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/topAiringFragment"
@@ -48,6 +55,9 @@
         <action
             android:id="@+id/action_topAiringFragment_to_detailsFragment"
             app:destination="@id/detailsFragment" />
+        <action
+            android:id="@+id/action_topAiringFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailsFragment"

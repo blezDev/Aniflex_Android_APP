@@ -8,20 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
-import androidx.activity.addCallback
 import androidx.core.app.ShareCompat
 import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.blez.aniplex_clone.Adapter.EpisodeListAdapter
-import com.blez.aniplex_clone.Presentation.common.VideoActivity
+import com.blez.aniplex_clone.Presentation.common.download.Downloader
 import com.blez.aniplex_clone.Presentation.exoplayer.VideoPlayerActivity
-import com.blez.aniplex_clone.Presentation.recentanimerelease.RecentAnimeViewModel
 import com.blez.aniplex_clone.R
 import com.blez.aniplex_clone.databinding.FragmentDetailsBinding
 import com.blez.aniplex_clone.utils.Constants
@@ -39,11 +35,11 @@ class DetailsFragment : Fragment() {
     private val args: DetailsFragmentArgs by navArgs()
     private lateinit var binding: FragmentDetailsBinding
     private lateinit var settingManager: SettingManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
     }
-
 
 
     override fun onCreateView(
@@ -81,7 +77,7 @@ class DetailsFragment : Fragment() {
                 adapter = EpisodeListAdapter(details?.episodesList!!)
                 episodeListRecylcerView.adapter = adapter
                 episodeListRecylcerView.layoutManager = LinearLayoutManager(requireContext())
-                ViewCompat.setNestedScrollingEnabled(binding.episodeListRecylcerView,false)
+                ViewCompat.setNestedScrollingEnabled(binding.episodeListRecylcerView, false)
                 var videoPref = settingManager.getVideoPrefs()
                 adapter.onItemClickEpisode = {
                     /*    binding.progressView.visibility = View.VISIBLE*/
@@ -95,15 +91,14 @@ class DetailsFragment : Fragment() {
                         }
                         Constants.VLC -> {
 
-                            CoroutineScope(Dispatchers.Main).async{
+                            CoroutineScope(Dispatchers.Main).async {
                                 val it = detailsViewModel.getVideoLink(it.toString()).await()
                                 /*  binding.progressView.visibility = View.INVISIBLE*/
                                 val uri = Uri.parse(it?.sources?.get(0)?.file.toString())
-                     /*           shareArticle(uri.toString())*/
-                              /*  val intent = Intent(Intent.ACTION_VIEW, uri)
+                                /*           shareArticle(uri.toString())*/
+                                /*  val intent = Intent(Intent.ACTION_VIEW, uri)
                                 requireContext().startActivity(intent)*/
                             }
-
 
 
                         }
@@ -113,33 +108,31 @@ class DetailsFragment : Fragment() {
                 }
 
 
-
             }
+            val downloader = Downloader(requireContext())
 
-            adapter.onItemClickDownload = {
 
-            }
+            /* binding.progressView.visibility = View.INVISIBLE*/
 
         }
+        fun shareArticle(articleUrl: String) {
+            val mimeType = "video/m3u8"
+            ShareCompat.IntentBuilder(requireContext())
+                .setType(mimeType)
+                .setText(articleUrl)
+                .startChooser()
+        }
 
-           /* binding.progressView.visibility = View.INVISIBLE*/
+        fun rotate_animation(ImageView: ImageView?) {
 
-    }
-    private fun shareArticle(articleUrl: String) {
-        val mimeType = "video/m3u8"
-        ShareCompat.IntentBuilder(requireContext())
-            .setType(mimeType)
-            .setText(articleUrl)
-            .startChooser()
-    }
-    fun rotate_animation( ImageView : ImageView?){
-
-            val rotate = AnimationUtils.loadAnimation(requireContext(),R.anim.rotate_clockwise)
+            val rotate = AnimationUtils.loadAnimation(requireContext(), R.anim.rotate_clockwise)
             ImageView?.startAnimation(rotate)
 
 
-    }
-    fun stop_animation(ImageView : ImageView?){
-        ImageView?.animation?.cancel()
+        }
+
+        fun stop_animation(ImageView: ImageView?) {
+            ImageView?.animation?.cancel()
+        }
     }
 }
