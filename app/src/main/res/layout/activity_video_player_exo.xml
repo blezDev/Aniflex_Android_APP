@@ -12,6 +12,7 @@
         android:layout_height="match_parent"
         tools:context=".Presentation.exoplayer.VideoPlayerActivity">
 
+
         <com.google.android.exoplayer2.ui.StyledPlayerView
             android:id="@+id/exo_player_player"
             android:layout_width="match_parent"
@@ -19,6 +20,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:resize_mode="fill"
+            android:keepScreenOn="true"
+            app:use_controller="true"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

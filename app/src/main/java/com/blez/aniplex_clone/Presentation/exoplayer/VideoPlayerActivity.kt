@@ -3,8 +3,9 @@ package com.blez.aniplex_clone.Presentation.exoplayer
 import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
-import android.view.Window
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -35,6 +36,13 @@ class VideoPlayerActivity : AppCompatActivity() {
     private var player : ExoPlayer? = null
     private lateinit var binding : ActivityVideoPlayerExoBinding
     private lateinit var exoViewModel: ExoViewModel
+
+    private var playWhenReady = true
+    private var currentWindow = 0
+    private var playbackPosition: Long = 0
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this,R.layout.activity_video_player_exo)
@@ -49,7 +57,11 @@ class VideoPlayerActivity : AppCompatActivity() {
                 inititalizePlayer(data!!)
 
             }catch (e:Exception){
-                Toast.makeText(this@VideoPlayerActivity, "Some error occurred", Toast.LENGTH_SHORT).show()
+                Handler(Looper.getMainLooper()).post {
+                    // write your code here
+                    Toast.makeText(this@VideoPlayerActivity, "Some error occurred", Toast.LENGTH_SHORT).show()
+                }
+
             }
 
             hideSystemUi()
@@ -76,16 +88,17 @@ class VideoPlayerActivity : AppCompatActivity() {
 
         dataSourceFactory.createDataSource()
         val hlsMediaSource = HlsMediaSource.Factory(dataSourceFactory)
-            .createMediaSource(MediaItem.fromUri(data?.sources_bk?.get(0)?.file.toString()))
+            .createMediaSource(MediaItem.fromUri(data.sources_bk.get(0).file))
 
 
-        player = ExoPlayer.Builder(this)
+        player = ExoPlayer.Builder(this@VideoPlayerActivity)
             .build()
             .also { exoPlayer ->
                 exoPlayer.setMediaSource(hlsMediaSource)
                 binding.exoPlayerPlayer.player = exoPlayer
                 exoPlayer.prepare()
-                exoPlayer.playWhenReady = true
+                exoPlayer.seekTo(playbackPosition)
+
                 window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
             }
 
@@ -98,7 +111,7 @@ class VideoPlayerActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        binding.exoPlayerPlayer.player?.play()
+
         Log.e("TAG","onResume is called from exoplayer Fragment")
     }
 
@@ -120,7 +133,7 @@ class VideoPlayerActivity : AppCompatActivity() {
 
     override fun onStop() {
         Log.e("TAG","OnStop is called from exoplayer Fragment")
-        binding.exoPlayerPlayer.player?.pause()
+        releasePlayer()
 
 
 
@@ -141,7 +154,11 @@ class VideoPlayerActivity : AppCompatActivity() {
     }
     private fun releasePlayer()
     {
-
+        if(player!= null){
+            playWhenReady = player?.playWhenReady!!
+            playbackPosition = player?.currentPosition!!
+            player = null
+        }
     }
 
   private  fun createMediaItem(videoData: VideoData?,uri: String ): MediaItem {
