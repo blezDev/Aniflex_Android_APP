@@ -10,14 +10,17 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.activity.addCallback
 import androidx.core.app.ShareCompat
+import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.blez.aniplex_clone.Adapter.EpisodeListAdapter
 import com.blez.aniplex_clone.Presentation.common.VideoActivity
+import com.blez.aniplex_clone.Presentation.exoplayer.VideoPlayerActivity
 import com.blez.aniplex_clone.Presentation.recentanimerelease.RecentAnimeViewModel
 import com.blez.aniplex_clone.R
 import com.blez.aniplex_clone.databinding.FragmentDetailsBinding
@@ -28,6 +31,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class DetailsFragment : Fragment() {
@@ -35,9 +39,9 @@ class DetailsFragment : Fragment() {
     private val args: DetailsFragmentArgs by navArgs()
     private lateinit var binding: FragmentDetailsBinding
     private lateinit var settingManager: SettingManager
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
     }
 
 
@@ -47,6 +51,7 @@ class DetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_details, container, false)
         return binding.root
     }
@@ -61,7 +66,7 @@ class DetailsFragment : Fragment() {
         val detailsViewModel = ViewModelProvider(this)[DetailsViewModel::class.java]
 
 
-        CoroutineScope(Dispatchers.Main).async {
+        CoroutineScope(Dispatchers.Main).launch {
             val details = detailsViewModel.getAnimeDetails(viewModelFactory).await()
             binding.apply {
 
@@ -75,7 +80,8 @@ class DetailsFragment : Fragment() {
                 synopsisText.text = details?.synopsis
                 adapter = EpisodeListAdapter(details?.episodesList!!)
                 episodeListRecylcerView.adapter = adapter
-                episodeListRecylcerView.layoutManager = GridLayoutManager(requireContext(), 4)
+                episodeListRecylcerView.layoutManager = LinearLayoutManager(requireContext())
+                ViewCompat.setNestedScrollingEnabled(binding.episodeListRecylcerView,false)
                 var videoPref = settingManager.getVideoPrefs()
                 adapter.onItemClickEpisode = {
                     /*    binding.progressView.visibility = View.VISIBLE*/
@@ -83,7 +89,7 @@ class DetailsFragment : Fragment() {
 
                     when (videoPref) {
                         Constants.IN_APP -> {
-                            val intent = Intent(context, VideoActivity::class.java)
+                            val intent = Intent(context, VideoPlayerActivity::class.java)
                             intent.putExtra("episodeId", it?.episodeId)
                             startActivity(intent)
                         }
@@ -91,12 +97,9 @@ class DetailsFragment : Fragment() {
 
                             CoroutineScope(Dispatchers.Main).async{
                                 val it = detailsViewModel.getVideoLink(it.toString()).await()
-
                                 /*  binding.progressView.visibility = View.INVISIBLE*/
-
-
                                 val uri = Uri.parse(it?.sources?.get(0)?.file.toString())
-                                shareArticle(uri.toString())
+                     /*           shareArticle(uri.toString())*/
                               /*  val intent = Intent(Intent.ACTION_VIEW, uri)
                                 requireContext().startActivity(intent)*/
                             }
@@ -112,6 +115,11 @@ class DetailsFragment : Fragment() {
 
 
             }
+
+            adapter.onItemClickDownload = {
+
+            }
+
         }
 
            /* binding.progressView.visibility = View.INVISIBLE*/

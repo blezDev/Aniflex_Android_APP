@@ -79,6 +79,15 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
+navController.addOnDestinationChangedListener{ _, destination, _ ->
+    if (destination.id == R.id.detailsFragment){
+            supportActionBar?.hide()
+    }else
+    {
+        supportActionBar?.show()
+    }
+
+}
 
         /*val retService = RetrofitInstance.getRetrofitInstance()
             .create(AnimeInterface::class.java)

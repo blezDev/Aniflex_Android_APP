@@ -17,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.blez.aniplex_clone.Adapter.RecentAnimeAdapter
 import com.blez.aniplex_clone.Presentation.common.VideoActivity
+import com.blez.aniplex_clone.Presentation.exoplayer.VideoPlayerActivity
 import com.blez.aniplex_clone.R
 import com.blez.aniplex_clone.data.VideoData
 import com.blez.aniplex_clone.databinding.FragmentRecentAnimeBinding
@@ -63,7 +64,7 @@ class RecentReleaseFragment : Fragment() {
             }
             when (videoPref) {
                 IN_APP -> {
-                    val intent = Intent(context, VideoActivity::class.java)
+                    val intent = Intent(context, VideoPlayerActivity::class.java)
                     intent.putExtra("episodeId", it?.episodeId)
                     startActivity(intent)
                 }

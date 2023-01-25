@@ -8,6 +8,7 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.activity.addCallback
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -58,6 +59,11 @@ class PopularAnimeFragment : Fragment() {
         }
 
         binding.PopularRecyclerView.layoutManager = GridLayoutManager(requireContext(),2)
+
+        adapter.onItemClickText = {
+            val bundle = bundleOf("animeId" to it?.animeId)
+            findNavController()?.navigate(R.id.action_popularAnimeFragment_to_detailsFragment,bundle)
+        }
 
 
 
