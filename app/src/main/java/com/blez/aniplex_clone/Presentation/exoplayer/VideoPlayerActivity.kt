@@ -91,10 +91,38 @@ class VideoPlayerActivity : AppCompatActivity() {
 
     }
 
+    override fun onStart() {
+        super.onStart()
+        Log.e("TAG","onStart is called from exoplayer Fragment")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.exoPlayerPlayer.player?.play()
+        Log.e("TAG","onResume is called from exoplayer Fragment")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.e("TAG","OnPause is called from exoplayer Fragment")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.e("TAG","OnRestart is called from exoplayer Fragment")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.e("TAG","OnDestroy is called from exoplayer Fragment")
+    }
+
+
     override fun onStop() {
         Log.e("TAG","OnStop is called from exoplayer Fragment")
-        binding.exoPlayerPlayer.player?.stop()
-        binding.exoPlayerPlayer.player = null
+        binding.exoPlayerPlayer.player?.pause()
+
+
 
         super.onStop()
     }
@@ -109,6 +137,10 @@ class VideoPlayerActivity : AppCompatActivity() {
 
         }
 
+
+    }
+    private fun releasePlayer()
+    {
 
     }
 
