@@ -17,6 +17,7 @@ import com.blez.aniplex_clone.Adapter.AnimeMoviesAdapter
 import com.blez.aniplex_clone.Presentation.recentanimerelease.RecentAnimeViewModel
 import com.blez.aniplex_clone.R
 import com.blez.aniplex_clone.databinding.FragmentMovieBinding
+import com.blez.aniplex_clone.utils.navigateSafely
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -72,7 +73,7 @@ class MovieFragment : Fragment() {
 
             }*/
         binding.searchBTN.setOnClickListener {
-            findNavController().navigate(R.id.action_movieFragment_to_searchFragment)
+            findNavController().navigateSafely(R.id.action_movieFragment_to_searchFragment)
         }
 
     }

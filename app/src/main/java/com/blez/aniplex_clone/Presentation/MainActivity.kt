@@ -92,6 +92,9 @@ class MainActivity : AppCompatActivity() {
                     supportActionBar?.hide()
 
                 }
+                R.id.searchFragment->{
+                    supportActionBar?.hide()
+                }
 
 
                 else -> {

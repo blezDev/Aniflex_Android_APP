@@ -12,6 +12,7 @@ import android.widget.ImageView
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -19,6 +20,7 @@ import com.blez.aniplex_clone.Adapter.SearchAdapter
 import com.blez.aniplex_clone.Presentation.recentanimerelease.RecentAnimeViewModel
 import com.blez.aniplex_clone.R
 import com.blez.aniplex_clone.databinding.FragmentSearchBinding
+import com.blez.aniplex_clone.utils.navigateSafely
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -29,7 +31,7 @@ import kotlinx.coroutines.launch
 class SearchFragment : Fragment() {
     private lateinit var binding : FragmentSearchBinding
     private lateinit var adapter : SearchAdapter
-
+    private val recentAnimeViewModel : RecentAnimeViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,13 +49,11 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         rotate_animation(binding.RecentProgressBar)
-        val recentAnimeViewModel = ViewModelProvider(this)[RecentAnimeViewModel::class.java]
+
         binding.progressView.isVisible = false
         val text = arguments?.getString("animeQuery")
         adapter = SearchAdapter(null,requireContext())
         binding.searchRecyclerView.layoutManager = GridLayoutManager(requireContext(),2)
-
-
         binding.editSearchAnime.addTextChangedListener(object : TextWatcher{
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -100,9 +100,8 @@ private fun searchQuery(search: String, recentAnimeViewModel: RecentAnimeViewMod
             binding.searchRecyclerView.adapter = adapter
             binding.searchRecyclerView.adapter?.notifyDataSetChanged()
 
-            adapter.onItemClick = {
-                val extra = SearchFragmentDirections.actionSearchFragmentToDetailsFragment(it.animeId)
-                findNavController().navigate(extra)
+            adapter.onItemClick = {it->
+                findNavController().navigateSafely(R.id.action_searchFragment_to_detailsFragment,Bundle().apply { putString("animeId",it.animeId)  })
             }
 
         }else{

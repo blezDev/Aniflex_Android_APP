@@ -18,6 +18,7 @@ import com.blez.aniplex_clone.Adapter.TopAiringAdapter
 import com.blez.aniplex_clone.Presentation.recentanimerelease.RecentAnimeViewModel
 import com.blez.aniplex_clone.R
 import com.blez.aniplex_clone.databinding.FragmentTopAiringBinding
+import com.blez.aniplex_clone.utils.navigateSafely
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -85,7 +86,7 @@ class TopAiringFragment : Fragment() {
 
             }*/
         binding.searchBTN.setOnClickListener {
-            findNavController().navigate(R.id.action_topAiringFragment_to_searchFragment)
+            findNavController().navigateSafely(R.id.action_topAiringFragment_to_searchFragment)
         }
 
     }

@@ -19,6 +19,7 @@ import com.blez.aniplex_clone.Adapter.PopularAnimeAdapter
 import com.blez.aniplex_clone.Presentation.recentanimerelease.RecentAnimeViewModel
 import com.blez.aniplex_clone.R
 import com.blez.aniplex_clone.databinding.FragmentPopularAnimeBinding
+import com.blez.aniplex_clone.utils.navigateSafely
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -62,7 +63,7 @@ class PopularAnimeFragment : Fragment() {
 
         adapter.onItemClickText = {
             val bundle = bundleOf("animeId" to it?.animeId)
-            findNavController()?.navigate(R.id.action_popularAnimeFragment_to_detailsFragment,bundle)
+            findNavController()?.navigateSafely(R.id.action_popularAnimeFragment_to_detailsFragment,bundle)
         }
 
 
@@ -88,7 +89,7 @@ class PopularAnimeFragment : Fragment() {
             }
         */
         binding.searchBTN.setOnClickListener {
-            findNavController().navigate(R.id.action_popularAnimeFragment_to_searchFragment)
+            findNavController().navigateSafely(R.id.action_popularAnimeFragment_to_searchFragment)
         }
     }
     fun rotate_animation( ImageView : ImageView?){

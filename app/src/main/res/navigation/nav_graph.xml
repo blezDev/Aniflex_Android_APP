@@ -19,12 +19,11 @@
             android:id="@+id/action_recentReleaseFragment_to_topAiringFragment"
             app:destination="@id/topAiringFragment" />
         <action
-            android:id="@+id/action_recentReleaseFragment_to_detailsFragment"
-            app:destination="@id/detailsFragment"
-            app:popUpTo="@id/recentReleaseFragment" />
-        <action
             android:id="@+id/action_recentReleaseFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_recentReleaseFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/movieFragment"
@@ -64,9 +63,9 @@
         android:name="com.blez.aniplex_clone.Presentation.detailsAnime.DetailsFragment"
         android:label="fragment_details"
         tools:layout="@layout/fragment_details" >
-        <argument
-            android:name="animeId"
-            app:argType="string" />
+        <action
+            android:id="@+id/action_detailsFragment_to_recentReleaseFragment"
+            app:destination="@id/recentReleaseFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"

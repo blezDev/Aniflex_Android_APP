@@ -9,7 +9,6 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailsViewModel @Inject constructor(private val animeRepository: AnimeRepository) : ViewModel() {
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     fun getAnimeDetails(animeId : String) = animeRepository.getAnimeDetails(animeId)
 
     fun getVideoLink(episodeID : String) = animeRepository.getVideoData(episodeID)

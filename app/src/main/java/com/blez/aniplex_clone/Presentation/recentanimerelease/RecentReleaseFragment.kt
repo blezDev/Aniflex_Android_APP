@@ -12,25 +12,24 @@ import android.widget.ImageView
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.*
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.blez.aniplex_clone.Adapter.RecentAnimeAdapter
-import com.blez.aniplex_clone.Presentation.common.VideoActivity
 import com.blez.aniplex_clone.Presentation.exoplayer.VideoPlayerActivity
 import com.blez.aniplex_clone.R
-import com.blez.aniplex_clone.data.VideoData
 import com.blez.aniplex_clone.databinding.FragmentRecentAnimeBinding
 import com.blez.aniplex_clone.paging.LoaderAdapter
 import com.blez.aniplex_clone.utils.Constants.IN_APP
 import com.blez.aniplex_clone.utils.Constants.VLC
 import com.blez.aniplex_clone.utils.SettingManager
+import com.blez.aniplex_clone.utils.navigateSafely
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.distinctUntilChanged
-import retrofit2.Response
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class RecentReleaseFragment : Fragment() {
@@ -44,12 +43,14 @@ class RecentReleaseFragment : Fragment() {
     ): View {
 
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_recent_anime, container, false)
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_recent_anime, container, false)
         // Inflate the layout for this fragment
         adapter = RecentAnimeAdapter(requireContext())
-        Log.e("TAG","onCreateView is called")
+        Log.e("TAG", "onCreateView is called")
 
-        val recentAnimeViewModel = ViewModelProvider(this).get(RecentAnimeViewModel::class.java)//Contains the page number and retrofit instance
+        val recentAnimeViewModel =
+            ViewModelProvider(this).get(RecentAnimeViewModel::class.java)//Contains the page number and retrofit instance
         settingManager = SettingManager(requireContext())
         binding.progressView.visibility = View.VISIBLE
         rotate_animation(binding.RecentProgressBar)
@@ -69,18 +70,16 @@ class RecentReleaseFragment : Fragment() {
                     startActivity(intent)
                 }
                 VLC -> {
-                 CoroutineScope(Dispatchers.Main).launch {
-                        val response = recentAnimeViewModel.getVideoLink(it?.episodeId.toString()).await()
+                    CoroutineScope(Dispatchers.Main).launch {
+                        val response =
+                            recentAnimeViewModel.getVideoLink(it?.episodeId.toString()).await()
                         binding.progressView.isVisible = false
                         val it = response
                         binding.RecentProgressBar.visibility = View.GONE
                         val uri = Uri.parse(it?.sources_bk?.get(0)?.file.toString())
-                        val intent = Intent(Intent.ACTION_VIEW,uri)
+                        val intent = Intent(Intent.ACTION_VIEW, uri)
                         requireContext().startActivity(intent)
                     }
-
-
-
 
 
                 }
@@ -91,9 +90,11 @@ class RecentReleaseFragment : Fragment() {
 
 
 
-        adapter.onItemClickText = {
-            val extras = RecentReleaseFragmentDirections.actionRecentReleaseFragmentToDetailsFragment(it?.animeId!!)
-            findNavController().navigate(extras)
+        adapter.onItemClickText = { it ->
+
+            findNavController().navigateSafely(
+                R.id.action_recentReleaseFragment_to_detailsFragment,
+                Bundle().apply { putString("animeId", it?.animeId) })
             Log.e("TAG", "onItemTextClicked on RecentFragment")
         }
         val animeView = binding.RecentAnimeReleaseRecyclerView
@@ -101,21 +102,21 @@ class RecentReleaseFragment : Fragment() {
         lifecycleScope.launch {
             recentAnimeViewModel.list.distinctUntilChanged()
                 .collect {
-                binding.progressView.visibility = View.INVISIBLE
-                if (it != null) {
-                    adapter.submitData(lifecycle, it)
-                    animeView.adapter = adapter.withLoadStateHeaderAndFooter(
-                        header = LoaderAdapter(),
-                        footer = LoaderAdapter()
-                    )
+                    binding.progressView.visibility = View.INVISIBLE
+                    if (it != null) {
+                        adapter.submitData(lifecycle, it)
+                        animeView.adapter = adapter.withLoadStateHeaderAndFooter(
+                            header = LoaderAdapter(),
+                            footer = LoaderAdapter()
+                        )
+                    }
                 }
-            }
         }
 
 
-    binding.searchBTN.setOnClickListener {
-        findNavController().navigate(R.id.action_recentReleaseFragment_to_searchFragment)
-    }
+        binding.searchBTN.setOnClickListener {
+            findNavController().navigateSafely(R.id.action_recentReleaseFragment_to_searchFragment)
+        }
 
         return binding.root
     }
