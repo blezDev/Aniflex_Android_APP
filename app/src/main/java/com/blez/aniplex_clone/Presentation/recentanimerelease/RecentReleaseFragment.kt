@@ -113,7 +113,9 @@ class RecentReleaseFragment : Fragment() {
         }
 
 
-
+    binding.searchBTN.setOnClickListener {
+        findNavController().navigate(R.id.action_recentReleaseFragment_to_searchFragment)
+    }
 
         return binding.root
     }

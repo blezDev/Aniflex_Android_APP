@@ -11,6 +11,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.blez.aniplex_clone.Adapter.AnimeMoviesAdapter
 import com.blez.aniplex_clone.Presentation.recentanimerelease.RecentAnimeViewModel
@@ -70,6 +71,9 @@ class MovieFragment : Fragment() {
                 movieView.layoutManager = GridLayoutManager(requireContext(),2)
 
             }*/
+        binding.searchBTN.setOnClickListener {
+            findNavController().navigate(R.id.action_movieFragment_to_searchFragment)
+        }
 
     }
     fun rotate_animation( ImageView : ImageView?){

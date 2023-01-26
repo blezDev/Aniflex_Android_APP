@@ -72,7 +72,7 @@ class DetailsFragment : Fragment() {
                 releasedDateText.text = "Released Date : ${details?.releasedDate}"
                 otherNames.text = "Other Name : ${details?.otherNames}"
                 genresText.text = "Genres :${details?.genres?.joinToString(", ").toString()}"
-                Glide.with(requireContext()).load(details?.animeImg.toString()).into(animeImg)
+                Glide.with(requireActivity().applicationContext).load(details?.animeImg.toString()).into(animeImg)
                 synopsisText.text = details?.synopsis
                 adapter = EpisodeListAdapter(details?.episodesList!!)
                 episodeListRecylcerView.adapter = adapter

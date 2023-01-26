@@ -92,13 +92,12 @@ class VideoPlayerActivity : AppCompatActivity() {
 
 
         player = ExoPlayer.Builder(this@VideoPlayerActivity)
+
             .build()
             .also { exoPlayer ->
                 exoPlayer.setMediaSource(hlsMediaSource)
                 binding.exoPlayerPlayer.player = exoPlayer
-                exoPlayer.prepare()
                 exoPlayer.seekTo(playbackPosition)
-
                 window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
             }
 
@@ -111,12 +110,13 @@ class VideoPlayerActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-
+    player?.play()
         Log.e("TAG","onResume is called from exoplayer Fragment")
     }
 
     override fun onPause() {
         super.onPause()
+        player?.pause()
         Log.e("TAG","OnPause is called from exoplayer Fragment")
     }
 
@@ -127,13 +127,14 @@ class VideoPlayerActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        releasePlayer()
         Log.e("TAG","OnDestroy is called from exoplayer Fragment")
     }
 
 
     override fun onStop() {
         Log.e("TAG","OnStop is called from exoplayer Fragment")
-        releasePlayer()
+       player?.pause()
 
 
 

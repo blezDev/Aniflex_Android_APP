@@ -53,9 +53,7 @@ class SearchFragment : Fragment() {
         adapter = SearchAdapter(null,requireContext())
         binding.searchRecyclerView.layoutManager = GridLayoutManager(requireContext(),2)
 
-        if(adapter.searchAnimeList?.size == null){
-            binding.kumaraImg.isVisible = true
-        }
+
         binding.editSearchAnime.addTextChangedListener(object : TextWatcher{
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -75,13 +73,6 @@ class SearchFragment : Fragment() {
 
         })
 
-
-
-
-
-
-
-
         super.onViewCreated(view, savedInstanceState)
     }
     fun rotate_animation( ImageView : ImageView?){
@@ -96,7 +87,7 @@ class SearchFragment : Fragment() {
     }
 
 private fun searchQuery(search: String, recentAnimeViewModel: RecentAnimeViewModel){
-    binding.kumaraImg.isVisible = false
+
     binding.progressView.isVisible = true
     CoroutineScope(Dispatchers.Main).launch {
         val it = recentAnimeViewModel.getSearchData(search).await()
@@ -115,7 +106,7 @@ private fun searchQuery(search: String, recentAnimeViewModel: RecentAnimeViewMod
             }
 
         }else{
-            binding.kumaraImg.isVisible = true
+
             binding.progressView.visibility = View.INVISIBLE
         }
     }
