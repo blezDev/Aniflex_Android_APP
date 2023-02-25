@@ -17,13 +17,29 @@
             android:id="@+id/exo_player_player"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:keepScreenOn="true"
+
+            app:show_buffering="always"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:resize_mode="fill"
-            android:keepScreenOn="true"
-            app:use_controller="true"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:resize_mode="fill"
+            app:use_controller="true">
 
+
+        </com.google.android.exoplayer2.ui.StyledPlayerView>
+
+        <ProgressBar
+            android:id="@+id/videoProgressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

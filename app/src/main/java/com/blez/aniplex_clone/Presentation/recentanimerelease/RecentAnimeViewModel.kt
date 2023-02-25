@@ -18,7 +18,7 @@ class RecentAnimeViewModel @Inject constructor(private val animeRepository: Anim
     val topAiringList = animeRepository.getTopAiringPager().flow.cachedIn(viewModelScope)
     val movieDataList = animeRepository.getMoviePager().flow.cachedIn(viewModelScope)
 
-    fun getVideoLink(episodeID : String) = animeRepository.getVideoData(episodeID)
+ suspend   fun getVideoLink(episodeID : String) = animeRepository.getVideoData(episodeID)
 
     fun getSearchData(animeQuery : String) = animeRepository.getSearchData(animeQuery)
 

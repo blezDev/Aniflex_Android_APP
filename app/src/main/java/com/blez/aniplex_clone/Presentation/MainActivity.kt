@@ -13,6 +13,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.GravityCompat
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -85,20 +86,31 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
+
+        binding.floatingActionButton.setOnClickListener {
+            navController.navigate(R.id.searchFragment)
+
+            Log.e("TAG", navController.currentBackStackEntry?.id .toString())
+        }
         navController.addOnDestinationChangedListener { _, destination, _ ->
 
             when (destination.id) {
                 R.id.detailsFragment -> {
                     supportActionBar?.hide()
+                    binding.floatingActionButton.isVisible = false
 
                 }
                 R.id.searchFragment->{
+                    binding.floatingActionButton.isVisible = false
                     supportActionBar?.hide()
+                }
+                R.id.settingsFragment->{
+                    binding.floatingActionButton.isVisible = false
                 }
 
 
                 else -> {
-
+                    binding.floatingActionButton.isVisible = true
                     supportActionBar?.show()
                 }
 

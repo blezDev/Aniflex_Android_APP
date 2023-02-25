@@ -85,9 +85,7 @@ class TopAiringFragment : Fragment() {
 
 
             }*/
-        binding.searchBTN.setOnClickListener {
-            findNavController().navigateSafely(R.id.action_topAiringFragment_to_searchFragment)
-        }
+
 
     }
     fun rotate_animation( ImageView : ImageView?){

@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -54,24 +55,11 @@ class SearchFragment : Fragment() {
         val text = arguments?.getString("animeQuery")
         adapter = SearchAdapter(null,requireContext())
         binding.searchRecyclerView.layoutManager = GridLayoutManager(requireContext(),2)
-        binding.editSearchAnime.addTextChangedListener(object : TextWatcher{
+        binding.editSearchAnime.addTextChangedListener {
+            searchQuery(it.toString(),recentAnimeViewModel)
+        }
 
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
-                Log.e("TAG","beforeTextChanged is called")
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-                Log.e("TAG","OnTextChanged is called")
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                searchQuery(s.toString(),recentAnimeViewModel)
-                Log.e("TAG","afterTextChanged is called")
-            }
-
-        })
 
         super.onViewCreated(view, savedInstanceState)
     }

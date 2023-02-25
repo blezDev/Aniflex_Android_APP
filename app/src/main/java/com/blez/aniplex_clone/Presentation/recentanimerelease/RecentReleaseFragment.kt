@@ -25,10 +25,12 @@ import com.blez.aniplex_clone.utils.Constants.IN_APP
 import com.blez.aniplex_clone.utils.Constants.VLC
 import com.blez.aniplex_clone.utils.SettingManager
 import com.blez.aniplex_clone.utils.navigateSafely
+import com.blogspot.atifsoftwares.animatoolib.Animatoo
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -43,14 +45,32 @@ class RecentReleaseFragment : Fragment() {
     ): View {
 
 
-        binding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_recent_anime, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_recent_anime, container, false)
         // Inflate the layout for this fragment
+
+        return binding.root
+    }
+
+
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+
+    }
+
+    fun rotate_animation(ImageView: ImageView?) {
+        val rotate = AnimationUtils.loadAnimation(requireContext(), R.anim.rotate_clockwise)
+        ImageView?.startAnimation(rotate)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         adapter = RecentAnimeAdapter(requireContext())
         Log.e("TAG", "onCreateView is called")
-
-        val recentAnimeViewModel =
-            ViewModelProvider(this).get(RecentAnimeViewModel::class.java)//Contains the page number and retrofit instance
+        binding.progressView.isVisible = true
+        val recentAnimeViewModel = ViewModelProvider(this).get(RecentAnimeViewModel::class.java)//Contains the page number and retrofit instance
         settingManager = SettingManager(requireContext())
         binding.progressView.visibility = View.VISIBLE
         rotate_animation(binding.RecentProgressBar)
@@ -68,11 +88,11 @@ class RecentReleaseFragment : Fragment() {
                     val intent = Intent(context, VideoPlayerActivity::class.java)
                     intent.putExtra("episodeId", it?.episodeId)
                     startActivity(intent)
+
                 }
                 VLC -> {
                     CoroutineScope(Dispatchers.Main).launch {
-                        val response =
-                            recentAnimeViewModel.getVideoLink(it?.episodeId.toString()).await()
+                        val response = recentAnimeViewModel.getVideoLink(it?.episodeId.toString())
                         binding.progressView.isVisible = false
                         val it = response
                         binding.RecentProgressBar.visibility = View.GONE
@@ -101,6 +121,9 @@ class RecentReleaseFragment : Fragment() {
         animeView.layoutManager = GridLayoutManager(requireContext(), 2)
         lifecycleScope.launch {
             recentAnimeViewModel.list.distinctUntilChanged()
+                .onStart {
+                    binding.progressView.isVisible = false
+                }
                 .collect {
                     binding.progressView.visibility = View.INVISIBLE
                     if (it != null) {
@@ -114,27 +137,8 @@ class RecentReleaseFragment : Fragment() {
         }
 
 
-        binding.searchBTN.setOnClickListener {
-            findNavController().navigateSafely(R.id.action_recentReleaseFragment_to_searchFragment)
-        }
-
-        return binding.root
-    }
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-
-    }
-
-    fun rotate_animation(ImageView: ImageView?) {
-        val rotate = AnimationUtils.loadAnimation(requireContext(), R.anim.rotate_clockwise)
-        ImageView?.startAnimation(rotate)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
     }
 }

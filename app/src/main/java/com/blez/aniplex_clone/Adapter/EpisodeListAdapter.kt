@@ -1,16 +1,19 @@
 package com.blez.aniplex_clone.Adapter
 
 
+import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.blez.aniplex_clone.R
 import com.blez.aniplex_clone.data.Episodes
-import com.blez.aniplex_clone.data.RecentData
 import com.blez.aniplex_clone.databinding.DetailListBinding
+import com.blez.aniplex_clone.db.WatHistory
 
-class EpisodeListAdapter(private val episodesList :List<Episodes>) : RecyclerView.Adapter<EpisodeListAdapter.ItemView>() {
+class EpisodeListAdapter(private val episodesList :List<Episodes>,val episodeHistory : List<WatHistory>? = null) : RecyclerView.Adapter<EpisodeListAdapter.ItemView>() {
     private lateinit var binding : DetailListBinding
     var onItemClickEpisode : ((Episodes?) -> Unit)? = null
     var onItemClickDownload : ((Episodes?) -> Unit)? = null
@@ -23,18 +26,37 @@ class EpisodeListAdapter(private val episodesList :List<Episodes>) : RecyclerVie
 
     override fun onBindViewHolder(holder: ItemView, position: Int) {
         holder.setIsRecyclable(false)
-       with(binding){
-          episodeText.text = "Episode ${episodesList[position].episodeNum}"
 
-           episodeText.setOnClickListener {
-               onItemClickEpisode?.invoke(episodesList[position])
-           }
+        try {
 
-          downloadBTN.setOnClickListener {
-              onItemClickDownload?.invoke(episodesList[position])
+            val data = episodesList[position].episodeId
+            if (episodeHistory != null)
+            {
+                binding.episodeText.setTextColor(Color.parseColor("#808080"))
+            }else
+                binding.episodeText.setTextColor(Color.parseColor("#FF000000"))
 
-           }
-       }
+
+            with(binding){
+                episodeText.text = "Episode ${episodesList[position].episodeNum}"
+
+                episodeText.setOnClickListener {
+                    onItemClickEpisode?.invoke(episodesList[position])
+                }
+
+                downloadBTN.setOnClickListener {
+                    onItemClickDownload?.invoke(episodesList[position])
+
+                }
+            }
+
+        }catch (e : Exception)
+        {
+            Log.e("TAG",e.message.toString())
+        }
+
+
+
     }
 
     override fun getItemCount(): Int {

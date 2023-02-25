@@ -66,6 +66,9 @@
         <action
             android:id="@+id/action_detailsFragment_to_recentReleaseFragment"
             app:destination="@id/recentReleaseFragment" />
+        <action
+            android:id="@+id/action_detailsFragment_to_videoPlayerActivity"
+            app:destination="@id/videoPlayerActivity" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -84,4 +87,8 @@
         android:name="com.blez.aniplex_clone.Presentation.setting.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
+    <activity
+        android:id="@+id/videoPlayerActivity"
+        android:name="com.blez.aniplex_clone.Presentation.exoplayer.VideoPlayerActivity"
+        android:label="VideoPlayerActivity" />
 </navigation>

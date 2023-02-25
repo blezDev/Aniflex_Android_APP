@@ -1,8 +1,12 @@
 package com.blez.aniplex_clone.di
 
 import android.content.Context
+import androidx.room.Room
 import com.blez.aniplex_clone.Network.AnimeInterface
 import com.blez.aniplex_clone.R
+import com.blez.aniplex_clone.db.AppDB
+import com.blez.aniplex_clone.db.dao.WatchedDao
+import com.blez.aniplex_clone.utils.Constants
 import com.blez.aniplex_clone.utils.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides
@@ -34,6 +38,24 @@ class NetworkModule {
             .build()
 
     }
+
+    @Provides
+    @Singleton
+    fun providesWatchedDao(appDB: AppDB) : WatchedDao{
+        return appDB.watchedDao()
+    }
+
+    @Provides
+    @Singleton
+    fun providesAppDB(@ApplicationContext context: Context) : AppDB{
+        return Room.databaseBuilder(context,
+        AppDB::class.java,
+        Constants.DB_NAME).build()
+    }
+
+    @Provides
+    @Singleton
+    fun providesApplicationContext(@ApplicationContext context: Context) = context
 
     @Provides
     @Singleton

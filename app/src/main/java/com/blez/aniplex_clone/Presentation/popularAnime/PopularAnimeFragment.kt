@@ -88,9 +88,7 @@ class PopularAnimeFragment : Fragment() {
 
             }
         */
-        binding.searchBTN.setOnClickListener {
-            findNavController().navigateSafely(R.id.action_popularAnimeFragment_to_searchFragment)
-        }
+
     }
     fun rotate_animation( ImageView : ImageView?){
 

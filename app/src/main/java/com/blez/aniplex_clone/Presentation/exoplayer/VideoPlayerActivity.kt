@@ -3,8 +3,6 @@ package com.blez.aniplex_clone.Presentation.exoplayer
 import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.WindowManager
 import android.widget.Toast
@@ -12,21 +10,23 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.blez.aniplex_clone.R
 import com.blez.aniplex_clone.data.VideoData
 import com.blez.aniplex_clone.databinding.ActivityVideoPlayerExoBinding
 import com.google.android.exoplayer2.C
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.source.hls.HlsMediaSource
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
 import com.google.android.exoplayer2.util.MimeTypes
 import com.google.android.exoplayer2.util.Util
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -49,26 +49,45 @@ class VideoPlayerActivity : AppCompatActivity() {
         exoViewModel = ViewModelProvider(this)[ExoViewModel::class.java]
         val episodeId  = intent.getStringExtra("episodeId") ?: ""
         supportActionBar?.hide()
+        exoViewModel.getVideoData(episodeId)
+        subscribeToUI()
 
-        CoroutineScope(Dispatchers.Main).launch {
-            val data = exoViewModel.getVideoData(episodeId).await()
-
-            try {
-                inititalizePlayer(data!!)
-
-            }catch (e:Exception){
-                Handler(Looper.getMainLooper()).post {
-                    // write your code here
-                    Toast.makeText(this@VideoPlayerActivity, "Some error occurred", Toast.LENGTH_SHORT).show()
-                }
-
-            }
-
-            hideSystemUi()
-        }
 
 
     }
+
+    private fun subscribeToUI(){
+        lifecycleScope.launch(Dispatchers.Main) {
+            exoViewModel.videoFlow.collect{events->
+                when(events){
+                    is ExoViewModel.SetupEventForVideo.VideoLinkLoading->{
+                        binding.videoProgressBar.isVisible = true
+                    }
+                   is ExoViewModel.SetupEventForVideo.VideoLink->{
+                       binding.videoProgressBar.isVisible = false
+                    /*   videoPlayerInitalize(events.data)*/
+                       videoPlayerInitalize(events.data)
+
+                    }
+                    else-> Unit
+                }
+
+            }
+        }
+
+    }
+
+    private fun videoPlayerInitalize(data: VideoData) {
+        try {
+            inititalizePlayer(data)
+
+        }catch (e:Exception){
+                Toast.makeText(this@VideoPlayerActivity, "Some error occurred", Toast.LENGTH_SHORT).show()
+        }
+
+        hideSystemUi()
+    }
+
 
 
 
@@ -91,17 +110,26 @@ class VideoPlayerActivity : AppCompatActivity() {
             .createMediaSource(MediaItem.fromUri(data.sources_bk.get(0).file))
 
 
-        player = ExoPlayer.Builder(this@VideoPlayerActivity)
+        player = ExoPlayer.Builder(this)
 
             .build()
             .also { exoPlayer ->
                 exoPlayer.setMediaSource(hlsMediaSource)
                 binding.exoPlayerPlayer.player = exoPlayer
                 exoPlayer.seekTo(playbackPosition)
+                exoPlayer.prepare()
+                exoPlayer.playWhenReady = true
+
+
+
                 window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
             }
 
+
     }
+
+
+
 
     override fun onStart() {
         super.onStart()

@@ -72,9 +72,7 @@ class MovieFragment : Fragment() {
                 movieView.layoutManager = GridLayoutManager(requireContext(),2)
 
             }*/
-        binding.searchBTN.setOnClickListener {
-            findNavController().navigateSafely(R.id.action_movieFragment_to_searchFragment)
-        }
+
 
     }
     fun rotate_animation( ImageView : ImageView?){

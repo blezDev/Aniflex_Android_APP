@@ -141,7 +141,7 @@
             tools:layout_editor_absoluteX="-34dp" />
 
 
-        <!--<androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/progressView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -157,6 +157,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginTop="5dp"
+
                 android:scaleType="fitXY"
                 android:src="@mipmap/ic_progressbar"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -174,7 +175,7 @@
                 app:layout_constraintEnd_toEndOf="@+id/detailProgressBar"
                 app:layout_constraintStart_toStartOf="@+id/detailProgressBar"
                 app:layout_constraintTop_toBottomOf="@+id/detailProgressBar" />
-        </androidx.constraintlayout.widget.ConstraintLayout>-->
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
