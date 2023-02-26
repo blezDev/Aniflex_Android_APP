@@ -69,6 +69,9 @@ dependencies {
     //VideoPLayer
     implementation 'com.google.android.exoplayer:exoplayer:2.18.3'
     implementation 'com.google.android.exoplayer:exoplayer-hls:2.18.3'
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.18.3'
+    implementation 'com.google.android.exoplayer:exoplayer-ui:2.18.3'
+    implementation 'com.google.android.exoplayer:exoplayer-smoothstreaming:2.18.3'
     def paging_version = "3.1.1"
     implementation "androidx.paging:paging-runtime:$paging_version"
     //neutomorphism

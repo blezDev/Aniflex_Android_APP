@@ -3,6 +3,7 @@ package com.blez.aniplex_clone.Presentation.detailsAnime
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blez.aniplex_clone.data.AnimeDetails
+import com.blez.aniplex_clone.db.WatHistory
 import com.blez.aniplex_clone.repository.AnimeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
@@ -25,8 +26,11 @@ class DetailsViewModel @Inject constructor(private val animeRepository: AnimeRep
 
     fun getAnimeDetails(animeId : String) = viewModelScope.launch(Dispatchers.Main) {
         val detail = animeRepository.getAnimeDetails(animeId) ?: return@launch
+
         _details.value = SetupEvent.AnimeDetailsData(detail)
   }
+
+
 
 
 

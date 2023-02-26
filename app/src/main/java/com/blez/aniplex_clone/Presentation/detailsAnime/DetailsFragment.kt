@@ -1,7 +1,6 @@
 package com.blez.aniplex_clone.Presentation.detailsAnime
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,8 +15,6 @@ import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.LifecycleCoroutineScope
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,18 +23,15 @@ import com.blez.aniplex_clone.Presentation.exoplayer.VideoPlayerActivity
 import com.blez.aniplex_clone.R
 import com.blez.aniplex_clone.data.AnimeDetails
 import com.blez.aniplex_clone.databinding.FragmentDetailsBinding
-import com.blez.aniplex_clone.db.WatHistory
 import com.blez.aniplex_clone.db.dao.WatchedDao
-import com.blez.aniplex_clone.utils.Constants
 import com.blez.aniplex_clone.utils.SettingManager
 import com.blez.aniplex_clone.utils.navigateSafely
 import com.blez.aniplex_clone.utils.rotateView
-import com.blogspot.atifsoftwares.animatoolib.Animatoo
 import com.bumptech.glide.Glide
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.ViewModelLifecycle
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -212,7 +206,7 @@ class DetailsFragment : Fragment() {
             Glide.with(requireActivity().applicationContext)
                 .load(details.animeImg.toString()).into(animeImg)
             synopsisText.text = details.synopsis
-            adapter = EpisodeListAdapter(details.episodesList)
+            adapter = EpisodeListAdapter(details.episodesList, listOf())
 
             episodeListRecylcerView.adapter = adapter
             episodeListRecylcerView.layoutManager = LinearLayoutManager(requireContext())

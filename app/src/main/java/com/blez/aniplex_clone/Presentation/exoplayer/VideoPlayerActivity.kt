@@ -22,6 +22,8 @@ import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.source.hls.HlsMediaSource
+import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
 import com.google.android.exoplayer2.util.MimeTypes
@@ -36,10 +38,11 @@ class VideoPlayerActivity : AppCompatActivity() {
     private var player : ExoPlayer? = null
     private lateinit var binding : ActivityVideoPlayerExoBinding
     private lateinit var exoViewModel: ExoViewModel
-
+    private val isPlaying get() = player?.isPlaying ?: false
     private var playWhenReady = true
     private var currentWindow = 0
     private var playbackPosition: Long = 0
+
 
 
 
@@ -108,19 +111,23 @@ class VideoPlayerActivity : AppCompatActivity() {
         dataSourceFactory.createDataSource()
         val hlsMediaSource = HlsMediaSource.Factory(dataSourceFactory)
             .createMediaSource(MediaItem.fromUri(data.sources_bk.get(0).file))
-
+            val trackSelection = DefaultTrackSelector(this)
+        trackSelection.setParameters(
+            trackSelection.buildUponParameters()
+                .setPreferredAudioLanguage(null)
+                .build()
+        )
 
         player = ExoPlayer.Builder(this)
-
+            .setTrackSelector(trackSelection)
             .build()
             .also { exoPlayer ->
                 exoPlayer.setMediaSource(hlsMediaSource)
-                binding.exoPlayerPlayer.player = exoPlayer
-                exoPlayer.seekTo(playbackPosition)
+
                 exoPlayer.prepare()
+                exoPlayer.seekTo(0, 0L)
                 exoPlayer.playWhenReady = true
-
-
+                binding.exoPlayerPlayer.player = exoPlayer
 
                 window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
             }
@@ -138,13 +145,13 @@ class VideoPlayerActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-    player?.play()
+        player?.play()
         Log.e("TAG","onResume is called from exoplayer Fragment")
     }
 
     override fun onPause() {
         super.onPause()
-        player?.pause()
+
         Log.e("TAG","OnPause is called from exoplayer Fragment")
     }
 
@@ -162,10 +169,7 @@ class VideoPlayerActivity : AppCompatActivity() {
 
     override fun onStop() {
         Log.e("TAG","OnStop is called from exoplayer Fragment")
-       player?.pause()
-
-
-
+        player?.pause()
         super.onStop()
     }
 

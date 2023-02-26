@@ -12,6 +12,7 @@ import android.widget.ImageView
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -38,6 +39,7 @@ class RecentReleaseFragment : Fragment() {
     private lateinit var binding: FragmentRecentAnimeBinding
     private lateinit var adapter: RecentAnimeAdapter
     private lateinit var settingManager: SettingManager
+    private val recentAnimeViewModel : RecentAnimeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,11 +56,7 @@ class RecentReleaseFragment : Fragment() {
 
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
-
-    }
 
     fun rotate_animation(ImageView: ImageView?) {
         val rotate = AnimationUtils.loadAnimation(requireContext(), R.anim.rotate_clockwise)
@@ -70,7 +68,7 @@ class RecentReleaseFragment : Fragment() {
         adapter = RecentAnimeAdapter(requireContext())
         Log.e("TAG", "onCreateView is called")
         binding.progressView.isVisible = true
-        val recentAnimeViewModel = ViewModelProvider(this).get(RecentAnimeViewModel::class.java)//Contains the page number and retrofit instance
+
         settingManager = SettingManager(requireContext())
         binding.progressView.visibility = View.VISIBLE
         rotate_animation(binding.RecentProgressBar)
@@ -91,7 +89,7 @@ class RecentReleaseFragment : Fragment() {
 
                 }
                 VLC -> {
-                    CoroutineScope(Dispatchers.Main).launch {
+                    lifecycleScope.launch(Dispatchers.Main) {
                         val response = recentAnimeViewModel.getVideoLink(it?.episodeId.toString())
                         binding.progressView.isVisible = false
                         val it = response
@@ -113,8 +111,7 @@ class RecentReleaseFragment : Fragment() {
         adapter.onItemClickText = { it ->
 
             findNavController().navigateSafely(
-                R.id.action_recentReleaseFragment_to_detailsFragment,
-                Bundle().apply { putString("animeId", it?.animeId) })
+                R.id.action_recentReleaseFragment_to_detailsFragment, Bundle().apply { putString("animeId", it?.animeId) })
             Log.e("TAG", "onItemTextClicked on RecentFragment")
         }
         val animeView = binding.RecentAnimeReleaseRecyclerView

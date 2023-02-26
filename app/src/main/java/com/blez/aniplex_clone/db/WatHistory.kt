@@ -7,9 +7,9 @@ import com.blez.aniplex_clone.utils.Constants.DB_TABLE_NAME_WATCHED
 
 @Entity(tableName = DB_TABLE_NAME_WATCHED)
 data class WatHistory(
-    @PrimaryKey(autoGenerate = true)
-        val idNum : Int = 0,
+    @PrimaryKey(autoGenerate = false)
+        val idNum : Int = 1,
       val animeId : String,
-     val watchedList : String,
+     val watchedEpiID : String,
 
 )

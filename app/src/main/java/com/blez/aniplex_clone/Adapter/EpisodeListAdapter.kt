@@ -13,7 +13,7 @@ import com.blez.aniplex_clone.data.Episodes
 import com.blez.aniplex_clone.databinding.DetailListBinding
 import com.blez.aniplex_clone.db.WatHistory
 
-class EpisodeListAdapter(private val episodesList :List<Episodes>,val episodeHistory : List<WatHistory>? = null) : RecyclerView.Adapter<EpisodeListAdapter.ItemView>() {
+class EpisodeListAdapter(private val episodesList :List<Episodes>,val episodeHistory : List<WatHistory>) : RecyclerView.Adapter<EpisodeListAdapter.ItemView>() {
     private lateinit var binding : DetailListBinding
     var onItemClickEpisode : ((Episodes?) -> Unit)? = null
     var onItemClickDownload : ((Episodes?) -> Unit)? = null
@@ -30,7 +30,8 @@ class EpisodeListAdapter(private val episodesList :List<Episodes>,val episodeHis
         try {
 
             val data = episodesList[position].episodeId
-            if (episodeHistory != null)
+            if (episodeHistory.isNotEmpty())
+            if (episodeHistory.equals(data))
             {
                 binding.episodeText.setTextColor(Color.parseColor("#808080"))
             }else

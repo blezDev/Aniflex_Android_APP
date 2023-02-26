@@ -51,6 +51,10 @@ class AnimeRepository @Inject constructor( val animeAPI: AnimeInterface, val dao
 
     fun downloadLink(episodeUrl : String) = CoroutineScope(Dispatchers.IO).async { animeAPI.getDownloadLink(episodeUrl)}
 
+    suspend fun insertWatchHistory(watHistory: WatHistory)  = dao.insertDate(watHistory)
+
+
+
 
 
 
