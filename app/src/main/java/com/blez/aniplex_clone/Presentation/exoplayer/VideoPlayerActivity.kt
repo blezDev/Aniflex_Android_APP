@@ -117,6 +117,7 @@ class VideoPlayerActivity : AppCompatActivity() {
                 .setPreferredAudioLanguage(null)
                 .build()
         )
+     
 
         player = ExoPlayer.Builder(this)
             .setTrackSelector(trackSelection)

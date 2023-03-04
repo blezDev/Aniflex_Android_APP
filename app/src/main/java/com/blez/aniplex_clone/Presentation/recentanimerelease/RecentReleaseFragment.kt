@@ -13,7 +13,6 @@ import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -26,12 +25,8 @@ import com.blez.aniplex_clone.utils.Constants.IN_APP
 import com.blez.aniplex_clone.utils.Constants.VLC
 import com.blez.aniplex_clone.utils.SettingManager
 import com.blez.aniplex_clone.utils.navigateSafely
-import com.blogspot.atifsoftwares.animatoolib.Animatoo
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -39,7 +34,7 @@ class RecentReleaseFragment : Fragment() {
     private lateinit var binding: FragmentRecentAnimeBinding
     private lateinit var adapter: RecentAnimeAdapter
     private lateinit var settingManager: SettingManager
-    private val recentAnimeViewModel : RecentAnimeViewModel by viewModels()
+    private val recentAnimeViewModel: RecentAnimeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,15 +42,12 @@ class RecentReleaseFragment : Fragment() {
     ): View {
 
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_recent_anime, container, false)
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_recent_anime, container, false)
         // Inflate the layout for this fragment
 
         return binding.root
     }
-
-
-
-
 
 
     fun rotate_animation(ImageView: ImageView?) {
@@ -72,8 +64,8 @@ class RecentReleaseFragment : Fragment() {
         settingManager = SettingManager(requireContext())
         binding.progressView.visibility = View.VISIBLE
         rotate_animation(binding.RecentProgressBar)
-
-
+        recentAnimeViewModel.getRecentPagingData()
+        ObserveUIChanges()
         adapter.onItemClickImg = {
             binding.RecentProgressBar.visibility = View.VISIBLE
             var videoPref = settingManager.getVideoPrefs()
@@ -106,36 +98,46 @@ class RecentReleaseFragment : Fragment() {
 
         }
 
-
-
         adapter.onItemClickText = { it ->
 
             findNavController().navigateSafely(
-                R.id.action_recentReleaseFragment_to_detailsFragment, Bundle().apply { putString("animeId", it?.animeId) })
+                R.id.action_recentReleaseFragment_to_detailsFragment,
+                Bundle().apply { putString("animeId", it?.animeId) })
             Log.e("TAG", "onItemTextClicked on RecentFragment")
         }
         val animeView = binding.RecentAnimeReleaseRecyclerView
         animeView.layoutManager = GridLayoutManager(requireContext(), 2)
-        lifecycleScope.launch {
-            recentAnimeViewModel.list.distinctUntilChanged()
-                .onStart {
-                    binding.progressView.isVisible = false
-                }
-                .collect {
-                    binding.progressView.visibility = View.INVISIBLE
-                    if (it != null) {
-                        adapter.submitData(lifecycle, it)
-                        animeView.adapter = adapter.withLoadStateHeaderAndFooter(
-                            header = LoaderAdapter(),
-                            footer = LoaderAdapter()
-                        )
+
+
+    }
+
+    private fun ObserveUIChanges() {
+
+        lifecycleScope.launch(Dispatchers.Main) {
+            recentAnimeViewModel.pagingData.collect { events ->
+                when (events) {
+                    is RecentAnimeViewModel.RecentEvent.Loading -> {
+                        binding.progressView.isVisible = true
+                    }
+                    is RecentAnimeViewModel.RecentEvent.RecentPaging -> {
+                        binding.progressView.isVisible = false
+                        events.list.collect {
+                            if (it != null) {
+                                adapter.submitData(lifecycle, it)
+                                binding.RecentAnimeReleaseRecyclerView.adapter =
+                                    adapter.withLoadStateHeaderAndFooter(
+                                        header = LoaderAdapter(),
+                                        footer = LoaderAdapter()
+                                    )
+                            }
+                        }
                     }
                 }
+
+            }
+
+
         }
-
-
-
-
 
     }
 }

@@ -6,8 +6,7 @@ import com.blez.aniplex_clone.utils.Constants.PREFS_TOKEN_FILE
 import com.blez.aniplex_clone.utils.Constants.USER_VIDEO_PREFERENCE
 
 class SettingManager(context: Context) {
-    private var settingPrefs: SharedPreferences =
-        context.getSharedPreferences(PREFS_TOKEN_FILE, Context.MODE_PRIVATE)
+    private var settingPrefs: SharedPreferences = context.getSharedPreferences(PREFS_TOKEN_FILE, Context.MODE_PRIVATE)
 
     fun saveVideoPreference(videoPref: String) {
         val editor = settingPrefs.edit()

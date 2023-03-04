@@ -17,5 +17,9 @@ interface WatchedDao {
      suspend fun insertDate(history: WatHistory)
 
 
+     @Query("SELECT * FROM $DB_TABLE_NAME_WATCHED")
+     suspend fun getHistory() : List<WatHistory>
+
+
 
 }
