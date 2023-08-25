@@ -27,6 +27,7 @@
         <activity
             android:name=".Presentation.exoplayer.VideoPlayerActivity"
             android:exported="true"
+            android:launchMode="singleInstance"
             android:configChanges="orientation"
             android:screenOrientation= "sensorLandscape"
 

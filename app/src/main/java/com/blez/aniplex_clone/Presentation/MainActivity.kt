@@ -40,7 +40,6 @@ class MainActivity : AppCompatActivity() {
         binding.drawerLayout.addDrawerListener(actionBarDrawerToggle)
         actionBarDrawerToggle.syncState()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setTitle(R.string.recent_release)
 
 
    /*     binding.floatingActionButton.setOnClickListener {
@@ -57,6 +56,12 @@ class MainActivity : AppCompatActivity() {
         binding.navMenu.setupWithNavController(navController)
         binding.navMenu.setNavigationItemSelectedListener {
             when (it.itemId) {
+                R.id.homeFragment->{
+                    navController?.navigate(R.id.homeFragment)
+                    binding.drawerLayout.closeDrawer(GravityCompat.START)
+                    supportActionBar?.setTitle("Home")
+                }
+
                 R.id.recentReleaseFragment -> {
                     navController?.navigate(R.id.recentReleaseFragment)
                     binding.drawerLayout.closeDrawer(GravityCompat.START)

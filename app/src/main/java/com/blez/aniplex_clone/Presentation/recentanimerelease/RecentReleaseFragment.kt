@@ -60,7 +60,6 @@ class RecentReleaseFragment : Fragment() {
         adapter = RecentAnimeAdapter(requireContext())
         Log.e("TAG", "onCreateView is called")
         binding.progressView.isVisible = true
-
         settingManager = SettingManager(requireContext())
         binding.progressView.visibility = View.VISIBLE
         rotate_animation(binding.RecentProgressBar)
@@ -80,6 +79,7 @@ class RecentReleaseFragment : Fragment() {
                     startActivity(intent)
 
                 }
+
                 VLC -> {
                     lifecycleScope.launch(Dispatchers.Main) {
                         val response = recentAnimeViewModel.getVideoLink(it?.episodeId.toString())
@@ -119,6 +119,7 @@ class RecentReleaseFragment : Fragment() {
                     is RecentAnimeViewModel.RecentEvent.Loading -> {
                         binding.progressView.isVisible = true
                     }
+
                     is RecentAnimeViewModel.RecentEvent.RecentPaging -> {
                         binding.progressView.isVisible = false
                         events.list.collect {

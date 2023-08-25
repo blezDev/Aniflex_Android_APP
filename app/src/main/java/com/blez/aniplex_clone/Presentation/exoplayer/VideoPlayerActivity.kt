@@ -54,9 +54,6 @@ class VideoPlayerActivity : AppCompatActivity() {
         supportActionBar?.hide()
         exoViewModel.getVideoData(episodeId)
         subscribeToUI()
-
-
-
     }
 
     private fun subscribeToUI(){
@@ -69,7 +66,13 @@ class VideoPlayerActivity : AppCompatActivity() {
                    is ExoViewModel.SetupEventForVideo.VideoLink->{
                        binding.videoProgressBar.isVisible = false
                     /*   videoPlayerInitalize(events.data)*/
-                       videoPlayerInitalize(events.data)
+                       try {
+                           inititalizePlayer(events.data)
+                           hideSystemUi()
+                       }catch (e : Exception){
+                           Toast.makeText(this@VideoPlayerActivity, "Some error occurred", Toast.LENGTH_SHORT).show()
+                       }
+
 
                     }
                     else-> Unit
@@ -80,16 +83,7 @@ class VideoPlayerActivity : AppCompatActivity() {
 
     }
 
-    private fun videoPlayerInitalize(data: VideoData) {
-        try {
-            inititalizePlayer(data)
 
-        }catch (e:Exception){
-                Toast.makeText(this@VideoPlayerActivity, "Some error occurred", Toast.LENGTH_SHORT).show()
-        }
-
-        hideSystemUi()
-    }
 
 
 
@@ -102,7 +96,7 @@ class VideoPlayerActivity : AppCompatActivity() {
             .setConnectTimeoutMs(DefaultHttpDataSource.DEFAULT_CONNECT_TIMEOUT_MILLIS)
             .setReadTimeoutMs(1800000)
             .setAllowCrossProtocolRedirects(true)
-
+        val trackSelector = DefaultTrackSelector(this)
 
      /*   Util.getUserAgent(this,"Exo Player"),null,
         DefaultHttpDataSource.DEFAULT_CONNECT_TIMEOUT_MILLIS,1800000,
@@ -111,29 +105,28 @@ class VideoPlayerActivity : AppCompatActivity() {
         dataSourceFactory.createDataSource()
         val hlsMediaSource = HlsMediaSource.Factory(dataSourceFactory)
             .createMediaSource(MediaItem.fromUri(data.sources_bk.get(0).file))
-            val trackSelection = DefaultTrackSelector(this)
-        trackSelection.setParameters(
-            trackSelection.buildUponParameters()
-                .setPreferredAudioLanguage(null)
-                .build()
-        )
-     
+        val parametersBuilder = trackSelector.buildUponParameters()
+        // Set constraints on the video tracks based on the selected quality level
+      /*  when (selectedQualityLevel) {
+            QualityLevel.SD -> parametersBuilder.setMaxVideoSizeSd()
+            QualityLevel.HD -> parametersBuilder.setMaxVideoSize(1280, 720)
+            QualityLevel.FHD -> parametersBuilder.setMaxVideoSize(1920, 1080)
+            QualityLevel.UHD -> parametersBuilder.setMaxVideoSize(3840, 2160)
+        }*/
+        trackSelector.setParameters(parametersBuilder.build())
+
 
         player = ExoPlayer.Builder(this)
-            .setTrackSelector(trackSelection)
+            .setTrackSelector(trackSelector)
             .build()
             .also { exoPlayer ->
                 exoPlayer.setMediaSource(hlsMediaSource)
-
                 exoPlayer.prepare()
                 exoPlayer.seekTo(0, 0L)
                 exoPlayer.playWhenReady = true
                 binding.exoPlayerPlayer.player = exoPlayer
-
                 window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
             }
-
-
     }
 
 
@@ -170,7 +163,7 @@ class VideoPlayerActivity : AppCompatActivity() {
 
     override fun onStop() {
         Log.e("TAG","OnStop is called from exoplayer Fragment")
-        player?.pause()
+        player?.release()
         super.onStop()
     }
 
@@ -180,8 +173,6 @@ class VideoPlayerActivity : AppCompatActivity() {
         WindowInsetsControllerCompat(window,binding.exoPlayerPlayer ).let { controller ->
             controller.hide(WindowInsetsCompat.Type.systemBars())
             controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-
-
         }
 
 

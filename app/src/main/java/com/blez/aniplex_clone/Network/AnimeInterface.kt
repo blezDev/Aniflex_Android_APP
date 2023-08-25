@@ -2,8 +2,10 @@ package com.blez.aniplex_clone.Network
 
 import com.blez.aniplex_clone.data.*
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -25,6 +27,10 @@ interface AnimeInterface {
 
     @GET("/download")
     suspend fun getDownloadLink(@Header("downloadLink") downloadLink : String)
+
+
+    @POST("/predict")
+    suspend fun getRecommendation(@Body anime : AnimeQuery) : Response<List<SearchAnimeItem>>
 
 
 

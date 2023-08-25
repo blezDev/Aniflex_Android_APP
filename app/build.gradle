@@ -58,9 +58,10 @@ dependencies {
     implementation "androidx.navigation:navigation-dynamic-features-fragment:2.5.3"
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'com.github.bumptech.glide:glide:4.14.2'
+    kapt 'com.github.bumptech.glide:compiler:4.14.2'
     implementation 'com.github.dmytrodanylyk:circular-progress-button:1.2'
     implementation 'com.android.volley:volley:1.2.1'
-    kapt 'com.github.bumptech.glide:compiler:4.14.2'
+
     implementation 'androidx.appcompat:appcompat:1.6.0'
     implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'

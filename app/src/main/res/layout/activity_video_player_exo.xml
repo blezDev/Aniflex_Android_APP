@@ -18,16 +18,23 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:keepScreenOn="true"
-            app:show_buffering="always"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:resize_mode="fill"
-            app:use_controller="true">
+            app:auto_show="true"
+            app:show_shuffle_button="true"
+            app:use_controller="true"
+            app:show_vr_button="true"
+            app:show_buffering="always"
+           >
 
 
         </com.google.android.exoplayer2.ui.StyledPlayerView>
+
+
 
         <ProgressBar
             android:id="@+id/videoProgressBar"

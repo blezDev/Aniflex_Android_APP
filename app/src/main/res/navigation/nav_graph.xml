@@ -91,4 +91,16 @@
         android:id="@+id/videoPlayerActivity"
         android:name="com.blez.aniplex_clone.Presentation.exoplayer.VideoPlayerActivity"
         android:label="VideoPlayerActivity" />
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.blez.aniplex_clone.Presentation.home.HomeFragment"
+        android:label="fragment_home2"
+        tools:layout="@layout/fragment_home2" >
+        <action
+            android:id="@+id/action_homeFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
 </navigation>

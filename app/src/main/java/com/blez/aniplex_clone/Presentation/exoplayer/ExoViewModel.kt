@@ -9,6 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,10 +23,17 @@ class ExoViewModel @Inject constructor(private val animeRepository: AnimeReposit
     val videoFlow : StateFlow<SetupEventForVideo>
     get() = _videoFlow
 
-    fun getVideoData(episodeLink : String) = viewModelScope.launch(Dispatchers.Main){
+    fun getVideoData(episodeLink : String) = viewModelScope.launch{
         _videoFlow.value = SetupEventForVideo.VideoLinkLoading
-        val data = animeRepository.getVideoData(episodeID = episodeLink)
-        _videoFlow.value = SetupEventForVideo.VideoLink(data = data?: return@launch)
+        withContext(Dispatchers.IO){
+            val data = animeRepository.getVideoData(episodeID = episodeLink)
+            withContext(Dispatchers.Main){
+                _videoFlow.value = SetupEventForVideo.VideoLink(data = data?: throw NullPointerException("Null Value"))
+            }
+        }
+
+
+
 
     }
 
