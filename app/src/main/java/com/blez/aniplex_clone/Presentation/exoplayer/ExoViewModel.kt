@@ -3,6 +3,7 @@ package com.blez.aniplex_clone.Presentation.exoplayer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blez.aniplex_clone.data.VideoData
+import com.blez.aniplex_clone.data.VideoFormat
 import com.blez.aniplex_clone.repository.AnimeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +18,9 @@ class ExoViewModel @Inject constructor(private val animeRepository: AnimeReposit
     sealed class SetupEventForVideo(){
         object VideoLinkLoading : SetupEventForVideo()
 
-        data class VideoLink(val data : VideoData) : SetupEventForVideo()
+        data class VideoLink(val data : VideoFormat) : SetupEventForVideo()
+
+        data class Failure(val message : String) : SetupEventForVideo()
     }
     private val _videoFlow = MutableStateFlow<SetupEventForVideo>(SetupEventForVideo.VideoLinkLoading)
     val videoFlow : StateFlow<SetupEventForVideo>
@@ -28,6 +31,10 @@ class ExoViewModel @Inject constructor(private val animeRepository: AnimeReposit
         withContext(Dispatchers.IO){
             val data = animeRepository.getVideoData(episodeID = episodeLink)
             withContext(Dispatchers.Main){
+                if (data == null){
+                    SetupEventForVideo.Failure("Empty Data")
+                }
+
                 _videoFlow.value = SetupEventForVideo.VideoLink(data = data?: throw NullPointerException("Null Value"))
             }
         }

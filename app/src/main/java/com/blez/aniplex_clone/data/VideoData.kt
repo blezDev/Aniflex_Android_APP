@@ -27,5 +27,22 @@ data class SourcesBk(
     val label: String,
     @SerializedName("type")
     val type: String
+)
 
+data class VideoFormat(
+    val download: String,
+    val headers: Headers,
+    val sources: List<SourceV>
+){
+
+}
+
+data class Headers(
+    val Referer: String
+)
+
+data class SourceV(
+    val isM3U8: Boolean,
+    val quality: String,
+    val url: String
 )

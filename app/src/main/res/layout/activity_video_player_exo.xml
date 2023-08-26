@@ -16,7 +16,7 @@
         <com.google.android.exoplayer2.ui.StyledPlayerView
             android:id="@+id/exo_player_player"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:keepScreenOn="true"
 
             app:layout_constraintBottom_toBottomOf="parent"
@@ -31,9 +31,15 @@
             app:show_buffering="always"
            >
 
-
         </com.google.android.exoplayer2.ui.StyledPlayerView>
 
+        <Spinner
+            android:id="@+id/quality_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <ProgressBar

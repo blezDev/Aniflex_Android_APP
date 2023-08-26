@@ -82,13 +82,13 @@ class RecentReleaseFragment : Fragment() {
 
                 VLC -> {
                     lifecycleScope.launch(Dispatchers.Main) {
-                        val response = recentAnimeViewModel.getVideoLink(it?.episodeId.toString())
+                /*        val response = recentAnimeViewModel.getVideoLink(it?.episodeId.toString())
                         binding.progressView.isVisible = false
                         val it = response
                         binding.RecentProgressBar.visibility = View.GONE
-                        val uri = Uri.parse(it?.sources_bk?.get(0)?.file.toString())
+                        val uri = Uri.parse(it?.sources?.get(2)?.url.toString())
                         val intent = Intent(Intent.ACTION_VIEW, uri)
-                        requireContext().startActivity(intent)
+                        requireContext().startActivity(intent)*/
                     }
 
 
@@ -123,14 +123,12 @@ class RecentReleaseFragment : Fragment() {
                     is RecentAnimeViewModel.RecentEvent.RecentPaging -> {
                         binding.progressView.isVisible = false
                         events.list.collect {
-                            if (it != null) {
-                                adapter.submitData(lifecycle, it)
-                                binding.RecentAnimeReleaseRecyclerView.adapter =
-                                    adapter.withLoadStateHeaderAndFooter(
-                                        header = LoaderAdapter(),
-                                        footer = LoaderAdapter()
-                                    )
-                            }
+                            adapter.submitData(lifecycle, it)
+                            binding.RecentAnimeReleaseRecyclerView.adapter =
+                                adapter.withLoadStateHeaderAndFooter(
+                                    header = LoaderAdapter(),
+                                    footer = LoaderAdapter()
+                                )
                         }
                     }
                 }

@@ -20,7 +20,7 @@ class PagingDataSource(private val animeAPI: AnimeInterface) : PagingSource<Int,
 
             if (RunningCache.recentAnimeCaching[position]==null){
                 val response = animeAPI.getRecentRelease(position).body()
-                RunningCache.recentAnimeCaching[position] = response
+                RunningCache.recentAnimeCaching[position] = response?.results?.map { it.toRecentModelItem()}
                 return LoadResult.Page(
                     data = RunningCache.recentAnimeCaching[position]!!,
                     prevKey = if (position == 1) null else position - 1,

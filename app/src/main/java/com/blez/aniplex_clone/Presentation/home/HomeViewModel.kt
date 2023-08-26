@@ -2,7 +2,7 @@ package com.blez.aniplex_clone.Presentation.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.blez.aniplex_clone.data.PopularDataItem
+import com.blez.aniplex_clone.data.PopularModelItem
 import com.blez.aniplex_clone.data.SearchAnimeItem
 import com.blez.aniplex_clone.repository.AnimeRepository
 import com.blez.aniplex_clone.utils.ResultState

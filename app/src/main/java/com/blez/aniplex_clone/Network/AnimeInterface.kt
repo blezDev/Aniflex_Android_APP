@@ -10,20 +10,20 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface AnimeInterface {
-    @GET("/recent-release")
-    suspend fun getRecentRelease(@Query("page") page : Int) : Response<ReleaseAnimes>
-    @GET("/vidcdn/watch/{episodeId}")
-    suspend fun getVideoLink(@Path(value = "episodeId")episodeId : String) : Response<VideoData>
+    @GET("/anime/gogoanime/recent-episodes")
+    suspend fun getRecentRelease(@Query("page") page : Int) : Response<RecentReleaseModel>
+    @GET("/anime/gogoanime/watch/{episodeId}")
+    suspend fun getVideoLink(@Path(value = "episodeId")episodeId : String) : Response<VideoFormat>
     @GET("/anime-movies")
     suspend fun getMoviesList(@Query("page") page : Int) : Response<MovieData>
-    @GET("/popular")
-    suspend fun getPopularAnime(@Query("page") page : Int) : Response<PopularData>
+    @GET("/anime/gogoanime/top-airing")
+    suspend fun getPopularAnime(@Query("page") page : Int) : Response<PopularDataModel>
     @GET("/top-airing")
     suspend fun getTopAiring(@Query("page") page: Int) : Response<TopAiringData>
-    @GET("/anime-details/{animeId}")
+    @GET("/anime/gogoanime/info/{animeId}")
     suspend fun getAnimeDetails(@Path(value = "animeId")animeId : String ) : Response<AnimeDetails>
-    @GET("/search")
-    suspend fun getAnimeSearch(@Query("keyw")animeSearch : String ) : Response<SearchAnime>
+    @GET("/anime/gogoanime/{query}")
+    suspend fun getAnimeSearch(@Path("query")animeSearch : String ) : Response<SearchAnime>
 
     @GET("/download")
     suspend fun getDownloadLink(@Header("downloadLink") downloadLink : String)

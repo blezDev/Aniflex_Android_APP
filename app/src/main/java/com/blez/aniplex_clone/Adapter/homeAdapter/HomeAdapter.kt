@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.blez.aniplex_clone.R
-import com.blez.aniplex_clone.data.PopularDataItem
+import com.blez.aniplex_clone.data.PopularModelItem
 import com.blez.aniplex_clone.data.SearchAnimeItem
 import com.blez.aniplex_clone.databinding.AnimeImgListBinding
 import com.bumptech.glide.Glide

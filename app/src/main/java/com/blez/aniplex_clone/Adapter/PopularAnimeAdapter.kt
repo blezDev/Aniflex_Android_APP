@@ -12,16 +12,16 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.blez.aniplex_clone.R
-import com.blez.aniplex_clone.data.PopularData
-import com.blez.aniplex_clone.data.PopularDataItem
+
+import com.blez.aniplex_clone.data.PopularModelItem
 import com.blez.aniplex_clone.data.RecentData
 import com.blez.aniplex_clone.databinding.PopularanimelistBinding
 import com.bumptech.glide.Glide
 
-class PopularAnimeAdapter(val context: Context) : PagingDataAdapter<PopularDataItem, PopularAnimeAdapter.ItemView>(COMPARATOR){
+class PopularAnimeAdapter(val context: Context) : PagingDataAdapter<PopularModelItem, PopularAnimeAdapter.ItemView>(COMPARATOR){
     private lateinit var binding : PopularanimelistBinding
 
-        var onItemClickText : ((PopularDataItem?) -> Unit)? = null
+        var onItemClickText : ((PopularModelItem?) -> Unit)? = null
     inner class ItemView(binding : PopularanimelistBinding) : RecyclerView.ViewHolder(binding.root)
 
 
@@ -29,17 +29,17 @@ class PopularAnimeAdapter(val context: Context) : PagingDataAdapter<PopularDataI
 
     companion object
     {
-        val COMPARATOR = object : DiffUtil.ItemCallback<PopularDataItem>(){
+        val COMPARATOR = object : DiffUtil.ItemCallback<PopularModelItem>(){
             override fun areItemsTheSame(
-                oldItem: PopularDataItem,
-                newItem: PopularDataItem
+                oldItem: PopularModelItem,
+                newItem: PopularModelItem
             ): Boolean {
              return  oldItem.animeId == newItem.animeId
             }
 
             override fun areContentsTheSame(
-                oldItem: PopularDataItem,
-                newItem: PopularDataItem
+                oldItem: PopularModelItem,
+                newItem: PopularModelItem
             ): Boolean {
             return   oldItem == newItem
             }

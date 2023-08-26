@@ -119,7 +119,8 @@ class DetailsFragment : Fragment() {
 
     }
 
-    fun setupViewData(details: AnimeDetails) {
+    fun setupViewData(details2: AnimeDetails) {
+       val details = details2.toDetailModel()
         binding.apply {
             tupeText.isVisible = true
             StatusText.isVisible = true
@@ -128,11 +129,11 @@ class DetailsFragment : Fragment() {
             StatusText.text = "Status : ${details?.status}"
             releasedDateText.text = "Released Date : ${details?.releasedDate}"
             otherNames.text = "Other Name : ${details.otherNames}"
-            genresText.text = "Genres :${details.genres.joinToString(", ").toString()}"
+            genresText.text = "Genres :${details.genres?.joinToString(", ").toString()}"
             Glide.with(requireActivity().applicationContext)
                 .load(details.animeImg.toString()).into(animeImg)
             synopsisText.text = details.synopsis
-            adapter = EpisodeListAdapter(details.episodesList, listOf())
+            adapter = EpisodeListAdapter(details.episodesList ?: emptyList(), listOf())
 
             episodeListRecylcerView.adapter = adapter
             episodeListRecylcerView.layoutManager = LinearLayoutManager(requireContext())

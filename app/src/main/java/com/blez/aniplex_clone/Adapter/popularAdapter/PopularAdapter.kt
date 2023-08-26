@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.blez.aniplex_clone.R
-import com.blez.aniplex_clone.data.PopularData
+import com.blez.aniplex_clone.data.PopularModelItem
 import com.blez.aniplex_clone.databinding.RecentGridViewBinding
 import com.bumptech.glide.Glide
 
-class PopularAdapter(private val context : Context,private val data : PopularData) : RecyclerView.Adapter<PopularAdapter.ViewHolder>() {
+class PopularAdapter(private val context : Context,private val data : List<PopularModelItem>) : RecyclerView.Adapter<PopularAdapter.ViewHolder>() {
     private lateinit var binding : RecentGridViewBinding
     inner class ViewHolder(binding : RecentGridViewBinding) : RecyclerView.ViewHolder(binding.root)
 

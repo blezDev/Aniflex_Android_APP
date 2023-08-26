@@ -9,10 +9,11 @@ import com.blez.aniplex_clone.core.util.RunningCache.searchResultCaching
 import com.blez.aniplex_clone.core.util.RunningCache.videoLinkCaching
 import com.blez.aniplex_clone.data.AnimeDetails
 import com.blez.aniplex_clone.data.AnimeQuery
-import com.blez.aniplex_clone.data.PopularDataItem
+import com.blez.aniplex_clone.data.PopularModelItem
 import com.blez.aniplex_clone.data.SearchAnime
 import com.blez.aniplex_clone.data.SearchAnimeItem
 import com.blez.aniplex_clone.data.VideoData
+import com.blez.aniplex_clone.data.VideoFormat
 import com.blez.aniplex_clone.db.WatHistory
 import com.blez.aniplex_clone.db.dao.WatchedDao
 import com.blez.aniplex_clone.paging.PagingDataSource
@@ -65,7 +66,7 @@ class AnimeRepository @Inject constructor(val animeAPI: AnimeInterface, val dao:
     }
 
 
-    suspend fun getVideoData(episodeID: String): VideoData? {
+    suspend fun getVideoData(episodeID: String): VideoFormat? {
         return if (videoLinkCaching[episodeID] == null) {
             val result = animeAPI.getVideoLink(episodeID).body()
             videoLinkCaching[episodeID] = result
