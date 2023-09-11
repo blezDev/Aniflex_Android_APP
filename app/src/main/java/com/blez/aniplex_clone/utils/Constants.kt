@@ -11,6 +11,7 @@ object Constants {
     const val IN_APP = "InApp"
     const val DB_TABLE_NAME_WATCHED = "Watch_History"
     const val DB_NAME = "AniDB"
+    const val RECOMMENDATION = "RECOMMENDATION"
 
 
 }

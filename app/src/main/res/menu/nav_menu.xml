@@ -3,19 +3,25 @@
     <item
         android:id="@+id/homeFragment"
         android:icon="@drawable/ic_home_24"
-        android:title="@string/home"/>
+        android:title="@string/home" />
 
     <item
         android:id="@+id/recentReleaseFragment"
         android:icon="@drawable/timer_outline"
-        android:title="@string/recent_release"/>
+        android:title="@string/recent_release" />
     <item
         android:id="@+id/popularAnimeFragment"
         android:icon="@drawable/ic_popular"
-        android:title="@string/popular_anime"/>
-    <item android:id="@+id/settingsFragment"
+        android:title="@string/popular_anime" />
+
+    <item
+        android:id="@+id/historyFragment"
+        android:icon="@drawable/timer_outline"
+        android:title="@string/history" />
+    <item
+        android:id="@+id/settingsFragment"
         android:icon="@drawable/ic_settings"
-        android:title="@string/settings"/>
+        android:title="@string/settings" />
 
 
 </menu>

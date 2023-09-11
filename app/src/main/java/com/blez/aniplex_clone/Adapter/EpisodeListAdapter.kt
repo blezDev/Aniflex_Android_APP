@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.blez.aniplex_clone.R
 import com.blez.aniplex_clone.data.Episodes
@@ -30,18 +32,19 @@ class EpisodeListAdapter(private val episodesList :List<Episodes>,val episodeHis
         try {
 
             val data = episodesList[position].episodeId
-            if (episodeHistory.isNotEmpty())
-            if (episodeHistory.equals(data))
+            if (differ.currentList.isNotEmpty())
+            if (differ.currentList.filter { it.watchedEpiID == data }.isNotEmpty())
             {
-                binding.episodeText.setTextColor(Color.parseColor("#808080"))
+                binding.episodeText.setTextColor(Color.GRAY)
             }else
-                binding.episodeText.setTextColor(Color.parseColor("#FF000000"))
+                binding.episodeText.setTextColor(Color.BLACK)
 
 
             with(binding){
                 episodeText.text = "Episode ${episodesList[position].episodeNum}"
 
                 episodeText.setOnClickListener {
+                    binding.episodeText.setTextColor(Color.GRAY)
                     onItemClickEpisode?.invoke(episodesList[position])
                 }
 
@@ -59,6 +62,17 @@ class EpisodeListAdapter(private val episodesList :List<Episodes>,val episodeHis
 
 
     }
+
+    private val diffCallback = object : DiffUtil.ItemCallback<WatHistory>(){
+        override fun areItemsTheSame(oldItem: WatHistory, newItem: WatHistory): Boolean {
+            return  oldItem.watchedEpiID == newItem.watchedEpiID
+        }
+
+        override fun areContentsTheSame(oldItem: WatHistory, newItem: WatHistory): Boolean {
+            return oldItem == newItem
+        }
+    }
+    val differ = AsyncListDiffer(this,diffCallback)
 
     override fun getItemCount(): Int {
         return episodesList.size

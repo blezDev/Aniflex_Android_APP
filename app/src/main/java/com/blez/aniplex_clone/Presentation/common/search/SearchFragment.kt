@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnKeyListener
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
@@ -14,6 +16,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -25,14 +28,17 @@ import com.blez.aniplex_clone.utils.navigateSafely
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
-    private lateinit var binding : FragmentSearchBinding
-    private lateinit var adapter : SearchAdapter
-    private val recentAnimeViewModel : RecentAnimeViewModel by activityViewModels()
+    private lateinit var binding: FragmentSearchBinding
+    private lateinit var adapter: SearchAdapter
+    private var searchJob : Job? = null
+    private val recentAnimeViewModel: RecentAnimeViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +50,7 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_search, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_search, container, false)
         return binding.root
     }
 
@@ -53,50 +59,65 @@ class SearchFragment : Fragment() {
 
         binding.progressView.isVisible = false
         val text = arguments?.getString("animeQuery")
-        adapter = SearchAdapter(null,requireContext())
-        binding.searchRecyclerView.layoutManager = GridLayoutManager(requireContext(),2)
-        binding.editSearchAnime.addTextChangedListener {
-            searchQuery(it.toString(),recentAnimeViewModel)
-        }
+        adapter = SearchAdapter(null, requireContext())
+        binding.searchRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
+        binding.editSearchAnime.setOnKeyListener(object : OnKeyListener{
+            override fun onKey(p0: View?, keyCode: Int, event: KeyEvent?): Boolean {
+                if (event?.getAction()!=KeyEvent.ACTION_DOWN)
+                    return false
+                if (keyCode == KeyEvent.KEYCODE_ENTER){
+                    searchQuery(binding.editSearchAnime.text.toString(), recentAnimeViewModel)
+                }
+                return false
+            }
+        })
 
 
 
         super.onViewCreated(view, savedInstanceState)
     }
-    fun rotate_animation( ImageView : ImageView?){
 
-            val rotate = AnimationUtils.loadAnimation(requireContext(),R.anim.rotate_clockwise)
-            ImageView?.startAnimation(rotate)
+    fun rotate_animation(ImageView: ImageView?) {
+
+        val rotate = AnimationUtils.loadAnimation(requireContext(), R.anim.rotate_clockwise)
+        ImageView?.startAnimation(rotate)
 
 
     }
-    fun stop_animation(ImageView : ImageView?){
+
+    fun stop_animation(ImageView: ImageView?) {
         ImageView?.animation?.cancel()
     }
 
-private fun searchQuery(search: String, recentAnimeViewModel: RecentAnimeViewModel){
+    private fun searchQuery(search: String, recentAnimeViewModel: RecentAnimeViewModel) {
 
-    binding.progressView.isVisible = true
-    CoroutineScope(Dispatchers.Main).launch {
-        val it = recentAnimeViewModel.getSearchData(search).await()
-        val animeList = it
-        if(animeList!=null && animeList.isNotEmpty()){
-            binding.progressView.visibility = View.INVISIBLE
-            stop_animation(binding.RecentProgressBar)
-            adapter = SearchAdapter(animeList,requireContext())
-            adapter.notifyDataSetChanged()
-            binding.searchRecyclerView.adapter = adapter
-            binding.searchRecyclerView.adapter?.notifyDataSetChanged()
 
-            adapter.onItemClick = {it->
-                findNavController().navigateSafely(R.id.action_searchFragment_to_detailsFragment,Bundle().apply { putString("animeId",it.animeId)  })
-            }
+        binding.progressView.isVisible = true
+       CoroutineScope(Dispatchers.Main).launch {
 
-        }else{
+          recentAnimeViewModel.getSearchData(search)
+            val animeList = recentAnimeViewModel.data
+                if (animeList != null && animeList.isNotEmpty()) {
+                    binding.progressView.visibility = View.INVISIBLE
+                    stop_animation(binding.RecentProgressBar)
+                    adapter = SearchAdapter(animeList, requireContext())
+                    adapter.notifyDataSetChanged()
+                    binding.searchRecyclerView.adapter = adapter
+                    binding.searchRecyclerView.adapter?.notifyDataSetChanged()
 
-            binding.progressView.visibility = View.INVISIBLE
+                    adapter.onItemClick = { it ->
+                        findNavController().navigateSafely(
+                            R.id.action_searchFragment_to_detailsFragment,
+                            Bundle().apply { putString("animeId", it.animeId) })
+                    }
+
+                } else {
+
+                    binding.progressView.visibility = View.INVISIBLE
+                }
+
+
         }
     }
-}
 
 }

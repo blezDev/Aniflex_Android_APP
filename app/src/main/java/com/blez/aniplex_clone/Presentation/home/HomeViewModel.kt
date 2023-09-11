@@ -6,6 +6,7 @@ import com.blez.aniplex_clone.data.PopularModelItem
 import com.blez.aniplex_clone.data.SearchAnimeItem
 import com.blez.aniplex_clone.repository.AnimeRepository
 import com.blez.aniplex_clone.utils.ResultState
+import com.blez.aniplex_clone.utils.SettingManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,7 +14,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(private val animeRepository: AnimeRepository) : ViewModel() {
+class HomeViewModel @Inject constructor(private val animeRepository: AnimeRepository, private val settingManager: SettingManager) : ViewModel() {
 
     sealed class RecommendationEvent {
         object Idle : RecommendationEvent()
@@ -25,14 +26,10 @@ class HomeViewModel @Inject constructor(private val animeRepository: AnimeReposi
         data class Failure(val message: String) : RecommendationEvent()
     }
 
-    private val _recommendationState =
-        MutableStateFlow<RecommendationEvent>(RecommendationEvent.Idle)
+    private val _recommendationState = MutableStateFlow<RecommendationEvent>(RecommendationEvent.Idle)
     val recommendationState: StateFlow<RecommendationEvent>
         get() = _recommendationState
 
-    init {
-       getRecommendation("Dr. Stone")
-    }
 
 
     fun getRecommendation(animeQuery: String) {

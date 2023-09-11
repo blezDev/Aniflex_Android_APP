@@ -103,4 +103,12 @@
             android:id="@+id/action_homeFragment_to_detailsFragment"
             app:destination="@id/detailsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="com.blez.aniplex_clone.Presentation.history.HistoryFragment"
+        android:label="HistoryFragment">
+        <action
+            android:id="@+id/action_historyFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
 </navigation>

@@ -3,6 +3,7 @@ package com.blez.aniplex_clone.paging.popular
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.blez.aniplex_clone.Network.AnimeInterface
+import com.blez.aniplex_clone.core.util.RunningCache
 import com.blez.aniplex_clone.data.PopularModelItem
 
 class PopularPagingData(private val animeAPI : AnimeInterface) : PagingSource<Int, PopularModelItem>(){
@@ -17,12 +18,21 @@ class PopularPagingData(private val animeAPI : AnimeInterface) : PagingSource<In
      return try {
 
             val position = params.key?:1
-         val response = animeAPI.getPopularAnime(position).body()
-         LoadResult.Page(
-             data = response!!.results.map { it.toPopularModelItem() },
-             prevKey = if (position == 1) 0 else position -1,
-             nextKey = position +1
-         )
+         if (RunningCache.popularAnimeCaching[position]==null){
+             val response = animeAPI.getPopularAnime(position).body()
+             RunningCache.popularAnimeCaching[position] = response?.results?.map { it.toPopularModelItem()}!!
+             return LoadResult.Page(
+                 data = RunningCache.popularAnimeCaching[position]!!,
+                 prevKey = if (position == 1) null else position - 1,
+                 nextKey = position + 1
+             )
+         }else{
+             return LoadResult.Page(
+                 data = RunningCache.popularAnimeCaching[position]!!,
+                 prevKey = if (position == 1) null else position - 1,
+                 nextKey = position + 1
+             )
+         }
 
      }catch (e : java.lang.Exception)
      {

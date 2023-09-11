@@ -11,7 +11,7 @@ import com.blez.aniplex_clone.data.SearchAnimeItem
 import com.blez.aniplex_clone.databinding.AnimeListBinding
 import com.bumptech.glide.Glide
 
-class SearchAdapter(val searchAnimeList : SearchAnime?,val context :Context) : RecyclerView.Adapter<SearchAdapter.ItemView>() {
+class SearchAdapter(val searchAnimeList : List<SearchAnimeItem>?,val context :Context) : RecyclerView.Adapter<SearchAdapter.ItemView>() {
     var onItemClick : ((SearchAnimeItem) -> Unit) ?= null
     private lateinit var binding: AnimeListBinding
     inner class ItemView(binding: AnimeListBinding) : RecyclerView.ViewHolder(binding.root)

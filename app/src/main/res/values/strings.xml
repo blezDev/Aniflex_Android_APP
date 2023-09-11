@@ -7,6 +7,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="recent_release">Recent Release</string>
     <string name="popular_anime">Popular Anime</string>
+    <string name="history">History</string>
     <string name="upcoming_movies">Upcoming Movies</string>
     <string name="top_airing">Top Airing</string>
     <string name="settings">Settings</string>

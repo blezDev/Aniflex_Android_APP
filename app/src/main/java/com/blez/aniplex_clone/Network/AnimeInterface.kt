@@ -22,15 +22,15 @@ interface AnimeInterface {
     suspend fun getTopAiring(@Query("page") page: Int) : Response<TopAiringData>
     @GET("/anime/gogoanime/info/{animeId}")
     suspend fun getAnimeDetails(@Path(value = "animeId")animeId : String ) : Response<AnimeDetails>
-    @GET("/anime/gogoanime/{query}")
-    suspend fun getAnimeSearch(@Path("query")animeSearch : String ) : Response<SearchAnime>
+    @GET("/anime/gogoanime/{animeSearch}")
+    suspend fun getAnimeSearch(@Path("animeSearch")animeSearch : String ) : Response<SearchDataModel>
 
     @GET("/download")
     suspend fun getDownloadLink(@Header("downloadLink") downloadLink : String)
 
 
-    @POST("/predict")
-    suspend fun getRecommendation(@Body anime : AnimeQuery) : Response<List<SearchAnimeItem>>
+    @POST("/anime/gogoanime/predict")
+    suspend fun getRecommendation(@Body anime : AnimeQuery) : Response<List<Result23>>
 
 
 

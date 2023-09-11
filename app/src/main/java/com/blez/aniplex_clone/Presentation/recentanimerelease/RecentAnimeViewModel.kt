@@ -7,12 +7,16 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.liveData
 import com.blez.aniplex_clone.data.RecentData
+import com.blez.aniplex_clone.data.SearchAnimeItem
 import com.blez.aniplex_clone.repository.AnimeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,6 +26,7 @@ class RecentAnimeViewModel @Inject constructor(private val animeRepository: Anim
         data class RecentPaging(val list : Flow<PagingData<RecentData>>): RecentEvent()
         }
 
+    private val searchJob : Job? = null
    private val _pagingData = MutableStateFlow<RecentEvent>(RecentEvent.Loading)
     val pagingData : StateFlow<RecentEvent>
     get() = _pagingData
@@ -32,7 +37,13 @@ class RecentAnimeViewModel @Inject constructor(private val animeRepository: Anim
 
  suspend   fun getVideoLink(episodeID : String) = animeRepository.getVideoData(episodeID)
 
-    fun getSearchData(animeQuery : String) = animeRepository.getSearchData(animeQuery)
+     var data : List<SearchAnimeItem>? =null
+    fun getSearchData(animeQuery : String) {
+
+        viewModelScope.launch {
+        data =  animeRepository.getSearchData(animeQuery)
+        }
+    }
 
 
     fun getRecentPagingData()  {

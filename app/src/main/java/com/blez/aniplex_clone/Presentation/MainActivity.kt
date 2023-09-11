@@ -62,6 +62,12 @@ class MainActivity : AppCompatActivity() {
                     supportActionBar?.setTitle("Home")
                 }
 
+                R.id.historyFragment->{
+                    navController?.navigate(R.id.historyFragment)
+                    binding.drawerLayout.closeDrawer(GravityCompat.START)
+                    supportActionBar?.setTitle(R.string.history)
+                }
+
                 R.id.recentReleaseFragment -> {
                     navController?.navigate(R.id.recentReleaseFragment)
                     binding.drawerLayout.closeDrawer(GravityCompat.START)

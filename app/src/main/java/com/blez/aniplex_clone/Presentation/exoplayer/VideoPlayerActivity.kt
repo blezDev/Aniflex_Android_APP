@@ -18,6 +18,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.blez.aniplex_clone.R
+import com.blez.aniplex_clone.data.SearchAnimeItem
 import com.blez.aniplex_clone.data.VideoData
 import com.blez.aniplex_clone.data.VideoFormat
 import com.blez.aniplex_clone.databinding.ActivityVideoPlayerExoBinding
@@ -153,6 +154,9 @@ class VideoPlayerActivity : AppCompatActivity() {
             ) {
                 val selectedQualityUrl = qualityUrls[position]
                 val mediaSource = HlsMediaSource.Factory(dataSourceFactory).createMediaSource(MediaItem.fromUri(selectedQualityUrl))
+                if (player != null){
+                    playbackPosition = player?.currentPosition!!
+                }
                 player?.release()
                 player = ExoPlayer.Builder(this@VideoPlayerActivity)
                     .setTrackSelector(trackSelection)
@@ -160,7 +164,7 @@ class VideoPlayerActivity : AppCompatActivity() {
                     .also { exoPlayer ->
                         exoPlayer.setMediaSource(mediaSource)
                         exoPlayer.prepare()
-                        exoPlayer.seekTo(0, 0L)
+                        exoPlayer.seekTo(playbackPosition)
                         exoPlayer.playWhenReady = true
                         binding.exoPlayerPlayer.player = exoPlayer
                         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
@@ -235,7 +239,7 @@ class VideoPlayerActivity : AppCompatActivity() {
     private fun releasePlayer() {
         if (player != null) {
             playWhenReady = player?.playWhenReady!!
-            playbackPosition = player?.currentPosition!!
+
             player = null
         }
     }

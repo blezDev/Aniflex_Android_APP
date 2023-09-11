@@ -3,6 +3,7 @@ package com.blez.aniplex_clone.utils
 import android.content.Context
 import android.content.SharedPreferences
 import com.blez.aniplex_clone.utils.Constants.PREFS_TOKEN_FILE
+import com.blez.aniplex_clone.utils.Constants.RECOMMENDATION
 import com.blez.aniplex_clone.utils.Constants.USER_VIDEO_PREFERENCE
 
 class SettingManager(context: Context) {
@@ -26,6 +27,15 @@ class SettingManager(context: Context) {
             editor.apply()
         }
 
+    }
+
+    fun saveSuggestion(anime : String){
+        val editor = settingPrefs.edit()
+        editor.putString(RECOMMENDATION, anime)
+        editor.apply()
+    }
+    fun getSuggestion() : String{
+        return settingPrefs.getString(RECOMMENDATION,"Dr. Stone").toString()
     }
 
 

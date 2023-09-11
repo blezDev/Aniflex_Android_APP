@@ -8,6 +8,7 @@
     </data>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/carView"
         android:layout_width="match_parent"
         android:padding="4dp"
         android:layout_margin="10dp"
@@ -17,8 +18,6 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-
-
             android:layout_height="wrap_content">
 
 
@@ -29,7 +28,7 @@
                 android:background="@drawable/circle_curve"
                 android:clickable="true"
                 android:contentDescription="@string/Anime_image"
-                android:scaleType="fitXY"
+                android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

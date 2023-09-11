@@ -8,6 +8,7 @@ import com.blez.aniplex_clone.db.AppDB
 import com.blez.aniplex_clone.db.dao.WatchedDao
 import com.blez.aniplex_clone.utils.Constants
 import com.blez.aniplex_clone.utils.Constants.BASE_URL
+import com.blez.aniplex_clone.utils.SettingManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -74,5 +75,10 @@ object NetworkModule {
         return retrofit.create(AnimeInterface::class.java)
     }
 
+    @Provides
+    @Singleton
+    fun getSettingManager(context: Context) : SettingManager{
+        return SettingManager(context)
+    }
 
 }

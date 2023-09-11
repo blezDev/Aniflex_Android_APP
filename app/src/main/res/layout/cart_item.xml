@@ -8,6 +8,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/itemsw"
         android:layout_width="match_parent"
         android:layout_margin="2dp"
         android:background="@drawable/doodle_shape_background"

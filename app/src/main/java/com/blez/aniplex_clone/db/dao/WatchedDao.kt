@@ -13,13 +13,12 @@ import javax.annotation.Nullable
 @Dao
 interface WatchedDao {
 
-        @Insert(onConflict = OnConflictStrategy.REPLACE)
-     suspend fun insertDate(history: WatHistory)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertDate(history: WatHistory)
 
 
-     @Query("SELECT * FROM $DB_TABLE_NAME_WATCHED")
-     suspend fun getHistory() : List<WatHistory>
-
+    @Query("SELECT * FROM $DB_TABLE_NAME_WATCHED")
+    suspend fun getHistory(): List<WatHistory>
 
 
 }
